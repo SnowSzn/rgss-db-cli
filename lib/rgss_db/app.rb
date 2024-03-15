@@ -30,6 +30,9 @@ module RgssDb
   # Default output path for the application
   APP_OUTPUT_PATH = "./rgss-db"
 
+  # Default format type of the application
+  APP_FORMAT_TYPE = "yaml"
+
   # Output file format type for JSON files
   APP_FORMAT_TYPE_JSON = "json"
 
@@ -251,9 +254,9 @@ module RgssDb
       EOF
         .colorize(:green)
       # opened data folder
-      puts "RPG Maker Data folder: #{@data_manager.path}".colorize(:green)
+      puts "RPG Maker Data folderta_manager.path}".colorize(:yellow)
       # Detected RGSS version
-      puts "RPG Maker version: #{@data_manager.rgss_version}".colorize(:green)
+      puts "RPG Maker versionta_manager.rgss_version}".colorize(:yellow)
       # warning panel
       cli_empty_line
       if @data_manager.version_unknown?
@@ -332,7 +335,7 @@ module RgssDb
       cli_draw_info_frame(
         "Choose which data files you want to unpack from the list of files below",
         "",
-        "Press ↑/↓ arrow to move the cursor",
+        "Press ↑/↓ arrows to move the cursor",
         "",
         "Use SPACE to select the current item",
         "",
@@ -363,7 +366,9 @@ module RgssDb
         "",
         "Keep in mind that the app will overwrite any files inside of the output path!",
         "",
-        "If left empty, the default path (in gray) will be used",
+        "If left empty, the current path (in gray) will be used",
+        "",
+        "The default output path is: '#{APP_OUTPUT_PATH}'",
         "",
         "If you don't want to change it, you can just press ENTER with the same path",
         site: APP_MENU_CMD_SET_OUTPUT_PATH
@@ -392,6 +397,8 @@ module RgssDb
         "You can set the type of the file format to the desired one below",
         "",
         "This option is only used when unpacking RPG Maker data into external files",
+        "",
+        "The default file format is: '#{APP_FORMAT_TYPE}'",
         "",
         "RPG Maker files will use their appropiate binary file type",
         site: APP_MENU_CMD_SET_FORMAT
