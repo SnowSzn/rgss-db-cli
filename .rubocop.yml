@@ -1,0 +1,25 @@
+AllCops:
+  TargetRubyVersion: 3.0
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Style/IfInsideElse:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
