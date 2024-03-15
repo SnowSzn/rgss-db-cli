@@ -254,9 +254,9 @@ module RgssDb
       EOF
         .colorize(:green)
       # opened data folder
-      puts "RPG Maker Data folderta_manager.path}".colorize(:yellow)
+      puts "RPG Maker Data folder: #{@data_manager.path}".colorize(:green)
       # Detected RGSS version
-      puts "RPG Maker versionta_manager.rgss_version}".colorize(:yellow)
+      puts "RPG Maker version: #{@data_manager.rgss_version}".colorize(:green)
       # warning panel
       cli_empty_line
       if @data_manager.version_unknown?
