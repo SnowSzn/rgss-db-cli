@@ -3,6 +3,7 @@
 require "colorize"
 require "tty-screen"
 require "tty-box"
+require "tty-table"
 require "tty-prompt"
 require "tty-progressbar"
 require "tty-spinner"
@@ -45,14 +46,20 @@ module RgssDb
   # This action packs external files into binary files
   APP_CMD_ACTION_PACK = "pack"
 
-  # App menu option to set the output path
-  APP_MENU_CMD_SET_OUTPUT_PATH = "Set Output Path"
-
   # App menu option for unpacking command
   APP_MENU_CMD_ACTION_UNPACK = "Unpack RPG Maker Data"
 
   # App menu option for packing command
   APP_MENU_CMD_ACTION_PACK = "Pack External Data"
+
+  # App menu option to set the output path
+  APP_MENU_CMD_SET_OUTPUT_PATH = "Set Output Path"
+
+  # App menu option to set the output file format type
+  APP_MENU_CMD_SET_FORMAT = "Set File Format"
+
+  # App menu option to show the values of the current options
+  APP_MENU_CMD_SHOW_OPTIONS = "Show Options"
 
   # App menu option for exiting command
   APP_MENU_CMD_EXIT = "Exit"
@@ -142,6 +149,20 @@ module RgssDb
     #
     def cli_reset_screen
       puts "\e[H\e[2J"
+    end
+
+    #
+    # Draws and runs a confirmation sequence on the standard output
+    #
+    # By default the confirmation will return ``false`` unless otherwise specified
+    #
+    # @param [String] message Message to show
+    # @param [Boolean] default Default value
+    #
+    # @return [Boolean] Confirmation status
+    #
+    def cli_confirm?(message, default: false)
+      @prompt.yes?(message, default: default)
     end
 
     #
@@ -268,12 +289,21 @@ module RgssDb
         cli_reset_screen
         cli_draw_header
         cli_empty_line
+        cli_draw_info_frame(
+          "You can use the up and down arrows to move between menu options",
+          "",
+          "Press ENTER to select the current highlighted option",
+          site: "Main Menu"
+        )
+        cli_empty_line
         option = @prompt.select(
           "What would you like to do?",
           [
             APP_MENU_CMD_ACTION_UNPACK,
             APP_MENU_CMD_ACTION_PACK,
             APP_MENU_CMD_SET_OUTPUT_PATH,
+            APP_MENU_CMD_SET_FORMAT,
+            APP_MENU_CMD_SHOW_OPTIONS,
             APP_MENU_CMD_EXIT
           ]
         )
@@ -284,6 +314,9 @@ module RgssDb
           cli_menu_unpack
         when APP_MENU_CMD_SET_OUTPUT_PATH
           cli_menu_set_output_path
+        when APP_MENU_CMD_SET_FORMAT
+        when APP_MENU_CMD_SHOW_OPTIONS
+          cli_menu_show_options
         when APP_MENU_CMD_EXIT
           print "Exiting...".colorize(:red)
           break
@@ -344,12 +377,35 @@ module RgssDb
       cli_empty_line
       path = @prompt.ask("Type the output path:", default: option_value(APP_OPTION_OUTPUT_PATH))
       cli_empty_line
-      @prompt.say("New output path obtained from input: '#{path}'")
+      puts "New output path obtained from input: '#{path}'"
       cli_empty_line
-      return unless @prompt.yes?("Are you sure you want to update the output path?")
+      if cli_confirm?("Are you sure you want to update the output path?")
+        @options.store(APP_OPTION_OUTPUT_PATH, path)
+        puts "Output path updated successfully!"
+      else
+        puts "No changes made to the output path"
+      end
+      cli_empty_line
+      cli_press_key_continue
+    end
 
-      @options.store(APP_OPTION_OUTPUT_PATH, path)
-
+    #
+    # Draws and runs the menu to show all app options
+    #
+    def cli_menu_show_options
+      cli_reset_screen
+      cli_draw_info_frame(
+        "All options will be shown in the table below",
+        "",
+        "Not all options shown are relevant to the user",
+        site: APP_MENU_CMD_SHOW_OPTIONS
+      )
+      cli_empty_line
+      table = TTY::Table.new(
+        ["Option ID", "Option Value"],
+        @options.to_a
+      )
+      puts table.render(:unicode)
       cli_empty_line
       cli_press_key_continue
     end
