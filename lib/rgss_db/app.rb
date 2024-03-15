@@ -50,13 +50,13 @@ module RgssDb
   APP_MENU_CMD_ACTION_UNPACK = "Unpack RPG Maker Data"
 
   # App menu option for packing command
-  APP_MENU_CMD_ACTION_PACK = "Pack External Data"
+  APP_MENU_CMD_ACTION_PACK = "Pack External Data into RPG Maker Files"
 
   # App menu option to set the output path
   APP_MENU_CMD_SET_OUTPUT_PATH = "Set Output Path"
 
   # App menu option to set the output file format type
-  APP_MENU_CMD_SET_FORMAT = "Set File Format"
+  APP_MENU_CMD_SET_FORMAT = "Set Type of File Format"
 
   # App menu option to show the values of the current options
   APP_MENU_CMD_SHOW_OPTIONS = "Show Options"
@@ -161,7 +161,7 @@ module RgssDb
     #
     # @return [Boolean] Confirmation status
     #
-    def cli_confirm?(message, default: false)
+    def cli_confirm?(message, default: true)
       @prompt.yes?(message, default: default)
     end
 
@@ -289,20 +289,13 @@ module RgssDb
         cli_reset_screen
         cli_draw_header
         cli_empty_line
-        cli_draw_info_frame(
-          "You can use the up and down arrows to move between menu options",
-          "",
-          "Press ENTER to select the current highlighted option",
-          site: "Main Menu"
-        )
-        cli_empty_line
         option = @prompt.select(
           "What would you like to do?",
           [
-            APP_MENU_CMD_ACTION_UNPACK,
             APP_MENU_CMD_ACTION_PACK,
-            APP_MENU_CMD_SET_OUTPUT_PATH,
+            APP_MENU_CMD_ACTION_UNPACK,
             APP_MENU_CMD_SET_FORMAT,
+            APP_MENU_CMD_SET_OUTPUT_PATH,
             APP_MENU_CMD_SHOW_OPTIONS,
             APP_MENU_CMD_EXIT
           ]
@@ -315,6 +308,7 @@ module RgssDb
         when APP_MENU_CMD_SET_OUTPUT_PATH
           cli_menu_set_output_path
         when APP_MENU_CMD_SET_FORMAT
+          cli_menu_set_file_format
         when APP_MENU_CMD_SHOW_OPTIONS
           cli_menu_show_options
         when APP_MENU_CMD_EXIT
@@ -367,7 +361,7 @@ module RgssDb
       cli_draw_info_frame(
         "You can set the output path to the desired one below",
         "",
-        "Note that the path typed below will overwrite the path passed by the command line!",
+        "Keep in mind that the app will overwrite any files inside of the output path!",
         "",
         "If left empty, the default path (in gray) will be used",
         "",
@@ -384,6 +378,40 @@ module RgssDb
         puts "Output path updated successfully!"
       else
         puts "No changes made to the output path"
+      end
+      cli_empty_line
+      cli_press_key_continue
+    end
+
+    #
+    # Draws and runs the set output file format process
+    #
+    def cli_menu_set_file_format
+      cli_reset_screen
+      cli_draw_info_frame(
+        "You can set the type of the file format to the desired one below",
+        "",
+        "This option is only used when unpacking RPG Maker data into external files",
+        "",
+        "RPG Maker files will use their appropiate binary file type",
+        site: APP_MENU_CMD_SET_FORMAT
+      )
+      cli_empty_line
+      file_format = @prompt.select(
+        "What type of file format should be used?",
+        [
+          APP_FORMAT_TYPE_JSON,
+          APP_FORMAT_TYPE_YAML
+        ]
+      )
+      cli_empty_line
+      puts "File format type chosen: '#{file_format}'"
+      cli_empty_line
+      if cli_confirm?("Are you sure you want to update the type of file format?")
+        @options.store(APP_OPTION_FORMAT, file_format)
+        puts "Type of file format updated successfully!"
+      else
+        puts "No changes made to the type of file format"
       end
       cli_empty_line
       cli_press_key_continue
