@@ -53,13 +53,16 @@ module RgssDb
   APP_MENU_ACTIONS = "Perform Actions"
 
   # App menu option for unpacking command
-  APP_MENU_ACTIONS_UNPACK = "Unpack RPG Maker Data"
+  APP_MENU_ACTIONS_UNPACK = "Unpack RPG Maker Files"
 
   # App menu option for packing command
   APP_MENU_ACTIONS_PACK = "Pack External Data into RPG Maker Files"
 
   # App menu option to go to the check and change app options menu
   APP_MENU_OPTIONS = "Check and Modify Options"
+
+  # App menu option to select a list of file entries
+  APP_MENU_OPTIONS_SET_ENTRIES = "Set File Entries List"
 
   # App menu option to select a list of object IDs
   APP_MENU_OPTIONS_SET_IDS = "Set Object IDs List"
@@ -196,7 +199,7 @@ module RgssDb
         end
       else
         # Specific keys
-        key_names = keys.map { |key| key.to_s.upcase }.join(", ")
+        key_names = keys.map { |key| key.to_s.upcase }.join(" or ")
         if timeout
           @prompt.keypress(
             "Press #{key_names} to continue... (resumes automatically in #{timeout} seconds)".colorize(:green),
@@ -431,6 +434,7 @@ module RgssDb
           [
             APP_MENU_OPTIONS_SET_FORMAT,
             APP_MENU_OPTIONS_SET_OUTPUT_PATH,
+            APP_MENU_OPTIONS_SET_ENTRIES,
             APP_MENU_OPTIONS_SET_IDS,
             APP_MENU_OPTIONS_SHOW_OPTIONS,
             APP_MENU_EXIT
@@ -441,6 +445,8 @@ module RgssDb
           cli_submenu_set_file_format
         when APP_MENU_OPTIONS_SET_OUTPUT_PATH
           cli_submenu_set_output_path
+        when APP_MENU_OPTIONS_SET_ENTRIES
+          cli_submenu_set_entries
         when APP_MENU_OPTIONS_SET_IDS
           cli_submenu_set_ids
         when APP_MENU_OPTIONS_SHOW_OPTIONS
@@ -471,11 +477,22 @@ module RgssDb
         default: option_value(APP_OPTION_FILE_ENTRIES)
       )
       p "files selected: #{files}"
-      # @data_manager.unpack("test", [], [], "yaml")
+      cli_press_key_continue
     end
 
     def cli_submenu_pack
-      # @data_manager.pack("test", [], [])
+      cli_reset_screen
+      cli_draw_info_frame(
+        "Choose which external files you want to pack from the list of files below",
+        "",
+        "Press ↑/↓ arrows to move the cursor",
+        "Use SPACE to select the current item",
+        "Press CTRL + A and to select all items available",
+        "You can also use CTRL + R to revert the current selection",
+        "Press ENTER to finish selection"
+      )
+      cli_draw_empty_line
+      cli_press_key_continue
     end
 
     #
@@ -546,6 +563,38 @@ module RgssDb
         cli_draw_line "Type of file format updated successfully!"
       else
         cli_draw_line "No changes made to the type of file format"
+      end
+      cli_draw_empty_line
+      cli_press_key_continue
+    end
+
+    #
+    # Draws and runs the submenu for setting a list of file entries
+    #
+    def cli_submenu_set_entries
+      cli_reset_screen
+      cli_draw_info_frame(
+        "You can set a list of file entries that will be pre-selected when performing an action",
+        "",
+        "You must type all entries separated by commas"
+      )
+      cli_draw_empty_line
+      file_entries = @prompt.ask(
+        "Type the list of file entries that you would like to pre-select:",
+        value: option_value(APP_OPTION_FILE_ENTRIES).join(","),
+        default: [],
+        convert: :list
+      )
+      # Cleans any duped entry value
+      file_entries.uniq!
+      cli_draw_empty_line
+      cli_draw_line "List of file entries chosen: #{file_entries}"
+      cli_draw_empty_line
+      if cli_confirm?("Are you sure you want to update the list of file entries?")
+        @options.store(APP_OPTION_FILE_ENTRIES, file_entries)
+        cli_draw_line "List of file entries updated successfully!"
+      else
+        cli_draw_line "No changes made to the list of file entries"
       end
       cli_draw_empty_line
       cli_press_key_continue
