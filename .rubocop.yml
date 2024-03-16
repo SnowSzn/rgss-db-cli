@@ -1,10 +1,10 @@
 AllCops:
   TargetRubyVersion: 3.0
 
-Metrics/ParameterLists:
+Metrics:
   Enabled: false
 
-Metrics/MethodLength:
+Naming/HeredocDelimiterNaming:
   Enabled: false
 
 Style/IfInsideElse:
