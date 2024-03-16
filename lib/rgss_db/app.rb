@@ -27,11 +27,11 @@ module RgssDb
   # App option output path
   APP_OPTION_OUTPUT_PATH = :output
 
-  # Default output path for the application
-  APP_OUTPUT_PATH = "./rgss-db"
-
   # Default format type of the application
-  APP_FORMAT_TYPE = "yaml"
+  APP_DEFAULT_FORMAT_TYPE = "yaml"
+
+  # Default output path for the application
+  APP_DEFAULT_OUTPUT_PATH = "./rgss-db"
 
   # Output file format type for JSON files
   APP_FORMAT_TYPE_JSON = "json"
@@ -129,10 +129,10 @@ module RgssDb
 
         nil
       when APP_OPTION_FILE_ENTRIES
-        # Process the file entries option
+        # Process the list of file entries option
         option_value
       when APP_OPTION_IDS
-        # Process the IDs option
+        # Process the list of item IDs option
         option_value
       when APP_OPTION_FORMAT
         # Process the format option
@@ -347,9 +347,9 @@ module RgssDb
         cli_draw_header
         cli_draw_empty_line
         cli_draw_info_frame(
-          "You can use this submenu to change the value of the options available to the user.",
+          "You can use this submenu to change the value of the options available to the user",
           "",
-          "Additionally, you will also be able to see the value of each option in a table.",
+          "You are also able to see the value of each option in a table",
           site: APP_MENU_CMD_MODIFY_OPTIONS
         )
         cli_draw_empty_line
@@ -413,17 +413,23 @@ module RgssDb
       cli_draw_info_frame(
         "You can set the output path to the desired one below",
         "",
+        "The path will be relative to the RPG Maker data folder opened",
+        "",
         "Keep in mind that the app will overwrite any files inside of the output path!",
         "",
-        "If left empty, the current path (in gray) will be used",
-        "",
-        "The default output path is: '#{APP_OUTPUT_PATH}'",
+        "If left empty, the default output path (in gray) will be used",
         "",
         "If you don't want to change it, you can just press ENTER with the same path",
         site: APP_MENU_CMD_SET_OUTPUT_PATH
       )
       cli_draw_empty_line
-      path = @prompt.ask("Type the output path:", default: option_value(APP_OPTION_OUTPUT_PATH))
+      path = @prompt.ask(
+        "Type the output path",
+        value: option_value(APP_OPTION_OUTPUT_PATH),
+        default: APP_DEFAULT_OUTPUT_PATH
+      ) do |question|
+        question.validate ->(input) { @data_manager.validate_path(input) }, "You must write a valid path!"
+      end
       cli_draw_empty_line
       cli_draw_line "New output path obtained from input: '#{path}'"
       cli_draw_empty_line
@@ -447,7 +453,7 @@ module RgssDb
         "",
         "This option is only used when unpacking RPG Maker data into external files",
         "",
-        "The default file format is: '#{APP_FORMAT_TYPE}'",
+        "The default file format is automatically selected",
         "",
         "RPG Maker files will use their appropiate binary file type",
         site: APP_MENU_CMD_SET_FORMAT
@@ -456,9 +462,10 @@ module RgssDb
       file_format = @prompt.select(
         "What type of file format should be used?",
         [
-          APP_FORMAT_TYPE_JSON,
-          APP_FORMAT_TYPE_YAML
-        ]
+          APP_FORMAT_TYPE_YAML,
+          APP_FORMAT_TYPE_JSON
+        ],
+        default: APP_DEFAULT_FORMAT_TYPE
       )
       cli_draw_empty_line
       cli_draw_line "File format type chosen: '#{file_format}'"
@@ -478,9 +485,20 @@ module RgssDb
       cli_draw_info_frame(
         "You can set a list of IDs that will be considered when performing an action",
         "",
-        "",
+        "If no one is selected, all items will be considered as selected when appropiate",
         site: APP_MENU_CMD_SET_IDS
       )
+      current_ids = option_value(APP_OPTION_IDS)
+      default_ids = current_ids.is_a?(Array) && !current_ids.empty? ? current_ids.join(",") : ""
+      ids = @prompt.ask(
+        "Type the ids you would like to use",
+        value: default_ids,
+        convert: :int_list
+      )
+      cli_draw_line "IDs chosen: #{ids}"
+      # cli_draw_line "Types of ids: #{ids.map { |i| i.class }}"
+      @options.store(APP_OPTION_IDS, ids)
+      cli_press_key_continue
     end
 
     #

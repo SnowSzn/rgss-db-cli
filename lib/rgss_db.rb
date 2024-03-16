@@ -70,8 +70,8 @@ module RgssDb
     opt APP_OPTION_ACTION, "Sets the action to perform automatically", type: String
     opt APP_OPTION_FILE_ENTRIES, "Sets a list of file entries on which the action will be performed", type: :strings
     opt APP_OPTION_IDS, "Sets a list of IDs that will be affected", type: :integers
-    opt APP_OPTION_FORMAT, "Specifies the output format file", type: String, default: APP_FORMAT_TYPE
-    opt APP_OPTION_OUTPUT_PATH, "Sets the output path", type: String, default: APP_OUTPUT_PATH
+    opt APP_OPTION_FORMAT, "Specifies the output format file", type: String, default: APP_DEFAULT_FORMAT_TYPE
+    opt APP_OPTION_OUTPUT_PATH, "Sets the output path", type: String, default: APP_DEFAULT_OUTPUT_PATH
   end
 
   # Gets the data directory (should be the only valid positional argument)

@@ -17,6 +17,9 @@ module RgssDb
   # RPG Maker VX Ace RGSS version symbol
   RGSS_VERSION_VX_ACE = :rpg_maker_vx_ace
 
+  # Regular expression of invalid characters or sequence of characters
+  INVALID_CHARACTERS = /[:*?"<>|]|(\bCON\b|\bPRN\b|\bAUX\b|\bNUL\b|\bCOM[1-9]\b|\bLPT[1-9]\b)/i
+
   #
   # Data manager class
   #
@@ -74,6 +77,17 @@ module RgssDb
     #
     def version_unknown?
       @rgss_version == RGSS_VERSION_UNKNOWN
+    end
+
+    #
+    # Validates the path
+    #
+    # @param [String] path Path
+    #
+    # @return [Boolean] Path validness
+    #
+    def validate_path(path)
+      !path.match?(INVALID_CHARACTERS)
     end
 
     def pack(path, entries, ids)
