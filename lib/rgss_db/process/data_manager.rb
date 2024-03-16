@@ -5,6 +5,9 @@ require "yaml"
 require_relative "../errors/errors"
 
 module RgssDb
+  # Regular expression of invalid characters or sequence of characters
+  INVALID_CHARACTERS = /[:*?"<>|]|(\bCON\b|\bPRN\b|\bAUX\b|\bNUL\b|\bCOM[1-9]\b|\bLPT[1-9]\b)/i
+
   # Unknown RGSS version symbol
   RGSS_VERSION_UNKNOWN = :unknown
 
@@ -17,8 +20,62 @@ module RgssDb
   # RPG Maker VX Ace RGSS version symbol
   RGSS_VERSION_VX_ACE = :rpg_maker_vx_ace
 
-  # Regular expression of invalid characters or sequence of characters
-  INVALID_CHARACTERS = /[:*?"<>|]|(\bCON\b|\bPRN\b|\bAUX\b|\bNUL\b|\bCOM[1-9]\b|\bLPT[1-9]\b)/i
+  # Hash of all supported database glob patterns files for each RPG Maker version
+  #
+  # The RPG Maker version is used as the key, the value is an array of glob patterns
+  RGSS_DATABASE_FILES = {
+    RGSS_VERSION_XP => [
+      "Actors.rxdata",
+      "Animations.rxdata",
+      "Armors.rxdata",
+      "Classes.rxdata",
+      "CommonEvents.rxdata",
+      "Enemies.rxdata",
+      "Items.rxdata",
+      "Map[0-9][0-9][1-9].rxdata",
+      "MapInfos.rxdata",
+      "Skills.rxdata",
+      "States.rxdata",
+      "System.rxdata",
+      "Tilesets.rxdata",
+      "Troops.rxdata",
+      "Weapons.rxdata"
+    ],
+    RGSS_VERSION_VX => [
+      "Actors.rvdata",
+      "Animations.rvdata",
+      "Areas.rvdata",
+      "Armors.rvdata",
+      "Classes.rvdata",
+      "CommonEvents.rvdata",
+      "Enemies.rvdata",
+      "Items.rvdata",
+      "Map[0-9][0-9][1-9].rvdata",
+      "MapInfos.rvdata",
+      "Skills.rvdata",
+      "States.rvdata",
+      "System.rvdata",
+      "Troops.rvdata",
+      "Weapons.rvdata"
+    ],
+    RGSS_VERSION_VX_ACE => [
+      "Actors.rvdata2",
+      "Animations.rvdata2",
+      "Armors.rvdata2",
+      "Classes.rvdata2",
+      "CommonEvents.rvdata2",
+      "Enemies.rvdata2",
+      "Items.rvdata2",
+      "Map[0-9][0-9][1-9].rvdata2",
+      "MapInfos.rvdata2",
+      "Skills.rvdata2",
+      "States.rvdata2",
+      "System.rvdata2",
+      "Tilesets.rvdata2",
+      "Troops.rvdata2",
+      "Weapons.rvdata2"
+    ]
+  }.freeze
 
   #
   # Data manager class
@@ -90,6 +147,19 @@ module RgssDb
       !path.match?(INVALID_CHARACTERS)
     end
 
+    #
+    # Gets a list of RPG Maker data files based on the current path and detected version
+    #
+    # Returns an empty array ``[]`` if the RPG Maker version is unknown
+    #
+    # @return [Array<String>] List of RPG Maker data files
+    #
+    def data_files
+      return [] if version_unknown?
+
+      Dir.glob(RGSS_DATABASE_FILES[@rgss_version], File::FNM_CASEFOLD, base: @path)
+    end
+
     def pack(path, entries, ids)
       data_file = "C:/Users/ferna/OneDrive/Escritorio/Stuff/GitHub/rgss-db-cli/spec/tests/Items.rvdata2"
       p "================================================================"
@@ -149,7 +219,7 @@ module RgssDb
     # Determines the RGSS version on the current opened data folder
     #
     def determine_rgss_version
-      data_files = Dir.glob("*.{rxdata,rvdata,rvdata2}", base: @path)
+      data_files = Dir.glob("*.{rxdata,rvdata,rvdata2}", File::FNM_CASEFOLD, base: @path)
       # All data files within the data folder must be of the same type (aka the same RGSS version)
       @rgss_version = RGSS_VERSION_UNKNOWN
       @rgss_version = RGSS_VERSION_XP if rpg_maker_xp?(data_files)
