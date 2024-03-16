@@ -253,7 +253,7 @@ module RgssDb
     # @return [Boolean]
     #
     def rpg_maker_xp?(data_files)
-      return true if !data_files.empty? && data_files.all? { |file| file.end_with?(".rxdata") }
+      return true if !data_files.empty? && data_files.all? { |file| file.to_s.downcase.casecmp?(".rxdata") }
 
       false
     end
@@ -266,7 +266,7 @@ module RgssDb
     # @return [Boolean]
     #
     def rpg_maker_vx?(data_files)
-      return true if !data_files.empty? && data_files.all? { |file| file.end_with?(".rvdata") }
+      return true if !data_files.empty? && data_files.all? { |file| file.to_s.downcase.casecmp?(".rvdata") }
 
       false
     end
@@ -279,7 +279,7 @@ module RgssDb
     # @return [Boolean]
     #
     def rpg_maker_vx_ace?(data_files)
-      return true if !data_files.empty? && data_files.all? { |file| file.end_with?(".rvdata2") }
+      return true if !data_files.empty? && data_files.all? { |file| file.to_s.downcase.casecmp?(".rvdata2") }
 
       false
     end
