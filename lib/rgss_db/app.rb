@@ -453,7 +453,7 @@ module RgssDb
     end
 
     #
-    # Draws and runs the menu for the set output path command
+    # Draws and runs the submenu for setting the output path
     #
     def cli_submenu_set_output_path
       cli_reset_screen
@@ -490,7 +490,7 @@ module RgssDb
     end
 
     #
-    # Draws and runs the set output file format process
+    # Draws and runs the submenu for setting output file format
     #
     def cli_submenu_set_file_format
       cli_reset_screen
@@ -525,6 +525,9 @@ module RgssDb
       cli_press_key_continue
     end
 
+    #
+    # Draws and runs the submenu for setting a list of object IDs
+    #
     def cli_submenu_set_ids
       cli_reset_screen
       cli_draw_info_frame(
@@ -537,22 +540,32 @@ module RgssDb
         "",
         "You must type all ID values separated by commas"
       )
-      current_ids = option_value(APP_OPTION_IDS)
-      value = !current_ids.empty? ? current_ids.join(",") : ""
-      ids = @prompt.ask(
+      cli_draw_empty_line
+      object_ids = @prompt.ask(
         "Type the list of IDs that you would like to pre-select:",
-        value: value,
+        value: option_value(APP_OPTION_IDS).join(","),
         default: [],
         convert: :int_list
       )
-      cli_draw_line "IDs chosen: #{ids} (class: #{ids.class})"
-      # cli_draw_line "Types of ids: #{ids.map { |i| i.class }}"
-      @options.store(APP_OPTION_IDS, ids)
+      # Cleans any array item that is not an integer
+      object_ids.delete_if { |id| !id.is_a?(Integer) }
+      # Cleans any duped ID value
+      object_ids.uniq!
+      cli_draw_empty_line
+      cli_draw_line "List of IDs chosen: #{object_ids}"
+      cli_draw_empty_line
+      if cli_confirm?("Are you sure you want to update the list of IDs?")
+        @options.store(APP_OPTION_IDS, object_ids)
+        cli_draw_line "List of IDs updated successfully!"
+      else
+        cli_draw_line "No changes made to the list of IDs"
+      end
+      cli_draw_empty_line
       cli_press_key_continue
     end
 
     #
-    # Draws and runs the menu to show all app options
+    # Draws and runs the submenu to show all options
     #
     def cli_submenu_show_options
       cli_reset_screen
