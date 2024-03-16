@@ -268,6 +268,26 @@ module RgssDb
     end
 
     #
+    # Draws a table on the standard output
+    #
+    # The number of ``columns`` and the size of each row in ``rows`` must have the same length
+    #
+    # Columns: [Column1, Column2]
+    # Rows: [["a", "b"], ["c", "d"]]
+    #
+    # @param [Array<String>] columns Columns
+    # @param [Array<String>] rows List of rows
+    # @param [Symbol] render_type Render type
+    #
+    def cli_draw_table(columns, *rows, render_type: :unicode)
+      table = TTY::Table.new(
+        columns,
+        rows
+      )
+      puts table.render(render_type)
+    end
+
+    #
     # Draws the app header information on the standard output
     #
     def cli_draw_header
@@ -575,11 +595,10 @@ module RgssDb
         "Note that not all options shown are relevant to the user"
       )
       cli_draw_empty_line
-      table = TTY::Table.new(
+      cli_draw_table(
         ["Option ID", "Option Value"],
-        @options.to_a
+        *@options.to_a
       )
-      puts table.render(:unicode)
       cli_draw_empty_line
       cli_press_key_continue
     end
