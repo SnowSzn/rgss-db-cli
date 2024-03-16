@@ -25,6 +25,9 @@
 # rgss-db . -a unpack -o json
 # rgss-db . -a unpack -f Items.rvdata2 -o json
 
+# TODO: the option --ids should only work when --files is a single file
+# avoid extracting the specified item IDs from a list of files because some of them may no exist
+
 require "optimist"
 require_relative "./rgss_db/app"
 require_relative "./rgss_db/version"

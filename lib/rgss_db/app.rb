@@ -55,11 +55,17 @@ module RgssDb
   # App menu option for packing command
   APP_MENU_CMD_ACTION_PACK = "Pack External Data into RPG Maker Files"
 
-  # App menu option to set the output path
-  APP_MENU_CMD_SET_OUTPUT_PATH = "Set Output Path"
+  # App menu option for checking and modifying the current app options
+  APP_MENU_CMD_MODIFY_OPTIONS = "Check and Modify Options"
+
+  # App menu option to select a list of item IDs
+  APP_MENU_CMD_SET_IDS = "Set Items IDs List"
 
   # App menu option to set the output file format type
   APP_MENU_CMD_SET_FORMAT = "Set Type of File Format"
+
+  # App menu option to set the output path
+  APP_MENU_CMD_SET_OUTPUT_PATH = "Set Output Path"
 
   # App menu option to show the values of the current options
   APP_MENU_CMD_SHOW_OPTIONS = "Show Options"
@@ -141,13 +147,6 @@ module RgssDb
     end
 
     #
-    # Draws an empty line on the standard output
-    #
-    def cli_empty_line
-      puts ""
-    end
-
-    #
     # Resets the console screen position with a escape sequence
     #
     def cli_reset_screen
@@ -208,6 +207,23 @@ module RgssDb
     end
 
     #
+    # Draws an empty line on the standard output
+    #
+    def cli_draw_empty_line
+      puts ""
+    end
+
+    #
+    # Draws the given ``string`` line on the standard output
+    #
+    # @param [String] string String
+    # @param [Symbol] color Color symbol
+    #
+    def cli_draw_line(string, color = nil)
+      puts color ? string.colorize(color) : string
+    end
+
+    #
     # Draws an information frame with the given contents on the standard output
     #
     # The value of ``site`` will be shown on the bottom right corner of the frame
@@ -254,11 +270,11 @@ module RgssDb
       EOF
         .colorize(:green)
       # opened data folder
-      puts "RPG Maker Data folder: #{@data_manager.path}".colorize(:green)
+      cli_draw_line "RPG Maker Data folder: #{@data_manager.path}", :green
       # Detected RGSS version
-      puts "RPG Maker version: #{@data_manager.rgss_version}".colorize(:green)
+      cli_draw_line "RPG Maker version: #{@data_manager.rgss_version}", :green
       # warning panel
-      cli_empty_line
+      cli_draw_empty_line
       if @data_manager.version_unknown?
         cli_draw_warning_frame(
           "It was not possible to detect a valid RPG Maker version in the given directory!",
@@ -277,8 +293,6 @@ module RgssDb
         )
       else
         cli_draw_info_frame(
-          "A valid RPG Maker version was detected in the given directory",
-          "",
           "All database classes for '#{@data_manager.rgss_version}' has been loaded!"
         )
       end
@@ -291,31 +305,25 @@ module RgssDb
       loop do
         cli_reset_screen
         cli_draw_header
-        cli_empty_line
+        cli_draw_empty_line
         option = @prompt.select(
           "What would you like to do?",
           [
             APP_MENU_CMD_ACTION_PACK,
             APP_MENU_CMD_ACTION_UNPACK,
-            APP_MENU_CMD_SET_FORMAT,
-            APP_MENU_CMD_SET_OUTPUT_PATH,
-            APP_MENU_CMD_SHOW_OPTIONS,
+            APP_MENU_CMD_MODIFY_OPTIONS,
             APP_MENU_CMD_EXIT
           ]
         )
         case option
         when APP_MENU_CMD_ACTION_PACK
-          cli_menu_pack
+          cli_submenu_pack
         when APP_MENU_CMD_ACTION_UNPACK
-          cli_menu_unpack
-        when APP_MENU_CMD_SET_OUTPUT_PATH
-          cli_menu_set_output_path
-        when APP_MENU_CMD_SET_FORMAT
-          cli_menu_set_file_format
-        when APP_MENU_CMD_SHOW_OPTIONS
-          cli_menu_show_options
+          cli_submenu_unpack
+        when APP_MENU_CMD_MODIFY_OPTIONS
+          cli_menu_modify_options
         when APP_MENU_CMD_EXIT
-          print "Exiting...".colorize(:red)
+          cli_draw_line "Exiting...", :red
           break
         end
       end
@@ -330,7 +338,48 @@ module RgssDb
       # spinner.stop("Done!") # Stop animation
     end
 
-    def cli_menu_unpack
+    #
+    # Draws and runs the sub menu to modify options values
+    #
+    def cli_menu_modify_options
+      loop do
+        cli_reset_screen
+        cli_draw_header
+        cli_draw_empty_line
+        cli_draw_info_frame(
+          "You can use this submenu to change the value of the options available to the user.",
+          "",
+          "Additionally, you will also be able to see the value of each option in a table.",
+          site: APP_MENU_CMD_MODIFY_OPTIONS
+        )
+        cli_draw_empty_line
+        option = @prompt.select(
+          "What would you like to do?",
+          [
+            APP_MENU_CMD_SET_FORMAT,
+            APP_MENU_CMD_SET_OUTPUT_PATH,
+            APP_MENU_CMD_SET_IDS,
+            APP_MENU_CMD_SHOW_OPTIONS,
+            APP_MENU_CMD_EXIT
+          ]
+        )
+        case option
+        when APP_MENU_CMD_SET_FORMAT
+          cli_submenu_set_file_format
+        when APP_MENU_CMD_SET_OUTPUT_PATH
+          cli_submenu_set_output_path
+        when APP_MENU_CMD_SET_IDS
+          cli_submenu_set_ids
+        when APP_MENU_CMD_SHOW_OPTIONS
+          cli_submenu_show_options
+        when APP_MENU_CMD_EXIT
+          cli_draw_line "Exiting...", :red
+          break
+        end
+      end
+    end
+
+    def cli_submenu_unpack
       cli_reset_screen
       cli_draw_info_frame(
         "Choose which data files you want to unpack from the list of files below",
@@ -346,20 +395,20 @@ module RgssDb
         "Press ENTER to finish selection",
         site: APP_MENU_CMD_ACTION_UNPACK
       )
-      cli_empty_line
+      cli_draw_empty_line
       files = @prompt.multi_select("Which files do you want to unpack?", %w[1 2 3 4 5 6])
       p "files selected: #{files}"
       @data_manager.unpack("test", [], [], "yaml")
     end
 
-    def cli_menu_pack
+    def cli_submenu_pack
       @data_manager.pack("test", [], [])
     end
 
     #
     # Draws and runs the menu for the set output path command
     #
-    def cli_menu_set_output_path
+    def cli_submenu_set_output_path
       cli_reset_screen
       cli_draw_info_frame(
         "You can set the output path to the desired one below",
@@ -373,25 +422,25 @@ module RgssDb
         "If you don't want to change it, you can just press ENTER with the same path",
         site: APP_MENU_CMD_SET_OUTPUT_PATH
       )
-      cli_empty_line
+      cli_draw_empty_line
       path = @prompt.ask("Type the output path:", default: option_value(APP_OPTION_OUTPUT_PATH))
-      cli_empty_line
-      puts "New output path obtained from input: '#{path}'"
-      cli_empty_line
+      cli_draw_empty_line
+      cli_draw_line "New output path obtained from input: '#{path}'"
+      cli_draw_empty_line
       if cli_confirm?("Are you sure you want to update the output path?")
         @options.store(APP_OPTION_OUTPUT_PATH, path)
-        puts "Output path updated successfully!"
+        cli_draw_line "Output path updated successfully!"
       else
-        puts "No changes made to the output path"
+        cli_draw_line "No changes made to the output path"
       end
-      cli_empty_line
+      cli_draw_empty_line
       cli_press_key_continue
     end
 
     #
     # Draws and runs the set output file format process
     #
-    def cli_menu_set_file_format
+    def cli_submenu_set_file_format
       cli_reset_screen
       cli_draw_info_frame(
         "You can set the type of the file format to the desired one below",
@@ -403,7 +452,7 @@ module RgssDb
         "RPG Maker files will use their appropiate binary file type",
         site: APP_MENU_CMD_SET_FORMAT
       )
-      cli_empty_line
+      cli_draw_empty_line
       file_format = @prompt.select(
         "What type of file format should be used?",
         [
@@ -411,37 +460,47 @@ module RgssDb
           APP_FORMAT_TYPE_YAML
         ]
       )
-      cli_empty_line
-      puts "File format type chosen: '#{file_format}'"
-      cli_empty_line
+      cli_draw_empty_line
+      cli_draw_line "File format type chosen: '#{file_format}'"
+      cli_draw_empty_line
       if cli_confirm?("Are you sure you want to update the type of file format?")
         @options.store(APP_OPTION_FORMAT, file_format)
-        puts "Type of file format updated successfully!"
+        cli_draw_line "Type of file format updated successfully!"
       else
-        puts "No changes made to the type of file format"
+        cli_draw_line "No changes made to the type of file format"
       end
-      cli_empty_line
+      cli_draw_empty_line
       cli_press_key_continue
+    end
+
+    def cli_submenu_set_ids
+      cli_reset_screen
+      cli_draw_info_frame(
+        "You can set a list of IDs that will be considered when performing an action",
+        "",
+        "",
+        site: APP_MENU_CMD_SET_IDS
+      )
     end
 
     #
     # Draws and runs the menu to show all app options
     #
-    def cli_menu_show_options
+    def cli_submenu_show_options
       cli_reset_screen
       cli_draw_info_frame(
         "All options will be shown in the table below",
         "",
-        "Not all options shown are relevant to the user",
+        "Note that not all options shown are relevant to the user",
         site: APP_MENU_CMD_SHOW_OPTIONS
       )
-      cli_empty_line
+      cli_draw_empty_line
       table = TTY::Table.new(
         ["Option ID", "Option Value"],
         @options.to_a
       )
       puts table.render(:unicode)
-      cli_empty_line
+      cli_draw_empty_line
       cli_press_key_continue
     end
   end
