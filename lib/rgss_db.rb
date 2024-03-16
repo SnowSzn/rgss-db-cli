@@ -33,7 +33,7 @@ require_relative "./rgss_db/app"
 require_relative "./rgss_db/version"
 
 #
-# rgss db entry point
+# Application entry point
 #
 module RgssDb
   # Process user options with optimist before running the app
@@ -67,16 +67,16 @@ module RgssDb
       Options:
     DESCRIPTION
 
-    opt APP_OPTION_ACTION, "Sets the action to perform automatically", type: String
-    opt APP_OPTION_FILE_ENTRIES, "Sets a list of file entries on which the action will be performed", type: :strings
-    opt APP_OPTION_IDS, "Sets a list of IDs that will be affected", type: :integers
+    opt APP_OPTION_ACTION, "Sets the action to perform", type: String
+    opt APP_OPTION_FILE_ENTRIES, "Sets a list of files affected by the action", type: :strings
+    opt APP_OPTION_IDS, "Sets a list of object IDs that will be selected", type: :integers
     opt APP_OPTION_FORMAT, "Specifies the output format file", type: String, default: APP_DEFAULT_FORMAT_TYPE
     opt APP_OPTION_OUTPUT_PATH, "Sets the output path", type: String, default: APP_DEFAULT_OUTPUT_PATH
   end
 
   # Gets the data directory (should be the only valid positional argument)
   path = ARGV.shift
-  # Create and start the app loop
+  # Create and starts the app
   if path.nil? || path.empty?
     puts "Please provide a data directory!"
     puts "Use 'rgss-db --help' to get more information"

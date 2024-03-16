@@ -76,6 +76,9 @@ module RgssDb
   # App menu option for exiting command
   APP_MENU_EXIT = "Exit"
 
+  # Value that determines the number of options per page on the multi select prompt
+  APP_VAL_ENUM_SELECT_PER_PAGE = 10
+
   #
   # Application CLI class
   #
@@ -380,9 +383,11 @@ module RgssDb
         cli_draw_navigation("Main Menu", APP_MENU_ACTIONS)
         cli_draw_empty_line
         cli_draw_info_frame(
-          "You can use this submenu to change the value of the options available to the user",
+          "You can use this menu to perform actions on the current RPG Maker database",
           "",
-          "You are also able to see the value of each option in a table"
+          "You will be able to choose which files to execute the action on",
+          "",
+          "Also, if the files allow it, which objects will be affected"
         )
         cli_draw_empty_line
         option = @prompt.select(
@@ -453,23 +458,24 @@ module RgssDb
         "Choose which data files you want to unpack from the list of files below",
         "",
         "Press ↑/↓ arrows to move the cursor",
-        "",
         "Use SPACE to select the current item",
-        "",
         "Press CTRL + A and to select all items available",
-        "",
         "You can also use CTRL + R to revert the current selection",
-        "",
         "Press ENTER to finish selection"
       )
       cli_draw_empty_line
-      files = @prompt.multi_select("Which files do you want to unpack?", %w[1 2 3 4 5 6])
+      files = @prompt.multi_select(
+        "Which files do you want to unpack?",
+        @data_manager.data_files,
+        per_page: APP_VAL_ENUM_SELECT_PER_PAGE,
+        default: option_value(APP_OPTION_FILE_ENTRIES)
+      )
       p "files selected: #{files}"
-      @data_manager.unpack("test", [], [], "yaml")
+      # @data_manager.unpack("test", [], [], "yaml")
     end
 
     def cli_submenu_pack
-      @data_manager.pack("test", [], [])
+      # @data_manager.pack("test", [], [])
     end
 
     #
