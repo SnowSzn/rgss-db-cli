@@ -69,7 +69,7 @@ module RgssDb
 
     opt APP_OPTION_ACTION, "Sets the action to perform", type: String
     opt APP_OPTION_FILE_ENTRIES, "Sets a list of files affected by the action", type: :strings
-    opt APP_OPTION_IDS, "Sets a list of object IDs that will be selected", type: :integers
+    opt APP_OPTION_IDS, "Sets a list of object IDs that will be selected", type: :integers, multi: true
     opt APP_OPTION_FORMAT, "Specifies the output format file", type: String, default: APP_DEFAULT_FORMAT_TYPE
     opt APP_OPTION_OUTPUT_PATH, "Sets the output path", type: String, default: APP_DEFAULT_OUTPUT_PATH
   end
