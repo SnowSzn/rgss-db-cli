@@ -7,6 +7,9 @@ Metrics:
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
+Style/ClassVars:
+  Enabled: false
+
 Style/IfInsideElse:
   Enabled: false
 
