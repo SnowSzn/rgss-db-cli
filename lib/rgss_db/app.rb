@@ -518,11 +518,9 @@ module RgssDb
           files.each do |data_file|
             spinner = TTY::Spinner.new("[:spinner] Unpacking '#{data_file}'...", format: :dots)
             spinner.run do
-              @data_manager.unpack(
+              ruby_object = @data_manager.unpack(
                 data_file,
-                @options[APP_OPTION_IDS][data_file],
-                @options[APP_OPTION_OUTPUT_PATH],
-                @options[APP_OPTION_FORMAT]
+                @options[APP_OPTION_IDS][data_file]
               )
             end
           end
