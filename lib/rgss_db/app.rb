@@ -73,11 +73,17 @@ module RgssDb
   # App menu option to set the output path
   APP_MENU_OPTIONS_SET_OUTPUT_PATH = "Set Output Path"
 
-  # App menu option to show the values of the current options
-  APP_MENU_OPTIONS_SHOW_OPTIONS = "Show Options"
+  # App menu option to show the values of the current options (pretty format)
+  APP_MENU_OPTIONS_SHOW_OPTIONS_PRETTY = "Show Options (Pretty)"
+
+  # App menu option to show the values of the current options (raw format)
+  APP_MENU_OPTIONS_SHOW_OPTIONS_RAW = "Show Options (Raw)"
 
   # App menu option for exiting command
   APP_MENU_EXIT = "Exit"
+
+  # Value that determines the number of options per page on the select prompt
+  APP_VAL_SELECT_PER_PAGE = 5
 
   # Value that determines the number of options per page on the multi select prompt
   APP_VAL_ENUM_SELECT_PER_PAGE = 10
@@ -93,8 +99,8 @@ module RgssDb
     # @param [Hash<Symbol, Object>] options Hash of options
     #
     def initialize(data_path, options)
+      @options = process_options(options)
       @data_manager = DataManager.new(data_path)
-      @options = options
       @prompt = TTY::Prompt.new
     end
 
@@ -107,7 +113,7 @@ module RgssDb
       # TODO: Deal with either showing the app's menu
       # or if the proper options were provided, perform the appropriate operation (unpack/pack...)
       # if direct operation? -> avoid main menu loop
-      option_action = option_value(APP_OPTION_ACTION)
+      option_action = @options[APP_OPTION_ACTION]
       if option_action
         # An action was given, avoid main menu loop
         puts "running action: #{option_action}"
@@ -120,39 +126,56 @@ module RgssDb
     private
 
     #
-    # Gets the value of the option ``option_id``
+    # Process the user options
     #
-    # The value is only returned if supported, otherwise it is ``nil``
+    # @param [Hash<Symbol, Object>] options_hash Options hash
     #
-    # @param [Symbol] option_id App option ID
+    # @return [Hash<Symbol, Object>] Processed hash
     #
-    # @return [Object]
-    #
-    def option_value(option_id)
-      option_value = @options[option_id]
-      case option_id
-      when APP_OPTION_ACTION
-        # Process the action option
-        return APP_CMD_ACTION_PACK if option_value.to_s.casecmp?(APP_CMD_ACTION_PACK)
-        return APP_CMD_ACTION_UNPACK if option_value.to_s.casecmp?(APP_CMD_ACTION_UNPACK)
-
-        nil
-      when APP_OPTION_FILE_ENTRIES
-        # Process the list of file entries option
-        option_value.is_a?(Array) ? option_value : []
-      when APP_OPTION_IDS
-        # Process the list of item IDs option
-        option_value.is_a?(Array) ? option_value : []
-      when APP_OPTION_FORMAT
-        # Process the format option
-        return APP_FORMAT_TYPE_JSON if option_value.to_s.casecmp?(APP_FORMAT_TYPE_JSON)
-        return APP_FORMAT_TYPE_YAML if option_value.to_s.casecmp?(APP_FORMAT_TYPE_YAML)
-
-        nil
-      when APP_OPTION_OUTPUT_PATH
-        # Process the output path option
-        option_value
+    def process_options(options_hash)
+      options = {}
+      options_hash.each_pair do |option_id, option_value|
+        case option_id
+        when APP_OPTION_ACTION
+          # Process the action option (case insensitive)
+          if option_value.to_s.casecmp?(APP_CMD_ACTION_PACK)
+            options.store(option_id, APP_CMD_ACTION_PACK)
+          elsif option_value.to_s.casecmp?(APP_CMD_ACTION_UNPACK)
+            options.store(option_id, APP_CMD_ACTION_UNPACK)
+          else
+            # Unknown action value
+            options.store(option_id, nil)
+          end
+        when APP_OPTION_FORMAT
+          # Process the output file format option (case insensitive)
+          if option_value.to_s.casecmp?(APP_FORMAT_TYPE_JSON)
+            options.store(option_id, APP_FORMAT_TYPE_JSON)
+          elsif option_value.to_s.casecmp?(APP_FORMAT_TYPE_YAML)
+            options.store(option_id, APP_FORMAT_TYPE_YAML)
+          else
+            # Sets to default value if unknown
+            options.store(option_id, APP_DEFAULT_FORMAT_TYPE)
+          end
+        when APP_OPTION_OUTPUT_PATH
+          # Process the output path option
+          options.store(option_id, option_value || APP_DEFAULT_OUTPUT_PATH)
+        when APP_OPTION_FILE_ENTRIES
+          # Process the list of pre-selected file entries option
+          options.store(option_id, option_value || [])
+        when APP_OPTION_IDS
+          # Process the list of pre-selected object IDs per file entry option
+          options.store(option_id, {})
+          # Populate the hash based on the given file entries list
+          (options_hash[APP_OPTION_FILE_ENTRIES] || []).each_with_index do |file, index|
+            id_list = option_value.at(index)
+            options[option_id].store(file, id_list) unless id_list.nil?
+          end
+        else
+          # Option does not need treatment
+          options.store(option_id, option_value)
+        end
       end
+      options
     end
 
     #
@@ -229,7 +252,7 @@ module RgssDb
     # @param [Symbol] color Color symbol
     #
     def cli_draw_line(string, color = nil)
-      puts color ? string.colorize(color) : string
+      puts color ? string.to_s.colorize(color) : string.to_s
     end
 
     #
@@ -352,7 +375,8 @@ module RgssDb
             APP_MENU_ACTIONS,
             APP_MENU_OPTIONS,
             APP_MENU_EXIT
-          ]
+          ],
+          per_page: APP_VAL_SELECT_PER_PAGE
         )
         case option
         when APP_MENU_ACTIONS
@@ -364,15 +388,6 @@ module RgssDb
           break
         end
       end
-      # bar = TTY::ProgressBar.new("Unpacking data... [:bar] :percent (ETA::eta)", total: 30)
-      # 30.times do
-      #   sleep(0.1)
-      #   bar.advance # by default increases by 1
-      # end
-      # spinner = TTY::Spinner.new("[:spinner] Loading ...", format: :pulse_2)
-      # spinner.auto_spin # Automatic animation with default interval
-      # sleep(2) # Perform task
-      # spinner.stop("Done!") # Stop animation
     end
 
     #
@@ -399,7 +414,8 @@ module RgssDb
             APP_MENU_ACTIONS_PACK,
             APP_MENU_ACTIONS_UNPACK,
             APP_MENU_EXIT
-          ]
+          ],
+          per_page: APP_VAL_SELECT_PER_PAGE
         )
         case option
         when APP_MENU_ACTIONS_PACK
@@ -436,9 +452,11 @@ module RgssDb
             APP_MENU_OPTIONS_SET_OUTPUT_PATH,
             APP_MENU_OPTIONS_SET_ENTRIES,
             APP_MENU_OPTIONS_SET_IDS,
-            APP_MENU_OPTIONS_SHOW_OPTIONS,
+            APP_MENU_OPTIONS_SHOW_OPTIONS_PRETTY,
+            APP_MENU_OPTIONS_SHOW_OPTIONS_RAW,
             APP_MENU_EXIT
-          ]
+          ],
+          per_page: APP_VAL_SELECT_PER_PAGE
         )
         case option
         when APP_MENU_OPTIONS_SET_FORMAT
@@ -449,8 +467,10 @@ module RgssDb
           cli_submenu_set_entries
         when APP_MENU_OPTIONS_SET_IDS
           cli_submenu_set_ids
-        when APP_MENU_OPTIONS_SHOW_OPTIONS
-          cli_submenu_show_options
+        when APP_MENU_OPTIONS_SHOW_OPTIONS_PRETTY
+          cli_submenu_show_options_pretty
+        when APP_MENU_OPTIONS_SHOW_OPTIONS_RAW
+          cli_submenu_show_options_raw
         when APP_MENU_EXIT
           cli_draw_line "Exiting...", :red
           break
@@ -458,6 +478,9 @@ module RgssDb
       end
     end
 
+    #
+    # Draws and runs the submenu for unpacking data files
+    #
     def cli_submenu_unpack
       cli_reset_screen
       cli_draw_info_frame(
@@ -470,13 +493,51 @@ module RgssDb
         "Press ENTER to finish selection"
       )
       cli_draw_empty_line
+      data_files = @data_manager.data_files
+      # Checks validness of data files
+      if data_files.empty?
+        cli_draw_line "No data files found in the data folder!", :red
+        cli_draw_empty_line
+        cli_press_key_continue
+        return
+      end
+      # Gets the intersection of the pre-selected files by the user
+      data_files_default = data_files & @options[APP_OPTION_FILE_ENTRIES]
+      cli_draw_empty_line
       files = @prompt.multi_select(
         "Which files do you want to unpack?",
-        @data_manager.data_files,
+        data_files,
         per_page: APP_VAL_ENUM_SELECT_PER_PAGE,
-        default: option_value(APP_OPTION_FILE_ENTRIES)
+        default: data_files_default
       )
-      p "files selected: #{files}"
+      cli_draw_empty_line
+      if cli_confirm?("Are you sure you want to unpack the selected files?")
+        start_time = Time.now
+        # Unpack execution block
+        begin
+          files.each do |data_file|
+            spinner = TTY::Spinner.new("[:spinner] Unpacking '#{data_file}'...", format: :dots)
+            spinner.run do
+              @data_manager.unpack(
+                data_file,
+                @options[APP_OPTION_IDS][data_file],
+                @options[APP_OPTION_OUTPUT_PATH],
+                @options[APP_OPTION_FORMAT]
+              )
+            end
+          end
+        rescue Error => e
+          cli_draw_empty_line
+          cli_draw_line "Unpacking failed!", :red
+          cli_draw_line e.message, :red
+        else
+          cli_draw_empty_line
+          cli_draw_line "Unpacking finished in #{Time.now - start_time} seconds", :green
+        end
+      else
+        cli_draw_line "Cancelling the unpacking operation..."
+      end
+      cli_draw_empty_line
       cli_press_key_continue
     end
 
@@ -514,7 +575,7 @@ module RgssDb
       cli_draw_empty_line
       path = @prompt.ask(
         "Type the output path",
-        value: option_value(APP_OPTION_OUTPUT_PATH),
+        value: @options[APP_OPTION_OUTPUT_PATH],
         default: APP_DEFAULT_OUTPUT_PATH
       ) do |question|
         question.validate ->(input) { @data_manager.validate_path(input) }, "You must write a valid path!"
@@ -553,6 +614,7 @@ module RgssDb
           APP_FORMAT_TYPE_YAML,
           APP_FORMAT_TYPE_JSON
         ],
+        per_page: APP_VAL_SELECT_PER_PAGE,
         default: APP_DEFAULT_FORMAT_TYPE
       )
       cli_draw_empty_line
@@ -576,12 +638,15 @@ module RgssDb
       cli_draw_info_frame(
         "You can set a list of file entries that will be pre-selected when performing an action",
         "",
+        "Note that the changes made here will affect the list of file object IDs",
+        "If a file entry is removed it will be deleted from the object ID list too",
+        "",
         "You must type all entries separated by commas"
       )
       cli_draw_empty_line
       file_entries = @prompt.ask(
         "Type the list of file entries that you would like to pre-select:",
-        value: option_value(APP_OPTION_FILE_ENTRIES).join(","),
+        value: @options[APP_OPTION_FILE_ENTRIES].join(","),
         default: [],
         convert: :list
       )
@@ -592,7 +657,14 @@ module RgssDb
       cli_draw_empty_line
       if cli_confirm?("Are you sure you want to update the list of file entries?")
         @options.store(APP_OPTION_FILE_ENTRIES, file_entries)
+        # Since the file entries list was updated, we should drop the key-value pairs
+        # from the hash of object IDs that doesn't exist in the current file entry list
+        @options[APP_OPTION_IDS].delete_if do |file, _id_list|
+          !file_entries.include?(file)
+        end
+        cli_draw_empty_line
         cli_draw_line "List of file entries updated successfully!"
+        cli_draw_line "Note that the list of object IDs may have been updated consequently!"
       else
         cli_draw_line "No changes made to the list of file entries"
       end
@@ -609,51 +681,118 @@ module RgssDb
         "You can set a list of IDs that will be pre-selected when performing an action",
         "",
         "This is supported for all database files that contains a list of objects",
-        "For example: items, armors, weapons, actors...",
         "",
-        "If you want to select all objects, leave the input field empty",
+        "First, you should select all file entries which you want to set",
+        "You will be asked later to set the list of IDs for each of them",
         "",
-        "You must type all ID values separated by commas"
+        "Press ↑/↓ arrows to move the cursor",
+        "Use SPACE to select the current item",
+        "Press CTRL + A and to select all items available",
+        "You can also use CTRL + R to revert the current selection",
+        "Press ENTER to finish selection",
+        "",
+        "You must type all ID values separated by commas!"
       )
       cli_draw_empty_line
-      object_ids = @prompt.ask(
-        "Type the list of IDs that you would like to pre-select:",
-        value: option_value(APP_OPTION_IDS).join(","),
-        default: [],
-        convert: :int_list
+      # Checks if there are some entries selected first
+      current_entries = @options[APP_OPTION_FILE_ENTRIES]
+      if current_entries.empty?
+        cli_draw_line "There are no file entries to choose from!", :red
+        cli_draw_empty_line
+        cli_press_key_continue
+        return
+      end
+      # Let user choose the list of file entries to modify
+      entries = @prompt.multi_select(
+        "Choose which file entries you want to set",
+        current_entries,
+        per_page: APP_VAL_ENUM_SELECT_PER_PAGE
       )
-      # Cleans any array item that is not an integer
-      object_ids.delete_if { |id| !id.is_a?(Integer) }
-      # Cleans any duped ID value
-      object_ids.uniq!
-      cli_draw_empty_line
-      cli_draw_line "List of IDs chosen: #{object_ids}"
-      cli_draw_empty_line
-      if cli_confirm?("Are you sure you want to update the list of IDs?")
-        @options.store(APP_OPTION_IDS, object_ids)
-        cli_draw_line "List of IDs updated successfully!"
-      else
-        cli_draw_line "No changes made to the list of IDs"
+      # Iterate through all file entries asking the list of IDs
+      entries.each do |file_entry|
+        cli_draw_empty_line
+        cli_draw_line "Choosing object IDs for the '#{file_entry}' file entry...", :blue
+        # Gets the current list of IDs for this file entry iteration
+        current_ids = @options[APP_OPTION_IDS][file_entry]
+        ids = @prompt.ask(
+          "Type the list of IDs that you would like to pre-select:",
+          value: (current_ids || []).join(","),
+          default: [],
+          convert: :int_list
+        )
+        # Cleans any array item that is not an integer
+        ids.delete_if { |id| !id.is_a?(Integer) }
+        # Cleans any duped ID value
+        ids.uniq!
+        # Process the new list of IDs
+        cli_draw_empty_line
+        cli_draw_line "List of IDs chosen: #{ids}"
+        cli_draw_empty_line
+        if cli_confirm?("Are you sure you want to update the list of IDs?")
+          if ids.empty?
+            @options[APP_OPTION_IDS].delete(file_entry)
+          else
+            @options[APP_OPTION_IDS].store(file_entry, ids)
+          end
+          cli_draw_line "List of IDs for '#{file_entry}' updated successfully!", :green
+        else
+          cli_draw_line "No changes made to the list of IDs for '#{file_entry}'"
+        end
       end
       cli_draw_empty_line
       cli_press_key_continue
     end
 
     #
-    # Draws and runs the submenu to show all options
+    # Draws and runs the submenu to show all options in a pretty format
     #
-    def cli_submenu_show_options
+    def cli_submenu_show_options_pretty
+      # Prepares rows
+      rows = []
+      @options.each_pair do |option_id, option_value|
+        # For some reason, TTY::Table does not like hashes
+        # Hence this workaround to convert it into an array
+        rows << if option_value.is_a?(Hash)
+                  [option_id, option_value.to_a]
+                else
+                  [option_id, option_value]
+                end
+      end
+      # Screen processing
       cli_reset_screen
       cli_draw_info_frame(
-        "All options will be shown in the table below",
+        "All options will be shown below",
+        "",
+        "In case the table below is unreadable, use the raw format to show all options",
         "",
         "Note that not all options shown are relevant to the user"
       )
       cli_draw_empty_line
       cli_draw_table(
         ["Option ID", "Option Value"],
-        *@options.to_a
+        *rows
       )
+      cli_draw_empty_line
+      cli_press_key_continue
+    end
+
+    #
+    # Draws and runs the submenu to show all options in a raw format
+    #
+    def cli_submenu_show_options_raw
+      cli_reset_screen
+      cli_draw_info_frame(
+        "All options will be shown below",
+        "",
+        "Depending on the terminal screen, the pretty format can be unreadable",
+        "",
+        "Note that not all options shown are relevant to the user"
+      )
+      cli_draw_empty_line
+      @options.each_pair do |option_id, option_value|
+        cli_draw_line "#{option_id} => #{option_value}"
+        cli_draw_empty_line
+      end
       cli_draw_empty_line
       cli_press_key_continue
     end

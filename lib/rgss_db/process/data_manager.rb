@@ -160,7 +160,7 @@ module RgssDb
       Dir.glob(RGSS_DATABASE_FILES[@rgss_version], File::FNM_CASEFOLD, base: @path)
     end
 
-    def pack(path, entries, ids)
+    def pack(entries, object_ids)
       data_file = "C:/Users/ferna/OneDrive/Escritorio/Stuff/GitHub/rgss-db-cli/spec/tests/Items.rvdata2"
       p "================================================================"
       p "read test..."
@@ -199,19 +199,30 @@ module RgssDb
       # end
     end
 
-    def unpack(path, entries, ids, output_format)
-      # case @rgss_version
-      # when RGSS_VERSION_XP
-      #   puts "unpacking for xp"
-      # when RGSS_VERSION_VX
-      #   puts "unpacking for vx"
-      # when RGSS_VERSION_VX_ACE
-      #   puts "unpacking for vx ace"
-      #   # raise Error, "unsupported file format detected!" unless rpg_maker_vx_ace?(entries)
-      # else
-      #   raise Error, "unknown rpg maker version!"
-      # end
+    #
+    # Unpacks the given file entry into a Ruby object and returns it
+    #
+    # The ``object_ids`` list is used to filter out the ruby objects whose ID is not there
+    #
+    # Depending on the ``object_ids`` list, the return value may vary
+    #
+    # @param [String] entry File entry
+    # @param [Array<Integer>] object_ids List of object IDs
+    #
+    # @return [Object] Returns the Ruby object
+    #
+    def unpack(entry, object_ids)
+      entry_path = File.expand_path(entry, @path)
+      entry_contents = File.read(entry_path, mode: "rb")
+      # entry_marshal = Marshal.load(entry_contents)
+      # entry_marshal.respond_to?(:to_json) ? entry_marshal.to_json : entry_marshal
+      Marshal.load(entry_contents)
     end
+
+    # TODO: ruby object save
+    # This method should be used to save a ruby object into the given file path?
+    # the arg file path will have the output path and the appropiate extension concatenated automatically?
+    def save_file(object, file_path); end
 
     private
 
