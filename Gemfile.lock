@@ -5,13 +5,13 @@ PATH
       colorize (~> 1.1)
       json (~> 2.7)
       optimist (~> 3.1.0)
+      psych (~> 5.1)
       tty-box (~> 0.7.0)
       tty-progressbar (~> 0.18.2)
       tty-prompt (~> 0.23.1)
       tty-screen (~> 0.8.2)
       tty-spinner (~> 0.9.3)
       tty-table (~> 0.12.0)
-      yaml (~> 0.3.0)
 
 GEM
   remote: https://rubygems.org/
@@ -28,6 +28,8 @@ GEM
       racc
     pastel (0.8.0)
       tty-color (~> 0.5)
+    psych (5.1.2)
+      stringio
     racc (1.7.3)
     rainbow (3.1.1)
     rake (13.1.0)
@@ -73,6 +75,7 @@ GEM
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
+    stringio (3.1.0)
     strings (0.2.1)
       strings-ansi (~> 0.2)
       unicode-display_width (>= 1.5, < 3.0)
@@ -106,7 +109,6 @@ GEM
     unicode-display_width (2.5.0)
     unicode_utils (1.4.0)
     wisper (2.0.1)
-    yaml (0.3.0)
 
 PLATFORMS
   x64-mingw-ucrt

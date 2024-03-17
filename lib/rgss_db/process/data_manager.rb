@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
-require "yaml"
+require "psych"
 require_relative "../errors/errors"
 
 module RgssDb
@@ -172,7 +172,7 @@ module RgssDb
       p "================================================================"
       p "writing json and yaml..."
       json_str = JSON.pretty_generate(contents)
-      yaml_str = YAML.dump(contents)
+      yaml_str = Psych.dump(contents)
       File.write("C:/Users/ferna/OneDrive/Escritorio/Stuff/GitHub/rgss-db-cli/spec/tests/out/items.json", json_str)
       File.write("C:/Users/ferna/OneDrive/Escritorio/Stuff/GitHub/rgss-db-cli/spec/tests/out/yaml.json", yaml_str)
       p "================================================================"

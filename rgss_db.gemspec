@@ -32,13 +32,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency "colorize", "~> 1.1"
   spec.add_dependency "json", "~> 2.7"
   spec.add_dependency "optimist", "~> 3.1.0"
+  spec.add_dependency "psych", "~> 5.1"
   spec.add_dependency "tty-box", "~> 0.7.0"
   spec.add_dependency "tty-progressbar", "~> 0.18.2"
   spec.add_dependency "tty-prompt", "~> 0.23.1"
   spec.add_dependency "tty-screen", "~> 0.8.2"
   spec.add_dependency "tty-spinner", "~> 0.9.3"
   spec.add_dependency "tty-table", "~> 0.12.0"
-  spec.add_dependency "yaml", "~> 0.3.0"
 
   # Dev dependencies
   spec.add_development_dependency "bundler", "~> 2.0"
