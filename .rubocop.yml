@@ -24,5 +24,8 @@ Style/StringLiteralsInInterpolation:
 Lint/UnusedMethodArgument:
   Enabled: false
 
+Lint/UnusedBlockArgument:
+  Enabled: false
+
 Layout/LineLength:
   Max: 120
