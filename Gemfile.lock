@@ -3,6 +3,7 @@ PATH
   specs:
     rgss_db (0.1.0)
       colorize (~> 1.1)
+      fileutils (~> 1.7)
       json (~> 2.7)
       optimist (~> 3.1.0)
       psych (~> 5.1)
@@ -19,6 +20,7 @@ GEM
     ast (2.4.2)
     colorize (1.1.0)
     diff-lcs (1.5.1)
+    fileutils (1.7.2)
     json (2.7.1)
     language_server-protocol (3.17.0.3)
     optimist (3.1.0)
