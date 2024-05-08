@@ -21,6 +21,12 @@ Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
 
+Style/ExplicitBlockArgument:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
 Lint/UnusedMethodArgument:
   Enabled: false
 
