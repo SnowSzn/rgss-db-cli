@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
 
   # Depedencies
   spec.add_dependency "colorize", "~> 1.1"
+  spec.add_dependency "fileutils", "~> 1.7"
   spec.add_dependency "json", "~> 2.7"
   spec.add_dependency "optimist", "~> 3.1.0"
   spec.add_dependency "psych", "~> 5.1"
