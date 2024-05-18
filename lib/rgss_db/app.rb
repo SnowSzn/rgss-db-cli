@@ -8,8 +8,6 @@ require "tty-prompt"
 require "tty-progressbar"
 require "tty-spinner"
 require_relative "./version"
-require_relative "./errors/errors"
-require_relative "./process/data_manager"
 
 module RgssDb
   # App option action type
@@ -100,7 +98,6 @@ module RgssDb
     #
     def initialize(data_path, options)
       @options = process_options(options)
-      @data_manager = DataManager.new(data_path)
       @prompt = TTY::Prompt.new
     end
 
@@ -330,33 +327,8 @@ module RgssDb
                                                                                                        v#{VERSION}
       EOF
         .colorize(:green)
-      # opened data folder
-      cli_draw_line "RPG Maker Data folder: #{@data_manager.path}", :green
-      # Detected RGSS version
-      cli_draw_line "RPG Maker version: #{@data_manager.rgss_version}", :green
       # warning panel
       cli_draw_empty_line
-      if @data_manager.version_unknown?
-        cli_draw_warning_frame(
-          "It was not possible to detect a valid RPG Maker version in the given directory!",
-          "",
-          "The detected version of RPG Maker determines which type of database is imported",
-          "",
-          "If the version is unknown, it means that the RPG Maker version could not be resolved, either because",
-          "there are no database files in the given path or because there are files from two versions of the engine",
-          "(such as Items.rvdata2 and Map001.rxdata), therefore the correct RPG Maker version cannot be determined",
-          "",
-          "This is because the app cannot work with different versions of RPG Maker data files at the same time",
-          "",
-          "Some database classes have the same name but different definitions, which could result in data corruption",
-          "",
-          "You should exit and fix the problems before interacting further with the database"
-        )
-      else
-        cli_draw_info_frame(
-          "All database classes for '#{@data_manager.rgss_version}' has been loaded!"
-        )
-      end
     end
 
     #
@@ -493,7 +465,7 @@ module RgssDb
         "Press ENTER to finish selection"
       )
       cli_draw_empty_line
-      data_files = @data_manager.data_files
+      data_files = ["Items.rvdata2", "Weapons.rvdata2"]
       # Checks validness of data files
       if data_files.empty?
         cli_draw_line "No data files found in the data folder!", :red
@@ -518,10 +490,7 @@ module RgssDb
           files.each do |data_file|
             spinner = TTY::Spinner.new("[:spinner] Unpacking '#{data_file}'...", format: :dots)
             spinner.run do
-              ruby_object = @data_manager.unpack(
-                data_file,
-                @options[APP_OPTION_IDS][data_file]
-              )
+              # TODO: Unpack data file
             end
           end
         rescue Error => e
@@ -575,9 +544,7 @@ module RgssDb
         "Type the output path",
         value: @options[APP_OPTION_OUTPUT_PATH],
         default: APP_DEFAULT_OUTPUT_PATH
-      ) do |question|
-        question.validate ->(input) { @data_manager.validate_path(input) }, "You must write a valid path!"
-      end
+      )
       cli_draw_empty_line
       cli_draw_line "New output path obtained from input: '#{path}'"
       cli_draw_empty_line
