@@ -5,23 +5,20 @@ module RgssDb
   # Debug module
   #
   module Debug
-    # Debug file
+    # Debug log file name
     DEBUG_FILE_NAME = "rgss-db.log"
 
     # Debug mode disabled
     DEBUG_MODE_DISABLE = 0
 
-    # Debug mode info and below
-    DEBUG_MODE_INFO = 1
-
     # Debug mode errors and below
-    DEBUG_MODE_ERROR = 2
+    DEBUG_MODE_ERROR = 1
 
     # Debug mode warnings and below
-    DEBUG_MODE_WARNING = 3
+    DEBUG_MODE_WARNING = 2
 
-    # Debug mode verbose and below
-    DEBUG_MODE_VERBOSE = 4
+    # Debug mode info and below
+    DEBUG_MODE_INFO = 3
 
     # Debug absolute file path
     @debug_file_path = ""
@@ -91,15 +88,6 @@ module RgssDb
     end
 
     #
-    # Logs the string as a verbose message
-    #
-    # @param string [String]
-    #
-    def self.log_verbose(string)
-      File.write(@debug_file_path, "verbose: #{string}\n", mode: "a") if verbose?
-    end
-
-    #
     # Checks whether the debug mode is info or not
     #
     # @return [Boolean]
@@ -124,15 +112,6 @@ module RgssDb
     #
     def self.warning?
       @debug_mode >= DEBUG_MODE_WARNING
-    end
-
-    #
-    # Checks whether the debug mode is verbose or not
-    #
-    # @return [Boolean]
-    #
-    def self.verbose?
-      @debug_mode >= DEBUG_MODE_VERBOSE
     end
   end
 end
