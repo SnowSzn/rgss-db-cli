@@ -61,12 +61,21 @@ module RgssDb
     end
 
     #
-    # Logs the string as information
+    # Logs the string
     #
     # @param string [String]
     #
     def self.log(string)
-      File.write(@debug_file_path, "#{string}\n", mode: "a") if info?
+      File.write(@debug_file_path, "#{string}\n", mode: "a") unless disabled?
+    end
+
+    #
+    # Logs the string as information
+    #
+    # @param string [String]
+    #
+    def self.log_info(string)
+      log("info: #{string}") if info?
     end
 
     #
@@ -75,7 +84,7 @@ module RgssDb
     # @param string [String]
     #
     def self.log_error(string)
-      File.write(@debug_file_path, "error: #{string}\n", mode: "a") if error?
+      log("error: #{string}") if error?
     end
 
     #
@@ -84,7 +93,16 @@ module RgssDb
     # @param string [String]
     #
     def self.log_warning(string)
-      File.write(@debug_file_path, "warning: #{string}\n", mode: "a") if warning?
+      log("warning: #{string}") if warning?
+    end
+
+    #
+    # Checks whether the debug module is disabled or not
+    #
+    # @return [Boolean]
+    #
+    def self.disabled?
+      @debug_mode == DEBUG_MODE_DISABLE
     end
 
     #
