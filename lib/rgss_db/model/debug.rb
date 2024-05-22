@@ -26,6 +26,9 @@ module RgssDb
     # Debug mode
     @debug_mode = 0
 
+    # Debug extra information
+    @debug_extra_info = ""
+
     #
     # Starts the debug module with the given information
     #
@@ -58,6 +61,26 @@ module RgssDb
     #
     def self.update_debug_mode(debug_mode)
       @debug_mode = debug_mode
+    end
+
+    #
+    # Sets the debug extra information
+    #
+    # @param extra_info [Array<String>]
+    #
+    def self.update_extra_info(*extra_info)
+      @debug_extra_info = extra_info
+    end
+
+    #
+    # Writes the debug header to the log file
+    #
+    def self.write_debug_header
+      log("<--- debug module started --->")
+      log("debug mode: #{Debug.debug_mode}")
+      log("debug extra:")
+      @debug_extra_info.each { |str| log("\t- #{str}") }
+      log("<---------------------------->")
     end
 
     #
