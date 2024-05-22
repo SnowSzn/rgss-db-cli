@@ -127,6 +127,31 @@ module RgssDb
     end
 
     #
+    # Logs the given exception as an error
+    #
+    # Optionally logs the application options if given
+    #
+    # @param app_options [Hash]
+    #
+    # @param [StandardError] exception
+    #
+    def self.log_exception(exception, app_options = nil)
+      # Logs the exception
+      log_error("#{exception.message} (#{exception.class})")
+      exception.backtrace.each do |str|
+        log_error("\tfrom #{str}")
+      end
+
+      return unless app_options.is_a?(Hash)
+
+      # Logs the application options
+      log_error("Application options:")
+      app_options.each_pair do |opt_id, opt_value|
+        log_error("\t- #{opt_id} => #{opt_value}")
+      end
+    end
+
+    #
     # Checks whether the debug module is disabled or not
     #
     # @return [Boolean]
