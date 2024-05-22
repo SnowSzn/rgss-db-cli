@@ -336,7 +336,7 @@ module RgssDb
     #
     # @param list [Array] List of objects
     #
-    # @return [Array<Integer>]
+    # @return [Array<Object>]
     #
     def convert_list_to_ids(list)
       list.map { |i| object.key(i) }
