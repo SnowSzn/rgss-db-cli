@@ -290,7 +290,13 @@ module RgssDb
     # @param app_directory [String] Application working directory
     # @param output_format_type [String] Output file format type
     #
+    # @raise [StandardError] RPG Maker version is not valid
+    #
     def save_data_file(data_file, app_directory, output_format_type)
+      unless version?
+        raise StandardError("cannot save data file because rpg maker version is unknown: #{@rgss_version}")
+      end
+
       data_file_path = File.join(
         File.expand_path(app_directory, @path),
         data_file.serialize_file_name + determine_file_extension(output_format_type)
@@ -308,7 +314,13 @@ module RgssDb
     # @param [String] file_path File path
     # @param [String] app_directory Application working directory
     #
+    # @raise [StandardError] RPG Maker version is not valid
+    #
     def save_database_back_up(file_path, app_directory)
+      unless version?
+        raise StandardError("cannot save file backup because rpg maker version is unknown: #{@rgss_version}")
+      end
+
       # Gets the file's base name
       database_file = File.basename(file_path, ".*")
 
@@ -324,16 +336,12 @@ module RgssDb
     #
     # Detects the RGSS engine version on the current opened data folder
     #
-    # @raise [RgssDb::Error] No data files were detected
-    #
     def database_detect_version
       # Gets all supported RPG Maker data file extensions
       file_extensions = RGSS_DB_FILE_EXTENSIONS.values
 
       # Gets all files that matches any data file extension (glob pattern)
       data_files = Dir.glob("*{#{file_extensions.join(",")}}", File::FNM_CASEFOLD, base: @path)
-      # TODO: Should I include exception raising/handling?
-      # raise Error, "no data files detected inside path" if data_files.empty?
 
       # All data files within the data folder must be of the same type (aka the same RGSS version)
       file_extension = file_extensions.find do |file_ext|
@@ -341,7 +349,7 @@ module RgssDb
       end
       @rgss_version = RGSS_DB_FILE_EXTENSIONS.key(file_extension)
 
-      # Once a valid RGSS version is detected, freeze attributes to avoid modifications
+      # Freeze attributes to avoid modifications
       @path.freeze
       @rgss_version.freeze
     end
