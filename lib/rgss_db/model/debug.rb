@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "fileutils"
+
 module RgssDb
   #
   # Debug module
@@ -40,6 +42,11 @@ module RgssDb
     def self.start(debug_file_path, debug_mode = nil)
       @debug_file_path = File.join(debug_file_path, DEBUG_FILE_NAME)
       @debug_mode = debug_mode unless debug_mode.nil?
+
+      # Creates the directory (recursively)
+      FileUtils.mkdir_p(debug_file_path)
+
+      # Overwrites file if it exists already
       File.truncate(@debug_file_path, 0) if File.exist?(@debug_file_path)
     end
 
