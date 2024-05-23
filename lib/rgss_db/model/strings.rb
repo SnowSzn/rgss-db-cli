@@ -30,6 +30,9 @@ module RgssDb
             - RPG Maker VX
             - RPG Maker VX Ace
 
+        USAGE
+        rgss-db data_directory [options]
+
         DESCRIPTION
           You can simply use this tool by calling the rgss-db command and supplying a RPG Maker data path:
             # Opens the current directory
@@ -89,9 +92,6 @@ module RgssDb
 
             # Opens the current directory and export only the object with ID: 100 from the Items file
             rgss-db . -a export -f Items.rvdata2 -i 100
-
-        USAGE
-          rgss-db data_directory [options]
 
         OPTIONS
       BANNER
@@ -412,8 +412,11 @@ module RgssDb
         You must type all ID values separated by commas!
       EOF
 
+      # Text shown when the user does not have any file entry to select object IDs from
+      SET_IDS_NO_FILES_ERROR_TEXT = "No file entries available to select from!"
+
       # Text shown when the user does not select any file entries from the files list
-      SET_IDS_NO_FILES_ERROR_TEXT = "No file entries were selected from the list!"
+      SET_IDS_NO_FILES_SELECTED_ERROR_TEXT = "No file entries were selected from the list!"
 
       # Text shown when asking the user for the list of object IDs to select for a file entry
       #
