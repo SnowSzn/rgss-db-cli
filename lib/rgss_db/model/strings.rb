@@ -43,16 +43,16 @@ module RgssDb
             - Export: Exports all RPG Maker binary database files into human-readable data files (YAML, JSON...)
             - Import: Creates new RPG Maker binary files from previously exported files
 
-          You can also use other options to further customize the tool behavior and output, for example:
-            # You can disable the automatic backup creation with the flag
-            rgss-db . --no-backup
-
+          The application has a number of options that allow you to customize the behavior and output, for example:
             # You can set the application's debug mode with the following option
             # A log file will be created inside the application's working directory
             rgss-db . --debug 0 # Disables debug functionality (default)
             rgss-db . --debug 1 # Enables debug error level
-            rgss-db . --debug 2 # Enabled debug warning level
-            rgss-db . --debug 3 # Enabled debug info level
+            rgss-db . --debug 2 # Enables debug warning level
+            rgss-db . --debug 3 # Enables debug info level
+
+            # You can disable the automatic backup creation with the flag
+            rgss-db . --no-backup
 
             # Sets the application's working directory (used for exporting and importing)
             rgss-db . -d "./custom_path/from/the data folder"
