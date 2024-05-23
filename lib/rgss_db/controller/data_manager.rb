@@ -49,7 +49,7 @@ module RgssDb
   RGSS_EXTRACTED_FILE_EXTENSIONS = {
     RGSS_FORMAT_TYPE_JSON => RGSS_FILE_EXT_JSON,
     RGSS_FORMAT_TYPE_YAML => RGSS_FILE_EXT_YAML
-  }
+  }.freeze
 
   # Hash of all database file extensions for each RPG Maker (RGSS) version
   #
