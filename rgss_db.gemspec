@@ -3,30 +3,40 @@
 require_relative "lib/rgss_db/version"
 
 Gem::Specification.new do |spec|
+  spec.required_ruby_version = ">= 3.0.0"
   spec.name = "rgss_db"
   spec.version = RgssDb::VERSION
   spec.authors = ["SnowSzn"]
   spec.email = ["fergarpaal@gmail.com"]
 
-  spec.summary = "Manipulates the RPG Maker database in the terminal"
-  spec.description = "Manipulates the RPG Maker database in the terminal"
+  spec.summary = "Manipulates the RPG Maker database in the terminal to export and import RPG Maker data"
+  spec.description = <<~EOF
+    rgss_db is a tool designed for developers to export and import the database files of a game created in RPG Maker.
+
+    This gem is compatible with any RPG Maker editor based on RGSS, including:
+      - RPG Maker XP
+      - RPG Maker VX
+      - RPG Maker VX Ace
+
+    Check the README.md at github for more information
+  EOF
   spec.homepage = "https://github.com/SnowSzn/rgss-db-cli"
-  spec.license = "MIT"
-  spec.required_ruby_version = ">= 3.0.0"
+  spec.license = "GPL-3.0-only"
 
   spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["bug_tracker_uri"] = "https://github.com/SnowSzn/rgss-db-cli/issues"
+  spec.metadata["changelog_uri"] = "https://github.com/SnowSzn/rgss-db-cli/blob/main/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files = Dir.chdir(__dir__) do
-    `git ls-files -z`.split("\x0").reject do |f|
-      (File.expand_path(f) == __FILE__) ||
-        f.start_with?(*%w[bin/ test/ spec/ features/ .git appveyor Gemfile])
-    end
+    Dir.glob(
+      ["lib/**/*", "bin/**/*"]
+    ).push("CHANGELOG.md", "README.md", "COPYING.md")
   end
+  spec.require_paths = ["lib"]
   spec.bindir = "bin"
   spec.executables = spec.files.grep(%r{\Abin/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
 
   # Depedencies
   spec.add_dependency "colorize", "~> 1.1"
