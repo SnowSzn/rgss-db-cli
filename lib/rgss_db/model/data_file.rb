@@ -283,7 +283,7 @@ module RgssDb
     # @return [Array<Object>]
     #
     def to_list
-      # Info: Data files needs to be compacted because TTY does not allow to create zero index based lists
+      # Data files needs to be compacted because TTY does not allow to create zero index based lists
       # for some data files, the first element is nil because they are created in RPG Maker database starting at 1
       # If this array is not compacted, it will cause an index mismatch later when selecting objects
       object.compact
@@ -348,10 +348,39 @@ module RgssDb
     # @return [Array<Object>]
     #
     def to_list
-      # Info: Data files needs to be compacted because TTY does not allow to create zero index based lists
+      # Data files needs to be compacted because TTY does not allow to create zero index based lists
       # for some data files, the first element is nil because they are created in RPG Maker database starting at 1
       # If this array is not compacted, it will cause an index mismatch later when auto-selecting objects
       object.values
+    end
+  end
+
+  #
+  # RPG Maker map infos data file
+  #
+  # This class expects the object to be a hash
+  #
+  class DataFileHashMapInfos < DataFileHash
+    #
+    # Serializes the data file's object
+    #
+    # This method prepares the object as a hash
+    #
+    # Object IDs list is used to filter the correct
+    #
+    # @return [Hash]
+    #
+    def serialize
+      # Context: Creating a DataFileHash instance from a MapInfos JSON file provokes undesired behavior.
+      #
+      # JSON only allows key names to be strings, so all keys of the MapInfos hash will be converted to string
+      # This is undesired behavior because RPG Maker editor requires the MapInfos hash keys to be numbers.
+      # So we need to convert all keys read from the JSON file to integers when importing the JSON file into the
+      # RPG Maker database, hence the inclusion of this class specification from DataFileHash.
+      # Otherwise the RPG Maker editor will fail to show the maps even though data still exists.
+      super.transform_keys do |key|
+        key.to_s.to_i
+      end
     end
   end
 end

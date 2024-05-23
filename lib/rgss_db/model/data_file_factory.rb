@@ -20,12 +20,8 @@ module RgssDb
     ].freeze
 
     # List of data files handled using a hash
-    #
-    # RPG Maker MapInfos database files are saved as hashes
     # @return [Array<String>]
-    FACTORY_HASH_FILES = [
-      DATA_FILE_MAP_INFOS
-    ].freeze
+    FACTORY_HASH_FILES = [].freeze
 
     #
     # Creates a data file instance based on the given file entry
@@ -38,9 +34,12 @@ module RgssDb
     def self.create_data_file(data_file, object)
       data_file_name = File.basename(data_file, ".*")
 
-      # Checks for a specific data file usage
+      # Checks for a specific data file usage (bulk-check)
       return DataFileArray.new(data_file, object) if FACTORY_ARRAY_FILES.any? { |f| f.casecmp?(data_file_name) }
       return DataFileHash.new(data_file, object) if FACTORY_HASH_FILES.any? { |f| f.casecmp?(data_file_name) }
+
+      # Checks for a specific data file manually (MapInfos needs special treatment)
+      return DataFileHashMapInfos.new(data_file, object) if data_file_name.casecmp?(DATA_FILE_MAP_INFOS)
 
       # Assume a base data file (map data files will use this)
       DataFile.new(data_file, object)
