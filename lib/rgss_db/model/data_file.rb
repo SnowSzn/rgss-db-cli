@@ -356,11 +356,26 @@ module RgssDb
   end
 
   #
-  # RPG Maker map infos data file
+  # RPG Maker numbered hash data file
   #
   # This class expects the object to be a hash
   #
-  class DataFileHashMapInfos < DataFileHash
+  # This class forces hash keys to be a number for the data files:
+  # - Areas
+  # - MapInfos
+  #
+  # **Reason: Creating a DataFileHash instance from a MapInfos/Areas JSON file provokes undesired behavior.**
+  #
+  # JSON only allows key names to be strings, so all keys of the hash will be converted to string.
+  #
+  # This is undesired behavior because RPG Maker editor requires the MapInfos and Areas hash keys to be numbers.
+  #
+  # So we need to convert all keys read from the JSON file to integers when importing the JSON file into the
+  # RPG Maker database, hence the inclusion of this class specification from DataFileHash.
+  #
+  # Otherwise the RPG Maker editor will fail to show the maps and areas even though data still exists.
+  #
+  class DataFileHashNumber < DataFileHash
     #
     # Serializes the data file's object
     #
@@ -371,13 +386,6 @@ module RgssDb
     # @return [Hash]
     #
     def serialize
-      # Context: Creating a DataFileHash instance from a MapInfos JSON file provokes undesired behavior.
-      #
-      # JSON only allows key names to be strings, so all keys of the MapInfos hash will be converted to string
-      # This is undesired behavior because RPG Maker editor requires the MapInfos hash keys to be numbers.
-      # So we need to convert all keys read from the JSON file to integers when importing the JSON file into the
-      # RPG Maker database, hence the inclusion of this class specification from DataFileHash.
-      # Otherwise the RPG Maker editor will fail to show the maps even though data still exists.
       super.transform_keys do |key|
         key.to_s.to_i
       end

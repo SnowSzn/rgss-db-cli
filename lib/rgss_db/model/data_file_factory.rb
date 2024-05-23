@@ -11,8 +11,8 @@ module RgssDb
     #
     # Some RPG Maker database files are saved as arrays (Actors, Weapons, Items...)
     # @return [Array<String>]
-    FACTORY_ARRAY_FILES = [
-      DATA_FILE_ACTORS, DATA_FILE_ANIMATIONS, DATA_FILE_AREAS,
+    FACTORY_ARRAY = [
+      DATA_FILE_ACTORS, DATA_FILE_ANIMATIONS,
       DATA_FILE_ARMORS, DATA_FILE_CLASSES, DATA_FILE_COMMON_EVENTS,
       DATA_FILE_ENEMIES, DATA_FILE_ITEMS, DATA_FILE_SKILLS,
       DATA_FILE_STATES, DATA_FILE_TILESETS, DATA_FILE_TROOPS,
@@ -21,7 +21,14 @@ module RgssDb
 
     # List of data files handled using a hash
     # @return [Array<String>]
-    FACTORY_HASH_FILES = [].freeze
+    FACTORY_HASH = [].freeze
+
+    # List of data files handled using a number hash
+    # @return [Array<String>]
+    FACTORY_HASH_NUMBER = [
+      DATA_FILE_AREAS,
+      DATA_FILE_MAP_INFOS
+    ].freeze
 
     #
     # Creates a data file instance based on the given file entry
@@ -35,11 +42,9 @@ module RgssDb
       data_file_name = File.basename(data_file, ".*")
 
       # Checks for a specific data file usage (bulk-check)
-      return DataFileArray.new(data_file, object) if FACTORY_ARRAY_FILES.any? { |f| f.casecmp?(data_file_name) }
-      return DataFileHash.new(data_file, object) if FACTORY_HASH_FILES.any? { |f| f.casecmp?(data_file_name) }
-
-      # Checks for a specific data file manually (MapInfos needs special treatment)
-      return DataFileHashMapInfos.new(data_file, object) if data_file_name.casecmp?(DATA_FILE_MAP_INFOS)
+      return DataFileArray.new(data_file, object) if FACTORY_ARRAY.any? { |f| f.casecmp?(data_file_name) }
+      return DataFileHash.new(data_file, object) if FACTORY_HASH.any? { |f| f.casecmp?(data_file_name) }
+      return DataFileHashNumber.new(data_file, object) if FACTORY_HASH_NUMBER.any? { |f| f.casecmp?(data_file_name) }
 
       # Assume a base data file (map data files will use this)
       DataFile.new(data_file, object)
