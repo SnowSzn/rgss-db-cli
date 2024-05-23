@@ -137,9 +137,10 @@ module RgssDb
     #
     def self.log_exception(exception, app_options = nil)
       # Logs the exception
-      log_error("#{exception.message} (#{exception.class})")
+      log_error("Application Exception:")
+      log_error("\t#{exception.message} (#{exception.class})")
       exception.backtrace.each do |str|
-        log_error("\tfrom #{str}")
+        log_error("\t\tfrom #{str}")
       end
 
       return unless app_options.is_a?(Hash)
