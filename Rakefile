@@ -21,11 +21,11 @@ task :build_exe do
     require_relative "../lib/rgss_db"
   EOF
 
-  bin_dir = File.join(File.dirname(__FILE__), "bin")
+  exe_dir = File.join(File.dirname(__FILE__), "bin")
 
-  mkdir_p bin_dir unless File.exist?(bin_dir)
+  mkdir_p exe_dir unless File.exist?(exe_dir)
 
-  executable_path = File.join(bin_dir, executable_name)
+  executable_path = File.join(exe_dir, executable_name)
 
   File.open(executable_path, "w") do |file|
     file.puts(executable_content)
