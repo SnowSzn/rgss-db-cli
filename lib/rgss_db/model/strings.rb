@@ -93,6 +93,9 @@ module RgssDb
             # Opens the current directory and export only the object with ID: 100 from the Items file
             rgss-db . -a export -f Items.rvdata2 -i 100
 
+            # Opens the current directory and export only the object with ID: 100 from the Items file to a JSON file
+            rgss-db . -a export -f Items.rvdata2 -i 100 -t json
+
         OPTIONS
       BANNER
 
