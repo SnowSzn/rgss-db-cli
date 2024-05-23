@@ -307,7 +307,7 @@ module RgssDb
       EXPORT_TEXT = <<~EOF
         Choose the data files you want to export from the list of files below
 
-        You will be able to select objects inside each database file
+        You will be able to select objects inside each database file that supports it
 
         Keep in mind that if you do not select any object from the list or skip the
         selection process all objects will be considered for the export operation
