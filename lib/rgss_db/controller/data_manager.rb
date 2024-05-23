@@ -415,7 +415,7 @@ module RgssDb
     #
     # Returns ``nil`` if the operation is not possible
     #
-    # @param entry [String] File entry
+    # @param file_path [String] File entry
     #
     # @return [Object]
     #
