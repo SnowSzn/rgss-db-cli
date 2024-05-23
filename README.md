@@ -90,7 +90,6 @@ a few reasons:
 - **Backup Creation**
   - All your database data will be backed up everytime you import data into RPG Maker as a security measure
     - You can disable this behavior with a flag (see [options](#options))
--
 
 ## Installation
 
