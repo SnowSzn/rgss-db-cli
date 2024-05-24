@@ -8,44 +8,57 @@ require_relative "../model/data_file_factory"
 
 module RgssDb
   # Relative path within the working directory to store back ups
+  # @return [String]
   RGSS_BACK_UP_RELATIVE_PATH = "./Back Ups"
 
   # RPG Maker XP RGSS version symbol
+  # @return [Symbol]
   RGSS_VERSION_XP = :rpg_maker_xp
 
   # RPG Maker VX RGSS version symbol
+  # @return [Symbol]
   RGSS_VERSION_VX = :rpg_maker_vx
 
   # RPG Maker VX Ace RGSS version symbol
+  # @return [Symbol]
   RGSS_VERSION_VX_ACE = :rpg_maker_vx_ace
 
   # Binary file format type
+  # @return [Symbol]
   RGSS_FORMAT_TYPE_BINARY = :binary
 
   # JSON file format type
+  # @return [Symbol]
   RGSS_FORMAT_TYPE_JSON = :json
 
   # YAML file format type
+  # @return [Symbol]
   RGSS_FORMAT_TYPE_YAML = :yaml
 
   # JSON file format extension
+  # @return [String]
   RGSS_FILE_EXT_JSON = ".json"
 
   # Exported YAML data file extension
+  # @return [String]
   RGSS_FILE_EXT_YAML = ".yml"
 
   # RPG Maker XP binary data file extension
+  # @return [String]
   RGSS_FILE_EXT_XP = ".rxdata"
 
   # RPG Maker VX binary data file extension
+  # @return [String]
   RGSS_FILE_EXT_VX = ".rvdata"
 
   # RPG Maker VX Ace binary data file extension
+  # @return [String]
   RGSS_FILE_EXT_VX_ACE = ".rvdata2"
 
   # Hash of all extracted file extensions
   #
   # The type of external file is used as the key, the value is the file extension string
+  # @return [Hash<Symbol, String>]
   RGSS_EXTRACTED_FILE_EXTENSIONS = {
     RGSS_FORMAT_TYPE_JSON => RGSS_FILE_EXT_JSON,
     RGSS_FORMAT_TYPE_YAML => RGSS_FILE_EXT_YAML
@@ -56,6 +69,7 @@ module RgssDb
   # The RPG Maker version is used as the key, the value is the file extension string
   #
   # This hash is used to detect the RPG Maker database version based on the file extension
+  # @return [Hash<Symbol, String>]
   RGSS_DB_FILE_EXTENSIONS = {
     RGSS_VERSION_XP => RGSS_FILE_EXT_XP,
     RGSS_VERSION_VX => RGSS_FILE_EXT_VX,
@@ -65,6 +79,7 @@ module RgssDb
   # Hash that contains the appropiate database model (data classes) for each RPG Maker (RGSS) version
   #
   # The RPG Maker version is used as the key, the value is an array of file paths
+  # @return [Hash<Symbol, Array<String>>]
   RGSS_DB_MODELS = {
     RGSS_VERSION_XP => [
       "../model/rpg_maker_data/xp/rgss",
@@ -83,6 +98,7 @@ module RgssDb
   # Hash of all supported database glob patterns files for each RPG Maker (RGSS) version
   #
   # The RPG Maker version is used as the key, the value is an array of glob patterns file names
+  # @return [Hash<Symbol, Array<String>>]
   RGSS_DB_FILES = {
     RGSS_VERSION_XP => [
       DATA_FILE_ACTORS,

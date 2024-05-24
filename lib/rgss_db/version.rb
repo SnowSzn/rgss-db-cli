@@ -2,5 +2,6 @@
 
 module RgssDb
   # App version as a string
-  VERSION = "0.1.0"
+  # @return [String]
+  VERSION = "1.0.0"
 end

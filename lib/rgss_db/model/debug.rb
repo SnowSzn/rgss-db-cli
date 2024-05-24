@@ -8,27 +8,35 @@ module RgssDb
   #
   module Debug
     # Debug log file name
+    # @return [String]
     DEBUG_FILE_NAME = "rgss-db.log"
 
     # Debug mode disabled
+    # @return [Integer]
     DEBUG_MODE_DISABLE = 0
 
     # Debug mode errors and below
+    # @return [Integer]
     DEBUG_MODE_ERROR = 1
 
     # Debug mode warnings and below
+    # @return [Integer]
     DEBUG_MODE_WARNING = 2
 
     # Debug mode info and below
+    # @return [Integer]
     DEBUG_MODE_INFO = 3
 
     # Debug absolute file path
+    # @return [String]
     @debug_file_path = ""
 
     # Debug mode
+    # @return [Integer]
     @debug_mode = 0
 
     # Debug extra information
+    # @return [String]
     @debug_extra_info = ""
 
     #

@@ -8,6 +8,7 @@ module RgssDb
   #
   module DataFileFactory
     # List of all data files types
+    # @return [Array<String>]
     FACTORY_ALL_TYPES = [
       DATA_FILE_ACTORS,
       DATA_FILE_ANIMATIONS,

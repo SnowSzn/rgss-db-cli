@@ -10,56 +10,71 @@ require_relative "./controller/data_manager"
 
 module RgssDb
   # App option debug mode
+  # @return [Symbol]
   APP_OPTION_DEBUG_MODE = :debug
 
   # App option back up flag
+  # @return [Symbol]
   APP_OPTION_BACK_UP = :backup
 
   # App option action type
+  # @return [Symbol]
   APP_OPTION_ACTION = :action
 
   # App option file entries
+  # @return [Symbol]
   APP_OPTION_FILE_ENTRIES = :files
 
   # App option object ids
+  # @return [Symbol]
   APP_OPTION_IDS = :ids
 
   # App option format
+  # @return [Symbol]
   APP_OPTION_FORMAT_TYPE = :type
 
   # App option working directory
+  # @return [Symbol]
   APP_OPTION_WORKING_DIR = :directory
 
   # Export data action command name
   #
-  # This action unpacks and exports all binary files into external files
+  # This action exports all binary files into external files
+  # @return [String]
   APP_ACTION_EXPORT = "export"
 
   # Export custom data action command name
   #
   # This action exports the supported binary files custom objects into external files
+  # @return [String]
   APP_ACTION_EXPORT_CUSTOM = "export_custom"
 
   # Import data action command name
   #
   # This action imports external files into binary files
+  # @return [String]
   APP_ACTION_IMPORT = "import"
 
   # Import custom data action command name
   #
   # This action imports external custom data files into their appropiate binary files
+  # @return [String]
   APP_ACTION_IMPORT_CUSTOM = "import_custom"
 
   # Default back up mode of the application
+  # @return [Boolean]
   APP_DEFAULT_BACK_UP = true
 
   # Default debug mode of the application
+  # @return [Integer]
   APP_DEFAULT_DEBUG_MODE = 0
 
   # Default file format type for the application
+  # @return [String]
   APP_DEFAULT_FORMAT_TYPE = "YAML"
 
   # Default working directory for the application
+  # @return [String]
   APP_DEFAULT_WORKING_DIR = "./rgss-db"
 
   #

@@ -6,6 +6,7 @@ module RgssDb
   #
   module Utilities
     # Regular expression of invalid characters or sequence of characters
+    # @return [Regexp]
     INVALID_CHARACTERS = /[:*?"<>|]|(\bCON\b|\bPRN\b|\bAUX\b|\bNUL\b|\bCOM[1-9]\b|\bLPT[1-9]\b)/i
 
     #

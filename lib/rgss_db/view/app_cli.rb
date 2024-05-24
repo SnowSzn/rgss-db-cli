@@ -11,12 +11,15 @@ require_relative "../model/strings"
 
 module RgssDb
   # Value that determines the number of options per page on the select prompt
+  # @return [Integer]
   APP_CLI_SELECT_PER_PAGE = 7
 
   # Value that determines the number of options per page on the multi select prompt
+  # @return [Integer]
   APP_CLI_MULTI_SELECT_PER_PAGE = 7
 
   # Value that determines the enumator character for the multi select prompt
+  # @return [String]
   APP_CLI_MULTI_SELECT_ENUM_CHAR = "."
 
   #

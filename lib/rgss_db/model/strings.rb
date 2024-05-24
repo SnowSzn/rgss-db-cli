@@ -10,6 +10,7 @@ module RgssDb
     #
     module StrAppEntryPoint
       # Message shown when the app call is invalid
+      # @return [String]
       CLI_INVALID_CALL_MSG = <<~INVALID_CALL
         Please provide a RPG Maker database directory!
         Use 'rgss-db --help' to get more information
@@ -18,9 +19,11 @@ module RgssDb
       # App version message
       #
       # String contains a "%s" flag to insert the app version
+      # @return [String]
       CLI_VERSION = "rgss-db version %s installed"
 
       # App banner contents
+      # @return [String]
       CLI_BANNER = <<~BANNER
         SYNOPSIS
           rgss-db is a tool for developers to export and/or import the database files of a game made in RPG Maker
@@ -106,24 +109,31 @@ module RgssDb
       BANNER
 
       # App option back up mode info
+      # @return [String]
       CLI_OPTION_BACK_UP = "Sets the back up mode"
 
       # App option debug mode info
+      # @return [String]
       CLI_OPTION_DEBUG_MODE = "Sets the debug mode"
 
       # App option working directory info
+      # @return [String]
       CLI_OPTION_WORKING_DIR = "Sets the working directory"
 
       # App option action info
+      # @return [String]
       CLI_OPTION_ACTION = "Sets the action to perform"
 
       # App option file format type info
+      # @return [String]
       CLI_OPTION_FORMAT_TYPE = "Specifies the file format type to use"
 
       # App option file entries info
+      # @return [String]
       CLI_OPTION_FILE_ENTRIES = "Sets a list of files affected by the action"
 
       # App option object IDs info
+      # @return [String]
       CLI_OPTION_IDS = "Sets a list of object IDs that will be affected per file"
     end
 
@@ -132,9 +142,11 @@ module RgssDb
     #
     module StrAppInfo
       # Invalid RPG Maker version label
+      # @return [String]
       VERSION_INVALID_LABEL = "Unknown"
 
       # Text as a warning when a RPG Maker version is not detected
+      # @return [String]
       VERSION_INVALID_TEXT = <<~EOF
         It was not possible to detect a valid RPG Maker version in the given directory!
 
@@ -154,11 +166,14 @@ module RgssDb
       # Application information data folder text
       #
       # String contains a "%s" flag to insert the data folder
+      # @return [String]
       DATA_FOLDER = "RPG Maker Data Folder: %s"
 
       # Application information RPG Maker version text
+      # @return [String]
       #
       # String contains a "%s" flag to insert the version
+      # @return [String]
       RPG_VERSION = "RPG Maker Version: %s"
     end
 
@@ -167,37 +182,47 @@ module RgssDb
     #
     module StrPrompts
       # Text shown when a prompt operation finishes successfully
+      # @return [String]
       SUCCESS_TEXT = "Operation finished!"
 
       # Text shown when a prompt is stopped or cancelled
+      # @return [String]
       CANCEL_TEXT = "Cancelling operation..."
 
       # Text shown on the spinner prompt when the task is completed
+      # @return [String]
       SPINNER_TASK_COMPLETED_TEXT = "Done!"
 
       # Text shown on the pause prompt when requesting the user to press any key
+      # @return [String]
       PAUSE_ANY_KEYS = "Press any key to continue..."
 
       # Text shown on the pause prompt when requesting the user to press any key with a timeout
+      # @return [String]
       PAUSE_ANY_KEYS_TIMEOUT = "Press any key to continue... (resumes automatically in :countdown seconds)"
 
       # Text shown on the pause prompt when requesting the user to press specific keys
       #
       # String contains a "%s" flag to insert the list of keys
+      # @return [String]
       PAUSE_KEYS = "Press %s to continue..."
 
       # Text shown on the pause prompt when requesting the user to press specific keys with a timeout
       #
       # String contains a "%s" flag to insert the list of keys
+      # @return [String]
       PAUSE_KEYS_TIMEOUT = "Press %s to continue... (resumes automatically in :countdown seconds)"
 
       # Text shown on the confirmation prompt
+      # @return [String]
       CONFIRM_INPUT_TEXT = "Are you sure you want to continue?"
 
       # Text shown on the select and multi select prompts
+      # @return [String]
       SELECT_INPUT_TEXT = "What would you like to do?"
 
       # Text that could be used as a tip message for ask prompts
+      # @return [String]
       ASK_TIP_TEXT = <<~EOF
         Press ENTER to submit the current input
 
@@ -206,15 +231,18 @@ module RgssDb
       EOF
 
       # Text that could be used as a fail message when an ask prompt fails validation
+      # @return [String]
       ASK_VALIDATION_FAIL_TEXT = "The input is invalid!"
 
       # Text that could be used as a tip message for select prompts
+      # @return [String]
       SELECT_TIP_TEXT = <<~EOF
         Press ↑/↓ arrows to move the cursor
         Use SPACE or ENTER to select the current item
       EOF
 
       # Text that could be used as a tip message for multi select prompts
+      # @return [String]
       MULTI_SELECT_TIP_TEXT = <<~EOF
         Press ↑/↓ arrows to move the cursor
         Use SPACE to select the current item
@@ -231,45 +259,59 @@ module RgssDb
     #
     module StrMenu
       # App menu option that represents the main menu
+      # @return [String]
       APP_MENU_MAIN_MENU = "Main Menu"
 
       # App menu option to go to the actions menu
+      # @return [String]
       APP_MENU_ACTIONS = "Perform Actions"
 
       # App menu option for export command
+      # @return [String]
       APP_MENU_ACTIONS_EXPORT = "Export RPG Maker Data Files"
 
       # App menu option for export custom command
+      # @return [String]
       APP_MENU_ACTIONS_EXPORT_CUSTOM = "Export RPG Maker Data Files (Custom)"
 
       # App menu option for import command
+      # @return [String]
       APP_MENU_ACTIONS_IMPORT = "Import External Data Into RPG Maker"
 
       # App menu option for import custom command
+      # @return [String]
       APP_MENU_ACTIONS_IMPORT_CUSTOM = "Import External Data Into RPG Maker (Custom)"
 
       # App menu option to go to app options menu
+      # @return [String]
       APP_MENU_OPTIONS = "Check and Modify Options"
 
       # App menu option to set the output file format type
+      # @return [String]
       APP_MENU_OPTIONS_SET_FORMAT_TYPE = "Set Type of File Format"
 
       # App menu option to set the working directory
+      # @return [String]
       APP_MENU_OPTIONS_SET_WORKING_DIR = "Set Working Directory"
 
       # App menu option to select a list of file entries
+      # @return [String]
       APP_MENU_OPTIONS_SET_ENTRIES = "Set File Entries List"
 
       # App menu option to select a list of object IDs
+      # @return [String]
       APP_MENU_OPTIONS_SET_IDS = "Set Object IDs List"
 
       # App menu option to show the values of the current options (pretty format)
+      # @return [String]
       APP_MENU_OPTIONS_SHOW_OPTIONS_PRETTY = "Show Options (Pretty)"
 
       # App menu option to show the values of the current options (raw format)
+      # @return [String]
       APP_MENU_OPTIONS_SHOW_OPTIONS_RAW = "Show Options (Raw)"
 
       # App menu option for exiting command
+      # @return [String]
       APP_MENU_EXIT = "Exit"
     end
 
@@ -280,6 +322,7 @@ module RgssDb
     #
     module StrMenuContents
       # Main menu information contents
+      # @return [String]
       APP_MENU_MAIN_MENU_TEXT_INFO = <<~EOF
         This is the main menu of RGSS Database
 
@@ -289,6 +332,7 @@ module RgssDb
       EOF
 
       # Actions menu information contents
+      # @return [String]
       APP_MENU_ACTIONS_TEXT_INFO = <<~EOF
         In this menu you can perform export and import operations on the current RPG Maker database
 
@@ -300,6 +344,7 @@ module RgssDb
       EOF
 
       # Options menu information contents
+      # @return [String]
       APP_MENU_OPTIONS_TEXT_INFO = <<~EOF
         In this menu you can change any supported option's value
 
@@ -314,9 +359,11 @@ module RgssDb
     #
     module StrSubMenu
       # Text shown on the exit submenu
+      # @return [String]
       EXIT_TEXT = "Exiting..."
 
       # Text shown on the export submenu as an information message
+      # @return [String]
       EXPORT_TEXT = <<~EOF
         Choose the data files you want to export from the list of files below
 
@@ -326,15 +373,19 @@ module RgssDb
       EOF
 
       # Text shown on the export submenu when loading data files
+      # @return [String]
       EXPORT_LOAD_FILES_TEXT = "Loading RPG Maker database files..."
 
       # Text shown as an error when the application failed to detect RPG Maker database files
+      # @return [String]
       EXPORT_LOAD_ERROR_TEXT = "No valid RPG Maker database files detected inside the data folder!"
 
       # Text shown when the user does not select any data files from the export files list
+      # @return [String]
       EXPORT_NO_FILES_ERROR_TEXT = "No data files were selected from the list!"
 
       # Text shown on the export custom submenu as an information message
+      # @return [String]
       EXPORT_CUSTOM_TEXT = <<~EOF
         Choose the data files you want to export from the list of files below
 
@@ -351,19 +402,23 @@ module RgssDb
       # Text shown when asking the user whether they want to select specific objects from a data file or not
       #
       # String contains a "%s" flag to insert the data file name
+      # @return [String]
       EXPORT_CUSTOM_SELECT_OBJ_ID_TEXT = "Do you wish to select specific objects from '%s'?"
 
       # Text shown when the application is exporting a data file
       #
       # String contains a "%s" flag to insert the data file name
+      # @return [String]
       EXPORT_ACTION_TEXT = "Exporting data file '%s'..."
 
       # Text shown when the application is exporting a custom data file
       #
       # String contains a "%s" flag to insert the data file name
+      # @return [String]
       EXPORT_CUSTOM_ACTION_TEXT = "Exporting custom data file '%s'..."
 
       # Text shown on the import submenu as an information message
+      # @return [String]
       IMPORT_TEXT = <<~EOF
         Choose the data files you want to import from the list of files below
         When importing data, all objects are auto. considered for the operation
@@ -375,15 +430,19 @@ module RgssDb
       EOF
 
       # Text shown on the import submenu when loading data files
+      # @return [String]
       IMPORT_LOAD_FILES_TEXT = "Loading extracted data files..."
 
       # Text shown as an error when the application failed to detect external data files
+      # @return [String]
       IMPORT_LOAD_ERROR_TEXT = "No valid extracted data file detected on the application's folder!"
 
       # Text shown when the user does not select any data files from the import files list
+      # @return [String]
       IMPORT_NO_FILES_ERROR_TEXT = "No data files were selected from the list!"
 
       # Text shown on the import custom submenu as an information message
+      # @return [String]
       IMPORT_CUSTOM_TEXT = <<~EOF
         Choose which custom data files you want to import from the list of files below
 
@@ -401,19 +460,23 @@ module RgssDb
       EOF
 
       # Text shown on the import custom submenu when loading data files
+      # @return [String]
       IMPORT_CUSTOM_LOAD_FILES_TEXT = "Loading custom extracted data files..."
 
       # Text shown when the application is importing a data file
       #
       # String contains a "%s" flag to insert the data file name
+      # @return [String]
       IMPORT_ACTION_TEXT = "Importing data file '%s'..."
 
       # Text shown when the application is importing a custom data file
       #
       # String contains a "%s" flag to insert the data file name
+      # @return [String]
       IMPORT_CUSTOM_ACTION_TEXT = "Importing custom data file '%s'..."
 
       # Text shown on the set format type submenu as an information message
+      # @return [String]
       SET_FORMAT_TYPE_TEXT = <<~EOF
         You can set the type of file format the application will use below
 
@@ -425,9 +488,11 @@ module RgssDb
       # Text shown on the set format type submenu when updating the file format type
       #
       # String contains a "%s" flag to insert the type of file format
+      # @return [String]
       SET_FORMAT_TYPE_UPDATE_TEXT = "Type of file format updated to: '%s'"
 
       # Text shown on the set app working directory submenu as an information message
+      # @return [String]
       SET_WORKING_DIR_TEXT = <<~EOF
         You can set the application's working directory to the desired one below
 
@@ -437,6 +502,7 @@ module RgssDb
       EOF
 
       # Text shown when asking the user to set the app working directory
+      # @return [String]
       SET_WORKING_DIR_ASK_TEXT = "Type the working directory"
 
       # Text shown when the working directory validation fails
@@ -447,9 +513,11 @@ module RgssDb
       # String contains a "%s" flag to insert the new working directory
       #
       # String contains a "%s" flag to insert the application working directory
+      # @return [String]
       SET_WORKING_DIR_UPDATE_TEXT = "Application working directory updated to: '%s'"
 
       # Tip text shown on the set file entries submenu as an information message
+      # @return [String]
       SET_ENTRIES_TEXT = <<~EOF
         You can set a list of file entries that will be pre-selected when performing an action
 
@@ -459,14 +527,17 @@ module RgssDb
       EOF
 
       # Text shown when asking the user to set the list of file entries
+      # @return [String]
       SET_ENTRIES_ASK_TEXT = "Type the list of file entries"
 
       # Text shown when asking the user to set the list of file entries
       #
       # String contains a "%s" flag to insert the file entries
+      # @return [String]
       SET_ENTRIES_UPDATE_TEXT = "File entries updated to: '%s'"
 
       # Tip text shown on the set object IDs submenu as an information message
+      # @return [String]
       SET_IDS_TEXT = <<~EOF
         You can set a list of IDs that will be selected for each file entry
 
@@ -474,27 +545,33 @@ module RgssDb
       EOF
 
       # Text shown when the user does not have any file entry to select object IDs from
+      # @return [String]
       SET_IDS_NO_FILES_ERROR_TEXT = "No file entries available to select from!"
 
       # Text shown when the user does not select any file entries from the files list
+      # @return [String]
       SET_IDS_NO_FILES_SELECTED_ERROR_TEXT = "No file entries were selected from the list!"
 
       # Text shown when asking the user for the list of object IDs to select for a file entry
       #
       # String contains a "%s" flag to insert the file entry
+      # @return [String]
       SET_IDS_ASK_IDS_TEXT = "Type the list of object IDs for '%s':"
 
       # Text shown when updating the list of object IDs for a file entry
       #
       # String contains a "%s" flag to insert the hash of file entries and object IDs
+      # @return [String]
       SET_IDS_UPDATE_TEXT = "List of object IDs updated to: '%s'"
 
       # Text shown on the show options submenu in the raw mode
+      # @return [String]
       SHOW_OPTIONS_RAW_TEXT = <<~EOF
         All options will be shown below, note that not all options are relevant to the user
       EOF
 
       # Text shown on the show options submenu in the pretty mode
+      # @return [String]
       SHOW_OPTIONS_PRETTY_TEXT = <<~EOF
         All options will be shown below, note that not all options are relevant to the user
 
@@ -502,9 +579,11 @@ module RgssDb
       EOF
 
       # Column 1 text shown on the show options submenu
+      # @return [String]
       SHOW_OPTIONS_COLUMN_1 = "Option ID"
 
       # Column 2 text shown on the show options submenu
+      # @return [String]
       SHOW_OPTIONS_COLUMN_2 = "Option Value"
     end
 
@@ -513,12 +592,15 @@ module RgssDb
     #
     module StrOthers
       # Information frame box label
+      # @return [String]
       INFO_FRAME_LABEL = "ℹ️ Information"
 
       # Warning frame box label
+      # @return [String]
       WARN_FRAME_LABEL = "⚠️ Warning"
 
       # Error frame box label
+      # @return [String]
       ERRO_FRAME_LABEL = "🅾️ Error"
     end
   end

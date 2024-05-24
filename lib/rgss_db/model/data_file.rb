@@ -2,54 +2,71 @@
 
 module RgssDb
   # Label used for data files that allows objects selection
+  # @return [String]
   DATA_FILE_CUSTOM_LABEL = "_custom"
 
-  # RPG Maker actors data file
+  # RPG Maker actors data file (glob pattern)
+  # @return [String]
   DATA_FILE_ACTORS = "Actors"
 
-  # RPG Maker animations data file
+  # RPG Maker animations data file (glob pattern)
+  # @return [String]
   DATA_FILE_ANIMATIONS = "Animations"
 
-  # RPG Maker areas data file
+  # RPG Maker areas data file (glob pattern)
+  # @return [String]
   DATA_FILE_AREAS = "Areas"
 
-  # RPG Maker armors data file
+  # RPG Maker armors data file (glob pattern)
+  # @return [String]
   DATA_FILE_ARMORS = "Armors"
 
-  # RPG Maker classes data file
+  # RPG Maker classes data file (glob pattern)
+  # @return [String]
   DATA_FILE_CLASSES = "Classes"
 
-  # RPG Maker common events data file
+  # RPG Maker common events data file (glob pattern)
+  # @return [String]
   DATA_FILE_COMMON_EVENTS = "CommonEvents"
 
-  # RPG Maker enemies data file
+  # RPG Maker enemies data file (glob pattern)
+  # @return [String]
   DATA_FILE_ENEMIES = "Enemies"
 
-  # RPG Maker items data file
+  # RPG Maker items data file (glob pattern)
+  # @return [String]
   DATA_FILE_ITEMS = "Items"
 
-  # RPG Maker maps data file
+  # RPG Maker maps data file (glob pattern)
+  # @return [String]
   DATA_FILE_MAPS = "Map[0-9][0-9][1-9]"
 
-  # RPG Maker map infos data file
+  # RPG Maker map infos data file (glob pattern)
+  # @return [String]
   DATA_FILE_MAP_INFOS = "MapInfos"
 
-  # RPG Maker skills data file
+  # RPG Maker skills data file (glob pattern)
+  # @return [String]
   DATA_FILE_SKILLS = "Skills"
 
-  # RPG Maker states data file
+  # RPG Maker states data file (glob pattern)
+  # @return [String]
   DATA_FILE_STATES = "States"
 
-  # RPG Maker system data file
+  # RPG Maker system data file (glob pattern)
+  # @return [String]
   DATA_FILE_SYSTEM = "System"
 
-  # RPG Maker tilesets data file
+  # RPG Maker tilesets data file (glob pattern)
+  # @return [String]
   DATA_FILE_TILESETS = "Tilesets"
 
-  # RPG Maker troops data file
+  # RPG Maker troops data file (glob pattern)
+  # @return [String]
   DATA_FILE_TROOPS = "Troops"
 
-  # RPG Maker weapons data file
+  # RPG Maker weapons data file (glob pattern)
+  # @return [String]
   DATA_FILE_WEAPONS = "Weapons"
 
   #
