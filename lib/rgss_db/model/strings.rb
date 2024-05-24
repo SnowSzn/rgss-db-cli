@@ -40,11 +40,7 @@ module RgssDb
 
           The path needs to be the data folder where all binary database files are stored, otherwise the app won't work
 
-          This will open the application's menu where you can manually perform the desired action
-
-          Once a valid data folder is opened, you can do the following actions:
-            - Export: Exports all RPG Maker binary database files into human-readable data files (YAML, JSON...)
-            - Import: Creates new RPG Maker binary files from previously exported files
+          This will open the application's menu where you can manually perform the desired action.
 
           The application has a number of options that allow you to customize the behavior and output, for example:
             # You can set the application's debug mode with the following option
@@ -80,7 +76,17 @@ module RgssDb
             rgss-db . -f Actors.rvdata2 Items.rvdata2 -i 10 -i 200 300 # 10 for Actors, 200 and 300 for Items
 
 
-          This menu can be bypassed if the application is called with an action, for example:
+            You can skip the application's CLI menu completely if you supply a supported action.
+
+            The application will start and perform the action, using the given files and object IDs (if any) and close itself when the action finishes
+
+            These are the possible actions:
+            - ``export``: Exports RPG Maker database
+            - ``export_custom``: Exports specific objects from the RPG Maker database
+            - ``import``: Imports external data into the RPG Maker database
+            - ``import_custom``: Imports custom external data into the RPG Maker database (merge)
+
+            Here's a few examples with the action option using the default application directory:
             # Opens the current directory and export all data
             rgss-db . -a export
 
@@ -91,10 +97,10 @@ module RgssDb
             rgss-db . -a export -f Items.rvdata2
 
             # Opens the current directory and export only the object with ID: 100 from the Items file
-            rgss-db . -a export -f Items.rvdata2 -i 100
+            rgss-db . -a export_custom -f Items.rvdata2 -i 100
 
             # Opens the current directory and export only the object with ID: 100 from the Items file to a JSON file
-            rgss-db . -a export -f Items.rvdata2 -i 100 -t json
+            rgss-db . -a export_custom -f Items.rvdata2 -i 100 -t json
 
         OPTIONS
       BANNER
