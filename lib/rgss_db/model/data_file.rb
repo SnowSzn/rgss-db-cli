@@ -428,14 +428,14 @@ module RgssDb
     #
     # Converts the given list to object IDs for this data file
     #
-    # The list must be an array of this data file hash values
+    # The list must be an array of this data file hash values or keys
     #
     # @param list [Array] List of objects
     #
     # @return [Array<Object>]
     #
     def convert_list_to_ids(list)
-      list.map { |i| object.key(i) }
+      list.map { |i| object.key?(i) ? i : object.key(i) }
     end
 
     #
