@@ -23,7 +23,7 @@ task :build_exe do
 
   exe_dir = File.join(File.dirname(__FILE__), "bin")
 
-  mkdir_p exe_dir unless File.exist?(exe_dir)
+  mkdir_p exe_dir unless File.directory?(exe_dir)
 
   executable_path = File.join(exe_dir, executable_name)
 
@@ -36,7 +36,11 @@ end
 
 desc "Generates rbs docs with sord"
 task :sord do
-  rbs_path = File.join(File.dirname(__FILE__), "./sig/rgss_db.rbs")
+  rbs_dir = File.join(File.dirname(__FILE__), "./sig/")
+  rbs_path = File.join(rbs_dir, "rgss_db.rbs")
+
+  mkdir_p rbs_dir unless File.directory?(rbs_dir)
+
   sh "sord '#{rbs_path}' --rbs"
 end
 
