@@ -293,9 +293,7 @@ module RgssDb
     # @raise [StandardError] RPG Maker version is not valid
     #
     def save_data_file(data_file, app_directory, output_format_type)
-      unless version?
-        raise StandardError("cannot save data file because rpg maker version is unknown: #{@rgss_version}")
-      end
+      raise "cannot save data file because rpg maker version is unknown: #{@rgss_version}" unless version?
 
       data_file_path = File.join(
         File.expand_path(app_directory, @path),
@@ -317,9 +315,7 @@ module RgssDb
     # @raise [StandardError] RPG Maker version is not valid
     #
     def save_database_back_up(file_path, app_directory)
-      unless version?
-        raise StandardError("cannot save file backup because rpg maker version is unknown: #{@rgss_version}")
-      end
+      raise "cannot save file backup because rpg maker version is unknown: #{@rgss_version}" unless version?
 
       # Gets the file's base name
       database_file = File.basename(file_path, ".*")
