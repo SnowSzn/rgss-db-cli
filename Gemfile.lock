@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rgss_db (0.1.0)
+    rgss_db (1.0.0)
       colorize (~> 1.1)
       fileutils (~> 1.7)
       json (~> 2.7)
@@ -17,14 +17,23 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    abbrev (0.1.2)
     ast (2.4.2)
     colorize (1.1.0)
+    commander (4.6.0)
+      highline (~> 2.0.0)
     diff-lcs (1.5.1)
     fileutils (1.7.2)
+    highline (2.0.3)
     json (2.7.1)
     language_server-protocol (3.17.0.3)
     optimist (3.1.0)
     parallel (1.24.0)
+    parlour (5.0.0)
+      commander (~> 4.5)
+      parser
+      rainbow (~> 3.0)
+      sorbet-runtime (>= 0.5)
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
@@ -35,6 +44,8 @@ GEM
     racc (1.7.3)
     rainbow (3.1.1)
     rake (13.1.0)
+    rbs (3.4.4)
+      abbrev
     regexp_parser (2.8.3)
     rexml (3.2.6)
     rspec (3.13.0)
@@ -77,6 +88,13 @@ GEM
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
     ruby-progressbar (1.13.0)
+    sorbet-runtime (0.5.11391)
+    sord (6.0.0)
+      commander (~> 4.5)
+      parlour (~> 5.0)
+      rbs (~> 3.0)
+      sorbet-runtime
+      yard
     stringio (3.1.0)
     strings (0.2.1)
       strings-ansi (~> 0.2)
@@ -111,6 +129,7 @@ GEM
     unicode-display_width (2.5.0)
     unicode_utils (1.4.0)
     wisper (2.0.1)
+    yard (0.9.36)
 
 PLATFORMS
   x64-mingw-ucrt
@@ -124,6 +143,8 @@ DEPENDENCIES
   rubocop-performance (~> 1.20)
   rubocop-rake (~> 0.6.0)
   rubocop-rspec (~> 2.27)
+  sord (~> 6.0)
+  yard (~> 0.9.36)
 
 BUNDLED WITH
    2.5.6
