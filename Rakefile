@@ -37,7 +37,7 @@ end
 desc "Generates rbs docs with sord"
 task :sord do
   rbs_path = File.join(File.dirname(__FILE__), "./sig/rgss_db.rbs")
-  sh "sord #{rbs_path} --rbs"
+  sh "sord '#{rbs_path}' --rbs"
 end
 
 task default: :rubocop
