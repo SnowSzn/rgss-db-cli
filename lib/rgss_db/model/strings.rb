@@ -84,10 +84,10 @@ module RgssDb
             The application will start and perform the action, using the given files and object IDs (if any) and close itself when the action finishes
 
             These are the possible actions:
-            - ``export``: Exports RPG Maker database
-            - ``export_custom``: Exports specific objects from the RPG Maker database
-            - ``import``: Imports external data into the RPG Maker database
-            - ``import_custom``: Imports custom external data into the RPG Maker database (merge)
+            - export: Exports RPG Maker database
+            - export_custom: Exports specific objects from the RPG Maker database
+            - import: Imports external data into the RPG Maker database
+            - import_custom: Imports custom external data into the RPG Maker database (merge)
 
             Here's a few examples with the action option using the default application directory:
             # Opens the current directory and export all data
