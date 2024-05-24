@@ -102,6 +102,9 @@ module RgssDb
           # An action was given, avoid main menu loop
           Debug.log_info("bypassing app menu")
 
+          # Logs current options
+          Debug.log_info("options: #{@options}")
+
           # Creates the data files instances
           data_files = []
           case opt_action
@@ -301,7 +304,10 @@ module RgssDb
     # @return [Array<Integer>]
     #
     def opt_file_object_ids(file_name)
-      @options[APP_OPTION_IDS][file_name] || []
+      opt_object_ids.each_pair do |file, object_ids|
+        return object_ids if file.casecmp?(file_name)
+      end
+      []
     end
 
     #
