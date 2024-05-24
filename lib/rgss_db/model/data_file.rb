@@ -83,9 +83,9 @@ module RgssDb
     # @param file_path [String] Data file path
     # @param object [Object] Data file object
     #
-    def initialize(type, data_file, object)
+    def initialize(type, file_path, object)
       @type = type
-      @file_path = data_file
+      @file_path = file_path
       @object = object
       @object_ids = []
     end
