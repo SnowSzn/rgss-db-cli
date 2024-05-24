@@ -13,7 +13,8 @@ end
 
 desc "Build app executable inside the bin directory"
 task :build_exe do
-  executable_name = "rgss-db"
+  # Executables info variables
+  executable_names = %w[rgss-db rgssdb]
   executable_content = <<~EOF
     #!/usr/bin/env ruby
     # frozen_string_literal: true
@@ -21,17 +22,20 @@ task :build_exe do
     require_relative "../lib/rgss_db"
   EOF
 
+  # Create executables
   exe_dir = File.join(File.dirname(__FILE__), "bin")
 
   mkdir_p exe_dir unless File.directory?(exe_dir)
 
-  executable_path = File.join(exe_dir, executable_name)
+  executable_names.each do |exe_name|
+    exe_path = File.join(exe_dir, exe_name)
 
-  File.open(executable_path, "w") do |file|
-    file.puts(executable_content)
+    File.open(exe_path, "w") do |file|
+      file.puts(executable_content)
+    end
+
+    chmod(0o755, exe_path)
   end
-
-  chmod(0o755, executable_path)
 end
 
 desc "Generates rbs docs with sord"
