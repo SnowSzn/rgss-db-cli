@@ -222,6 +222,21 @@ module RgssDb
     end
 
     #
+    # Loads a single database data file based on the given type
+    #
+    # @param [String] database_file_type
+    #
+    # @return [DataFile]
+    #
+    def load_database_file(database_file_type)
+      # Formats the database file path
+      database_file_path = File.join(@path, database_file_type + database_file_extension)
+
+      # Creates a data file instance for this database file
+      DataFileFactory.create_data_file(database_file_path, load_file(database_file_path))
+    end
+
+    #
     # Gets a list of ``DataFile`` instances based on the current path and detected version
     #
     # This method should be used to read all RPG Maker binary data files
@@ -266,7 +281,7 @@ module RgssDb
       base_path = File.expand_path(app_directory, @path)
 
       # Creates a glob pattern to detect extracted data files using file extensions
-      file_extensions_glob = "*{#{RGSS_EXTRACTED_FILE_EXTENSIONS.values.join(",")}}"
+      file_extensions_glob = "{#{RGSS_EXTRACTED_FILE_EXTENSIONS.values.join(",")}}"
 
       # Formats all supported database files adding the file extensions glob pattern
       extracted_files = database_file_names.map do |file_name|
@@ -277,6 +292,43 @@ module RgssDb
       detected_files = Dir.glob(extracted_files, File::FNM_CASEFOLD, base: base_path)
 
       # Creates an array of data file instances with the detected database files
+      detected_files.map do |data_file|
+        data_file_path = File.expand_path(data_file, base_path)
+        DataFileFactory.create_data_file(data_file_path, load_file(data_file_path))
+      end
+    end
+
+    #
+    # Gets a list of ``DataFile`` instances based on the given directory
+    #
+    # All custom extracted files should be inside the given directory
+    #
+    # This method reads extracted files and returns it as data files (RPG maker data)
+    #
+    # Returns an empty array if the operation is not possible
+    #
+    # @param app_directory [String] Application working directory
+    #
+    # @return [Array<DataFile>]
+    #
+    def load_extracted_files_custom(app_directory)
+      return [] unless version?
+
+      # Determines the application working folder directory
+      base_path = File.expand_path(app_directory, @path)
+
+      # Creates a glob pattern to detect extracted data files using file extensions
+      file_extensions_glob = "{#{RGSS_EXTRACTED_FILE_EXTENSIONS.values.join(",")}}"
+
+      # Formats all supported database files adding the file extensions glob pattern
+      extracted_files = database_file_names.map do |file_name|
+        file_name + DATA_FILE_CUSTOM_LABEL + file_extensions_glob
+      end
+
+      # Scans the extracted folder for complete extracted files
+      detected_files = Dir.glob(extracted_files, File::FNM_CASEFOLD, base: base_path)
+
+      # Creates an array of data file instances with the detected files
       detected_files.map do |data_file|
         data_file_path = File.expand_path(data_file, base_path)
         DataFileFactory.create_data_file(data_file_path, load_file(data_file_path))

@@ -233,8 +233,14 @@ module RgssDb
       # App menu option for export command
       APP_MENU_ACTIONS_EXPORT = "Export RPG Maker Data Files"
 
+      # App menu option for export custom command
+      APP_MENU_ACTIONS_EXPORT_CUSTOM = "Export RPG Maker Data Files (Custom)"
+
       # App menu option for import command
       APP_MENU_ACTIONS_IMPORT = "Import External Data Into RPG Maker"
+
+      # App menu option for import custom command
+      APP_MENU_ACTIONS_IMPORT_CUSTOM = "Import External Data Into RPG Maker (Custom)"
 
       # App menu option to go to app options menu
       APP_MENU_OPTIONS = "Check and Modify Options"
@@ -278,12 +284,13 @@ module RgssDb
 
       # Actions menu information contents
       APP_MENU_ACTIONS_TEXT_INFO = <<~EOF
-        Export action: You will be able to select any RPG Maker database file
-        and export it into an external file, using the current file format type selected
+        In this menu you can perform export and import operations on the current RPG Maker database
 
-        Import action: You will be able to select any external data file and
-        import all of its contents into its appropiate RPG Maker database file, thus
-        you will be able to use it on the RPG Maker editor
+        You can do the following operations:
+          - Export: Exports all RPG Maker database data into external files
+          - Export (Custom): Exports specific objects from the RPG Maker database
+          - Import: Imports all external data into the RPG Maker database
+          - Import (Custom): Imports specific objects ino the RPG Maker database
       EOF
 
       # Options menu information contents
@@ -307,10 +314,9 @@ module RgssDb
       EXPORT_TEXT = <<~EOF
         Choose the data files you want to export from the list of files below
 
-        You will be able to select objects inside each database file that supports it
+        All data files selected will be exported to the choosen file format
 
-        Keep in mind that if you do not select any object from the list or skip the
-        selection process all objects will be considered for the export operation
+        If you want to cancel this action do not select any data file
       EOF
 
       # Text shown on the export submenu when loading data files
@@ -322,15 +328,34 @@ module RgssDb
       # Text shown when the user does not select any data files from the export files list
       EXPORT_NO_FILES_ERROR_TEXT = "No data files were selected from the list!"
 
+      # Text shown on the export custom submenu as an information message
+      EXPORT_CUSTOM_TEXT = <<~EOF
+        Choose the data files you want to export from the list of files below
+
+        You can only select data files that allows object selection.
+        If you wish to export a data file that does not appear here
+        try the other export action.
+
+        Keep in mind that if you do not select any object from the list or skip the
+        selection process all objects will be considered for the export operation
+
+        If you want to cancel this action do not select any data file
+      EOF
+
       # Text shown when asking the user whether they want to select specific objects from a data file or not
       #
       # String contains a "%s" flag to insert the data file name
-      EXPORT_SELECT_OBJ_FROM_FILE_TEXT = "Do you wish to select specific objects from '%s'?"
+      EXPORT_CUSTOM_SELECT_OBJ_ID_TEXT = "Do you wish to select specific objects from '%s'?"
 
       # Text shown when the application is exporting a data file
       #
       # String contains a "%s" flag to insert the data file name
       EXPORT_ACTION_TEXT = "Exporting data file '%s'..."
+
+      # Text shown when the application is exporting a custom data file
+      #
+      # String contains a "%s" flag to insert the data file name
+      EXPORT_CUSTOM_ACTION_TEXT = "Exporting custom data file '%s'..."
 
       # Text shown on the import submenu as an information message
       IMPORT_TEXT = <<~EOF
@@ -339,6 +364,8 @@ module RgssDb
 
         A backup of the original database file will be created for each data file
         You can disable this behavior by disabling backups when running the application
+
+        If you want to cancel this action do not select any data file
       EOF
 
       # Text shown on the import submenu when loading data files
@@ -350,10 +377,35 @@ module RgssDb
       # Text shown when the user does not select any data files from the import files list
       IMPORT_NO_FILES_ERROR_TEXT = "No data files were selected from the list!"
 
+      # Text shown on the import custom submenu as an information message
+      IMPORT_CUSTOM_TEXT = <<~EOF
+        Choose which custom data files you want to import from the list of files below
+
+        The data files selected will be merged into their appropiate RPG Maker database file
+
+        New objects will be appended at the end of the list of objects to avoid problems
+
+        You should make sure that any reference to other database files that the new object
+        imported has, exists within the RPG Maker database.
+
+        A backup of the original database file will be created for each data file
+        You can disable this behavior by disabling backups when running the application
+
+        If you want to cancel this action do not select any data file
+      EOF
+
+      # Text shown on the import custom submenu when loading data files
+      IMPORT_CUSTOM_LOAD_FILES_TEXT = "Loading custom extracted data files..."
+
       # Text shown when the application is importing a data file
       #
       # String contains a "%s" flag to insert the data file name
       IMPORT_ACTION_TEXT = "Importing data file '%s'..."
+
+      # Text shown when the application is importing a custom data file
+      #
+      # String contains a "%s" flag to insert the data file name
+      IMPORT_CUSTOM_ACTION_TEXT = "Importing custom data file '%s'..."
 
       # Text shown on the set format type submenu as an information message
       SET_FORMAT_TYPE_TEXT = <<~EOF

@@ -60,6 +60,10 @@ module RgssDb
   class DataFile
     include Comparable
 
+    # Data file type
+    # @return [String]
+    attr_reader :type
+
     # Data file path
     # @return [String]
     attr_reader :file_path
@@ -75,11 +79,13 @@ module RgssDb
     #
     # Constructor
     #
+    # @param type [String] Data file type
     # @param file_path [String] Data file path
     # @param object [Object] Data file object
     #
-    def initialize(file_path, object)
-      @file_path = file_path
+    def initialize(type, data_file, object)
+      @type = type
+      @file_path = data_file
       @object = object
       @object_ids = []
     end
@@ -108,6 +114,37 @@ module RgssDb
     #
     def file?(file)
       File.basename(@file_path).casecmp?(File.basename(file))
+    end
+
+    #
+    # Checks if the given data type matches this data file type
+    #
+    # The check is case insensitive
+    #
+    # @param [String] data_type
+    #
+    # @return [Boolean]
+    #
+    def type?(data_type)
+      File.fnmatch(@type, data_type, File::FNM_CASEFOLD)
+    end
+
+    #
+    # Checks whether this data file instance supports object selection or not
+    #
+    # @return [Boolean]
+    #
+    def customizable?
+      !to_list.nil?
+    end
+
+    #
+    # Checks whether this data file instance is mergeable or not
+    #
+    # @return [Boolean]
+    #
+    def mergeable?
+      !to_merge.nil?
     end
 
     #
@@ -163,6 +200,17 @@ module RgssDb
     end
 
     #
+    # Merges the given data file contents with this data file
+    #
+    # @param [DataFile] data_file
+    #
+    # @raise [StandardError] Data file cannot be merged
+    #
+    def merge(data_file)
+      raise "cannot merge data file: '#{data_file}' because it is not supported!"
+    end
+
+    #
     # Serializes the data file's object
     #
     # This method performs the necessary logic to the object for serialization
@@ -188,6 +236,17 @@ module RgssDb
     #
     def convert_list_to_ids(list)
       []
+    end
+
+    #
+    # Gets a list of objects prepared to be merged
+    #
+    # Returns ``nil`` by default
+    #
+    # @return [Array<Object>]
+    #
+    def to_merge
+      nil
     end
 
     #
@@ -246,6 +305,19 @@ module RgssDb
     end
 
     #
+    # Merges the given data file contents with this data file
+    #
+    # @param [DataFile] data_file
+    #
+    # @raise [StandardError] Data file cannot be merged
+    #
+    def merge(data_file)
+      raise "cannot merge data file: '#{data_file}' because it is not supported!" unless data_file.is_a?(DataFileArray)
+
+      object.push(*data_file.to_merge)
+    end
+
+    #
     # Serializes the data file's object
     #
     # This method prepares the object as an array
@@ -275,6 +347,15 @@ module RgssDb
     #
     def convert_list_to_ids(list)
       list.map { |i| object.index(i) }
+    end
+
+    #
+    # Gets a list of objects prepared to be merged
+    #
+    # @return [Array<Object>]
+    #
+    def to_merge
+      object.compact
     end
 
     #
@@ -310,6 +391,21 @@ module RgssDb
     end
 
     #
+    # Merges the given data file contents with this data file
+    #
+    # @param [DataFile] data_file
+    #
+    # @raise [StandardError] Data file cannot be merged
+    #
+    def merge(data_file)
+      raise "cannot merge data file: '#{data_file}' because it is not supported!" unless data_file.is_a?(DataFileHash)
+
+      data_file.to_merge.each_pair do |key, value|
+        object.store(key, value)
+      end
+    end
+
+    #
     # Serializes the data file's object
     #
     # This method prepares the object as a hash
@@ -340,6 +436,15 @@ module RgssDb
     #
     def convert_list_to_ids(list)
       list.map { |i| object.key(i) }
+    end
+
+    #
+    # Gets a list of objects prepared to be merged
+    #
+    # @return [Hash]
+    #
+    def to_merge
+      object
     end
 
     #

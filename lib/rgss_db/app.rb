@@ -35,10 +35,20 @@ module RgssDb
   # This action unpacks and exports all binary files into external files
   APP_ACTION_EXPORT = "export"
 
+  # Export custom data action command name
+  #
+  # This action exports the supported binary files custom objects into external files
+  APP_ACTION_EXPORT_CUSTOM = "export_custom"
+
   # Import data action command name
   #
-  # This action packs and imports external files into binary files
+  # This action imports external files into binary files
   APP_ACTION_IMPORT = "import"
+
+  # Import custom data action command name
+  #
+  # This action imports external custom data files into their appropiate binary files
+  APP_ACTION_IMPORT_CUSTOM = "import_custom"
 
   # Default back up mode of the application
   APP_DEFAULT_BACK_UP = true
@@ -104,6 +114,15 @@ module RgssDb
                 opt_file_entries.any? { |entry| data_file.file?(entry) }
               end
             end
+          when APP_ACTION_EXPORT_CUSTOM
+            data_files = @data_manager.load_database_files.keep_if(&:customizable?)
+
+            # Checks if user selected specific file entries
+            unless opt_file_entries.empty?
+              data_files = data_files.keep_if do |data_file|
+                opt_file_entries.any? { |entry| data_file.file?(entry) }
+              end
+            end
 
             # Applies any possible object IDs list for each file entry
             data_files.each do |data_file|
@@ -111,6 +130,15 @@ module RgssDb
             end
           when APP_ACTION_IMPORT
             data_files = @data_manager.load_extracted_files(opt_working_dir)
+
+            # Checks if user selected specific file entries
+            unless opt_file_entries.empty?
+              data_files = data_files.keep_if do |data_file|
+                opt_file_entries.any? { |entry| data_file.file?(entry) }
+              end
+            end
+          when APP_ACTION_IMPORT_CUSTOM
+            data_files = @data_manager.load_extracted_files_custom(opt_working_dir).keep_if(&:mergeable?)
 
             # Checks if user selected specific file entries
             unless opt_file_entries.empty?
@@ -138,6 +166,7 @@ module RgssDb
       rescue StandardError => e
         # Unknown error
         Debug.log_exception(e, @options)
+        raise e
       end
     end
 
@@ -164,8 +193,12 @@ module RgssDb
           action = option_value.to_s
           if action.casecmp?(APP_ACTION_IMPORT)
             options.store(option_id, APP_ACTION_IMPORT)
+          elsif action.casecmp?(APP_ACTION_IMPORT_CUSTOM)
+            options.store(option_id, APP_ACTION_IMPORT_CUSTOM)
           elsif action.casecmp?(APP_ACTION_EXPORT)
             options.store(option_id, APP_ACTION_EXPORT)
+          elsif action.casecmp?(APP_ACTION_EXPORT_CUSTOM)
+            options.store(option_id, APP_ACTION_EXPORT_CUSTOM)
           else
             # Unknown action value
             options.store(option_id, nil)
@@ -282,11 +315,15 @@ module RgssDb
     def do_action(action_name, data_file)
       case action_name
       when APP_ACTION_EXPORT
-        Debug.log_info("exporting: #{data_file}")
+        Debug.log_info("exporting: #{data_file} (#{data_file.serialize_file_name})")
         @data_manager.save_data_file(data_file, opt_working_dir, opt_format_type)
         Debug.log_info("exporting action finished!")
+      when APP_ACTION_EXPORT_CUSTOM
+        Debug.log_info("exporting (custom): #{data_file} (#{data_file.serialize_file_name})")
+        @data_manager.save_data_file(data_file, opt_working_dir, opt_format_type)
+        Debug.log_info("exporting (custom) action finished!")
       when APP_ACTION_IMPORT
-        Debug.log_info("importing: #{data_file}")
+        Debug.log_info("importing: #{data_file} (#{data_file.serialize_file_name})")
 
         # Checks if the data file is a "full file" to avoid data loss, this error
         # should never trigger since data_file should have all objects selected
@@ -305,6 +342,25 @@ module RgssDb
         # Performs the import process
         @data_manager.save_data_file(data_file, @data_manager.path, RGSS_FORMAT_TYPE_BINARY)
         Debug.log_info("importing action finished!")
+      when APP_ACTION_IMPORT_CUSTOM
+        Debug.log("importing (custom): #{data_file} (#{data_file.serialize_file_name})")
+        database_file = @data_manager.load_database_file(data_file.type)
+
+        # Performs a back up creation (if allowed)
+        if opt_backup_allowed
+          Debug.log_info("creating back up file...")
+          @data_manager.save_database_back_up(database_file.file, opt_working_dir)
+          Debug.log_info("back up created")
+        else
+          Debug.log_info("back up creation is disabled!")
+        end
+
+        # Merges data file contents
+        database_file.merge(data_file)
+
+        # Saves the result of the merge operation
+        @data_manager.save_data_file(database_file, @data_manager.path, RGSS_FORMAT_TYPE_BINARY)
+        Debug.log_info("importing (custom) action finished!")
       else
         raise "action called with an unknown action name: '#{action_name}'"
       end
@@ -347,14 +403,20 @@ module RgssDb
         )
         option = @cli.prompt_select(
           StrMenu::APP_MENU_ACTIONS_EXPORT,
+          StrMenu::APP_MENU_ACTIONS_EXPORT_CUSTOM,
           StrMenu::APP_MENU_ACTIONS_IMPORT,
+          StrMenu::APP_MENU_ACTIONS_IMPORT_CUSTOM,
           StrMenu::APP_MENU_EXIT
         )
         case option
         when StrMenu::APP_MENU_ACTIONS_EXPORT
           submenu_export
+        when StrMenu::APP_MENU_ACTIONS_EXPORT_CUSTOM
+          submenu_export_custom
         when StrMenu::APP_MENU_ACTIONS_IMPORT
           submenu_import
+        when StrMenu::APP_MENU_ACTIONS_IMPORT_CUSTOM
+          submenu_import_custom
         when StrMenu::APP_MENU_EXIT
           submenu_exit
           break
@@ -427,8 +489,57 @@ module RgssDb
       # Determines the list of pre-selected database files (for TTY select menu)
       data_files_default = Utilities.menu_default_indexes(
         data_files,
-        opt_file_entries,
-        all_if_empty: true
+        opt_file_entries
+      ) do |menu_option, menu_index, file_entry|
+        menu_option.file?(file_entry)
+      end
+
+      # Ask the user to select the data files
+      # @type [Array<DataFile>]
+      data_files_selected = @cli.prompt_select_multi(
+        *data_files, default: data_files_default
+      )
+      raise Error, StrSubMenu::EXPORT_NO_FILES_ERROR_TEXT if data_files_selected.empty?
+
+      # Confirm operation
+      unless @cli.prompt_confirm?
+        @cli.draw_cancel_operation
+        @cli.prompt_pause
+        return
+      end
+
+      # Perform operation
+      data_files_selected.each do |data_file|
+        @cli.prompt_spinner(format(StrSubMenu::EXPORT_ACTION_TEXT, data_file)) do
+          do_action(APP_ACTION_EXPORT, data_file)
+        end
+      end
+
+      @cli.draw_success_operation
+      @cli.prompt_pause
+    end
+
+    #
+    # Export custom submenu process
+    #
+    # @raise [Error]
+    #
+    def submenu_export_custom
+      @cli.draw_app_submenu(
+        StrSubMenu::EXPORT_CUSTOM_TEXT, StrPrompts::MULTI_SELECT_TIP_TEXT,
+        breadcrumbs: [StrMenu::APP_MENU_MAIN_MENU, StrMenu::APP_MENU_ACTIONS, StrMenu::APP_MENU_ACTIONS_EXPORT_CUSTOM]
+      )
+
+      data_files = []
+      @cli.prompt_spinner(StrSubMenu::EXPORT_LOAD_FILES_TEXT) do
+        data_files = @data_manager.load_database_files.keep_if(&:customizable?)
+      end
+      raise Error, StrSubMenu::EXPORT_LOAD_ERROR_TEXT if data_files.empty?
+
+      # Determines the list of pre-selected database files (for TTY select menu)
+      data_files_default = Utilities.menu_default_indexes(
+        data_files,
+        opt_file_entries
       ) do |menu_option, menu_index, file_entry|
         menu_option.file?(file_entry)
       end
@@ -444,10 +555,7 @@ module RgssDb
       data_files_selected.each do |data_file|
         data_file_list = data_file.to_list
         next if data_file_list.nil?
-        next unless @cli.prompt_confirm?(
-          format(StrSubMenu::EXPORT_SELECT_OBJ_FROM_FILE_TEXT, data_file),
-          default: false
-        )
+        next unless @cli.prompt_confirm?(format(StrSubMenu::EXPORT_CUSTOM_SELECT_OBJ_ID_TEXT, data_file))
 
         data_file_list_default = Utilities.menu_default_indexes(
           data_file_list,
@@ -469,8 +577,8 @@ module RgssDb
 
       # Perform operation
       data_files_selected.each do |data_file|
-        @cli.prompt_spinner(format(StrSubMenu::EXPORT_ACTION_TEXT, data_file)) do
-          do_action(APP_ACTION_EXPORT, data_file)
+        @cli.prompt_spinner(format(StrSubMenu::EXPORT_CUSTOM_ACTION_TEXT, data_file)) do
+          do_action(APP_ACTION_EXPORT_CUSTOM, data_file)
         end
       end
 
@@ -498,8 +606,7 @@ module RgssDb
       # Determines the list of pre-selected files (for TTY select menu)
       data_files_default = Utilities.menu_default_indexes(
         data_files,
-        opt_file_entries,
-        all_if_empty: true
+        opt_file_entries
       ) do |menu_option, menu_index, file_entry|
         menu_option.file?(file_entry)
       end
@@ -522,6 +629,56 @@ module RgssDb
       data_files_selected.each do |data_file|
         @cli.prompt_spinner(format(StrSubMenu::IMPORT_ACTION_TEXT, data_file)) do
           do_action(APP_ACTION_IMPORT, data_file)
+        end
+      end
+
+      @cli.draw_success_operation
+      @cli.prompt_pause
+    end
+
+    #
+    # Import custom submenu process
+    #
+    # @raise [Error]
+    #
+    def submenu_import_custom
+      @cli.draw_app_submenu(
+        StrSubMenu::IMPORT_CUSTOM_TEXT, StrPrompts::MULTI_SELECT_TIP_TEXT,
+        breadcrumbs: [StrMenu::APP_MENU_MAIN_MENU, StrMenu::APP_MENU_ACTIONS, StrMenu::APP_MENU_ACTIONS_IMPORT_CUSTOM]
+      )
+
+      data_files = []
+      @cli.prompt_spinner(StrSubMenu::IMPORT_CUSTOM_LOAD_FILES_TEXT) do
+        data_files = @data_manager.load_extracted_files_custom(opt_working_dir).keep_if(&:mergeable?)
+      end
+      raise Error, StrSubMenu::IMPORT_LOAD_ERROR_TEXT if data_files.empty?
+
+      # Determines the list of pre-selected files (for TTY select menu)
+      data_files_default = Utilities.menu_default_indexes(
+        data_files,
+        opt_file_entries
+      ) do |menu_option, menu_index, file_entry|
+        menu_option.file?(file_entry)
+      end
+
+      # Ask the user to select the data files
+      # @type [Array<DataFile>]
+      data_files_selected = @cli.prompt_select_multi(
+        *data_files, default: data_files_default
+      )
+      raise Error, StrSubMenu::IMPORT_NO_FILES_ERROR_TEXT if data_files_selected.empty?
+
+      # Confirm operation
+      unless @cli.prompt_confirm?
+        @cli.draw_cancel_operation
+        @cli.prompt_pause
+        return
+      end
+
+      # Perform operation
+      data_files_selected.each do |data_file|
+        @cli.prompt_spinner(format(StrSubMenu::IMPORT_CUSTOM_ACTION_TEXT, data_file)) do
+          do_action(APP_ACTION_IMPORT_CUSTOM, data_file)
         end
       end
 
