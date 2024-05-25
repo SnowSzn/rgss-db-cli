@@ -1,4 +1,5221 @@
+# 
+# Application module
 module RgssDb
+  APP_OPTION_DEBUG_MODE: Symbol
+  APP_OPTION_BACK_UP: Symbol
+  APP_OPTION_ACTION: Symbol
+  APP_OPTION_FILE_ENTRIES: Symbol
+  APP_OPTION_IDS: Symbol
+  APP_OPTION_FORMAT_TYPE: Symbol
+  APP_OPTION_WORKING_DIR: Symbol
+  APP_ACTION_EXPORT: String
+  APP_ACTION_EXPORT_CUSTOM: String
+  APP_ACTION_IMPORT: String
+  APP_ACTION_IMPORT_CUSTOM: String
+  APP_DEFAULT_BACK_UP: bool
+  APP_DEFAULT_DEBUG_MODE: Integer
+  APP_DEFAULT_FORMAT_TYPE: String
+  APP_DEFAULT_WORKING_DIR: String
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  APP_CLI_SELECT_PER_PAGE: Integer
+  APP_CLI_MULTI_SELECT_PER_PAGE: Integer
+  APP_CLI_MULTI_SELECT_ENUM_CHAR: String
+  DATA_FILE_CUSTOM_LABEL: String
+  DATA_FILE_ACTORS: String
+  DATA_FILE_ANIMATIONS: String
+  DATA_FILE_AREAS: String
+  DATA_FILE_ARMORS: String
+  DATA_FILE_CLASSES: String
+  DATA_FILE_COMMON_EVENTS: String
+  DATA_FILE_ENEMIES: String
+  DATA_FILE_ITEMS: String
+  DATA_FILE_MAPS: String
+  DATA_FILE_MAP_INFOS: String
+  DATA_FILE_SKILLS: String
+  DATA_FILE_STATES: String
+  DATA_FILE_SYSTEM: String
+  DATA_FILE_TILESETS: String
+  DATA_FILE_TROOPS: String
+  DATA_FILE_WEAPONS: String
+  RGSS_BACK_UP_RELATIVE_PATH: String
+  RGSS_VERSION_XP: Symbol
+  RGSS_VERSION_VX: Symbol
+  RGSS_VERSION_VX_ACE: Symbol
+  RGSS_FORMAT_TYPE_BINARY: Symbol
+  RGSS_FORMAT_TYPE_JSON: Symbol
+  RGSS_FORMAT_TYPE_YAML: Symbol
+  RGSS_FILE_EXT_JSON: String
+  RGSS_FILE_EXT_YAML: String
+  RGSS_FILE_EXT_XP: String
+  RGSS_FILE_EXT_VX: String
+  RGSS_FILE_EXT_VX_ACE: String
+  RGSS_EXTRACTED_FILE_EXTENSIONS: ::Hash[Symbol, String]
+  RGSS_DB_FILE_EXTENSIONS: ::Hash[Symbol, String]
+  RGSS_DB_MODELS: ::Hash[Symbol, ::Array[String]]
+  RGSS_DB_FILES: ::Hash[Symbol, ::Array[String]]
+
+  # 
+  # Entry point module
+  module EntryPoint
+    include RgssDb::Strings::StrAppEntryPoint
+  end
+
+  # 
+  # Application class
+  class App
+    include RgssDb::Strings
+
+    # Creates a new app instance
+    # 
+    # _@param_ `data_path` — RPG Maker database folder
+    # 
+    # _@param_ `options` — App options hash
+    def initialize: (String data_path, ::Hash[Symbol, Object] options) -> void
+
+    # sord omit - no YARD return type given, using untyped
+    # Starts the app
+    def start: () -> untyped
+
+    # Process the user options
+    # 
+    # _@param_ `options_hash` — Options hash
+    def process_options: (::Hash[Symbol, Object] options_hash) -> ::Hash[Symbol, Object]
+
+    # Gets the user's backup flag
+    def opt_backup_allowed: () -> bool
+
+    # Gets the user's action option
+    def opt_action: () -> Symbol
+
+    # Gets the user's file format type option
+    def opt_format_type: () -> String
+
+    # Gets the user's working directory option
+    def opt_working_dir: () -> String
+
+    # Gets the user's file entries option
+    def opt_file_entries: () -> ::Array[String]
+
+    # Gets the user's hash of object IDs and file entries
+    def opt_object_ids: () -> ::Hash[String, ::Array[Integer]]
+
+    # Gets the user's object IDs option
+    # 
+    # _@param_ `file_name` — File entry
+    def opt_file_object_ids: (String file_name) -> ::Array[Integer]
+
+    # sord omit - no YARD return type given, using untyped
+    # Performs the action by ``action_name`` with the given data file
+    # 
+    # _@param_ `action_name` — Action
+    # 
+    # _@param_ `data_file` — Data file
+    def do_action: (String action_name, DataFile data_file) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Main menu process
+    def menu_main: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Perform actions menu process
+    def menu_actions: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Options menu process
+    def menu_options: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Exit submenu process
+    def submenu_exit: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Export submenu process
+    def submenu_export: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Export custom submenu process
+    def submenu_export_custom: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Import submenu process
+    def submenu_import: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Import custom submenu process
+    def submenu_import_custom: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Set file format type submenu process
+    def submenu_set_format_type: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Set working directory submenu process
+    def submenu_set_working_dir: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Set pre-selected file entries submenu process
+    def submenu_set_entries: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Set pre-selected object IDs submenu process
+    def submenu_set_ids: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Show app options (pretty) submenu process
+    def submenu_show_options_pretty: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Show app options (raw) submenu process
+    def submenu_show_options_raw: () -> untyped
+  end
+
+  # 
+  # Debug module
+  module Debug
+    DEBUG_FILE_NAME: String
+    DEBUG_MODE_DISABLE: Integer
+    DEBUG_MODE_ERROR: Integer
+    DEBUG_MODE_WARNING: Integer
+    DEBUG_MODE_INFO: Integer
+
+    # sord omit - no YARD return type given, using untyped
+    # Starts the debug module with the given information
+    # 
+    # Optionally sets the debug mode
+    # 
+    # _@param_ `debug_file_path` — Path to the debug file
+    # 
+    # _@param_ `debug_mode` — Debug mode
+    def self.start: (String debug_file_path, ?Integer? debug_mode) -> untyped
+
+    # Gets the debug mode
+    def self.debug_mode: () -> Integer
+
+    # sord omit - no YARD return type given, using untyped
+    # Sets the debug mode
+    # 
+    # Set to 0 to disable
+    # 
+    # _@param_ `debug_mode` — Debug mode
+    def self.update_debug_mode: (Integer debug_mode) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Sets the debug extra information
+    # 
+    # _@param_ `extra_info`
+    def self.update_extra_info: (*::Array[String] extra_info) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Writes the debug header to the log file
+    def self.write_debug_header: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Logs the string
+    # 
+    # _@param_ `string`
+    def self.log: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Logs the string as information
+    # 
+    # _@param_ `string`
+    def self.log_info: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Logs the string as an error
+    # 
+    # _@param_ `string`
+    def self.log_error: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Logs the string as a warning
+    # 
+    # _@param_ `string`
+    def self.log_warning: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Logs the given exception as an error
+    # 
+    # Optionally logs the application options if given
+    # 
+    # _@param_ `app_options`
+    # 
+    # _@param_ `exception`
+    def self.log_exception: (StandardError exception, ?::Hash[untyped, untyped]? app_options) -> untyped
+
+    # Checks whether the debug module is disabled or not
+    def self.disabled?: () -> bool
+
+    # Checks whether the debug mode is info or not
+    def self.info?: () -> bool
+
+    # Checks whether the debug mode is error or not
+    def self.error?: () -> bool
+
+    # Checks whether the debug mode is warning or not
+    def self.warning?: () -> bool
+  end
+
+  # 
+  # Base Error class
+  class Error < StandardError
+    # Creates a new error object
+    # 
+    # _@param_ `message` — Error message
+    def initialize: (String message) -> void
+  end
+
+  # 
+  # Application CLI
+  class AppCli
+    include RgssDb::Strings
+
+    # Creates a new app cli instance
+    # 
+    # _@param_ `data_folder` — RPG Maker database path
+    # 
+    # _@param_ `app_version` — Application version
+    # 
+    # _@param_ `rgss_version` — RGSS version
+    def initialize: (?data_folder: String?, ?app_version: String?, ?rgss_version: Symbol?) -> void
+
+    # sord omit - no YARD return type given, using untyped
+    # Resets the console screen position with a escape sequence
+    def reset_screen: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws all strings on the standard output
+    # 
+    # _@param_ `strings` — Strings
+    # 
+    # _@param_ `color` — Color symbol
+    def draw: (*::Array[String] strings, ?color: Symbol?) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws an empty line on the standard output
+    def draw_empty_line: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws ``string`` on the standard output as info
+    # 
+    # _@param_ `string` — String
+    def draw_info: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws ``string`` on the standard output as a warning
+    # 
+    # _@param_ `string` — String
+    def draw_warning: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws ``string`` on the standard output as an error
+    # 
+    # _@param_ `string` — String
+    def draw_error: (String string) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws the user's navigation in the standard output
+    # 
+    # Nothing is drawn if the ``breadcrumbs`` array is empty
+    # 
+    # _@param_ `breadcrumbs` — List of breadcrumbs
+    def draw_navigation: (*::Array[String] breadcrumbs) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a frame with the given contents on the standard output
+    # 
+    # Nothing is drawn if the ``contents`` array is empty
+    # 
+    # _@param_ `contents` — Frame contents
+    def draw_frame: (*::Array[String] contents) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws an information frame with the given contents on the standard output
+    # 
+    # Nothing is drawn if the ``contents`` array is empty
+    # 
+    # _@param_ `contents` — Frame contents
+    def draw_info_frame: (*::Array[String] contents) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a warning frame with the given contents on the standard output
+    # 
+    # Nothing is drawn if the ``contents`` array is empty
+    # 
+    # _@param_ `contents` — Frame contents
+    def draw_warning_frame: (*::Array[String] contents) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws an error frame with the given contents on the standard output
+    # 
+    # Nothing is drawn if the ``contents`` array is empty
+    # 
+    # _@param_ `contents` — Frame contents
+    def draw_error_frame: (*::Array[String] contents) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a table on the standard output
+    # 
+    # The number of ``columns`` and the size of each row in ``rows`` must have the same length
+    # 
+    # Columns: [Column1, Column2]
+    # Rows: [["a", "b"], ["c", "d"]]
+    # 
+    # _@param_ `columns` — Columns
+    # 
+    # _@param_ `rows` — List of rows
+    # 
+    # _@param_ `render_type` — Table render type
+    def draw_table: (::Array[String] columns, *::Array[String] rows, ?render_type: Symbol) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a success operation to the terminal
+    # 
+    # _@param_ `success_message` — Success message
+    def draw_success_operation: (?String? success_message) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a cancel operation to the terminal
+    # 
+    # _@param_ `cancel_message` — Cancel message
+    def draw_cancel_operation: (?String? cancel_message) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws the app header on the standard output
+    def draw_app_header: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws the app information on the standard output
+    def draw_app_info: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a menu header on the terminal
+    # 
+    # This header is common for every application menu
+    # 
+    # _@param_ `menu_contents` — Menu information contents
+    # 
+    # _@param_ `breadcrumbs` — Breadcrumbs list
+    def draw_app_menu: (*::Array[String] menu_contents, ?breadcrumbs: ::Array[String]?) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Draws a submenu header on the terminal
+    # 
+    # This header is common for every application submenu
+    # 
+    # _@param_ `menu_contents` — Menu information contents
+    # 
+    # _@param_ `breadcrumbs` — Breadcrumbs list
+    def draw_app_submenu: (*::Array[String] menu_contents, ?breadcrumbs: ::Array[String]?) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Executes and draws a terminal pause to the standard output
+    # 
+    # If ``timeout`` is given, the execution will be resumed after that time
+    # 
+    # _@param_ `keys` — List of key symbols
+    # 
+    # _@param_ `timeout` — Time out in seconds
+    def prompt_pause: (*::Array[Symbol] keys, ?timeout: Integer?) -> untyped
+
+    # Executes and draws an user confirmation on the standard output
+    # 
+    # _@param_ `input_text` — Menu text
+    # 
+    # _@param_ `default` — Default option
+    def prompt_confirm?: (?String? input_text, ?default: bool) -> bool
+
+    # Executes and draws an user input on the standard output
+    # 
+    # _@param_ `question` — Question to ask
+    # 
+    # _@param_ `default` — Default option
+    # 
+    # _@param_ `value` — Pre-populated value
+    # 
+    # _@param_ `required` — Force input
+    # 
+    # _@param_ `convert` — Conversion symbol
+    # 
+    # _@param_ `validate_text` — Validation fail text
+    # 
+    # _@param_ `validate` — Validation callback
+    def prompt_ask: (
+                      String question,
+                      ?default: String?,
+                      ?value: String?,
+                      ?required: bool,
+                      ?convert: Symbol?,
+                      ?validate_text: String?
+                    ) ?{ (String arg0) -> void } -> String
+
+    # Executes and draws a menu selection on the standard output+
+    # 
+    # If ``menu_cycle`` is true, the selection will cycle around if the top/bottom option is reached
+    # 
+    # _@param_ `menu_options` — List of menu options
+    # 
+    # _@param_ `default` — Default options
+    # 
+    # _@param_ `input_text` — Menu text
+    # 
+    # _@param_ `menu_cycle` — Menu cycle status
+    # 
+    # _@return_ — Selected option
+    def prompt_select: (
+                         *::Array[untyped] menu_options,
+                         ?default: ::Array[untyped]?,
+                         ?input_text: String?,
+                         ?menu_cycle: bool
+                       ) -> String
+
+    # Executes and draws a menu selection on the standard output+
+    # 
+    # If ``menu_cycle`` is true, the selection will cycle around if the top/bottom option is reached
+    # 
+    # _@param_ `menu_options` — List of menu options
+    # 
+    # _@param_ `default` — Default options
+    # 
+    # _@param_ `input_text` — Menu text
+    # 
+    # _@param_ `menu_cycle` — Menu cycle status
+    # 
+    # _@return_ — Selected options
+    def prompt_select_multi: (
+                               *::Array[untyped] menu_options,
+                               ?default: ::Array[untyped]?,
+                               ?input_text: String?,
+                               ?menu_cycle: bool
+                             ) -> untyped
+
+    # sord warn - TTY::Spinner wasn't able to be resolved to a constant in this project
+    # sord omit - no YARD return type given, using untyped
+    # Executes and draws a spinner with a routine on the standard output
+    # 
+    # This method allows to execute a block while a spinner is drawn on the screen
+    # 
+    # _@param_ `text` — Spinner text
+    # 
+    # _@param_ `block`
+    def prompt_spinner: (String text) ?{ (TTY::Spinner spinner) -> void } -> untyped
+
+    # Application version shown on the CLI
+    attr_accessor app_version: String
+
+    # RPG Maker version shown on the CLI
+    attr_accessor rgss_version: Symbol
+
+    # Data folder path shown on the CLI
+    attr_accessor data_folder: Symbol
+  end
+
+  # 
+  # Application strings module
+  module Strings
+    # 
+    # Application information CLI strings
+    module StrAppEntryPoint
+      CLI_INVALID_CALL_MSG: String
+      CLI_VERSION: String
+      CLI_BANNER: String
+      CLI_OPTION_BACK_UP: String
+      CLI_OPTION_DEBUG_MODE: String
+      CLI_OPTION_WORKING_DIR: String
+      CLI_OPTION_ACTION: String
+      CLI_OPTION_FORMAT_TYPE: String
+      CLI_OPTION_FILE_ENTRIES: String
+      CLI_OPTION_IDS: String
+    end
+
+    # 
+    # Application information strings
+    module StrAppInfo
+      VERSION_INVALID_LABEL: String
+      VERSION_INVALID_TEXT: String
+      DATA_FOLDER: String
+      RPG_VERSION: String
+    end
+
+    # 
+    # Strings used in user prompts
+    module StrPrompts
+      SUCCESS_TEXT: String
+      CANCEL_TEXT: String
+      SPINNER_TASK_COMPLETED_TEXT: String
+      PAUSE_ANY_KEYS: String
+      PAUSE_ANY_KEYS_TIMEOUT: String
+      PAUSE_KEYS: String
+      PAUSE_KEYS_TIMEOUT: String
+      CONFIRM_INPUT_TEXT: String
+      SELECT_INPUT_TEXT: String
+      ASK_TIP_TEXT: String
+      ASK_VALIDATION_FAIL_TEXT: String
+      SELECT_TIP_TEXT: String
+      MULTI_SELECT_TIP_TEXT: String
+    end
+
+    # 
+    # Menu strings
+    # 
+    # This module contains menu options shown on the screen
+    module StrMenu
+      APP_MENU_MAIN_MENU: String
+      APP_MENU_ACTIONS: String
+      APP_MENU_ACTIONS_EXPORT: String
+      APP_MENU_ACTIONS_EXPORT_CUSTOM: String
+      APP_MENU_ACTIONS_IMPORT: String
+      APP_MENU_ACTIONS_IMPORT_CUSTOM: String
+      APP_MENU_OPTIONS: String
+      APP_MENU_OPTIONS_SET_FORMAT_TYPE: String
+      APP_MENU_OPTIONS_SET_WORKING_DIR: String
+      APP_MENU_OPTIONS_SET_ENTRIES: String
+      APP_MENU_OPTIONS_SET_IDS: String
+      APP_MENU_OPTIONS_SHOW_OPTIONS_PRETTY: String
+      APP_MENU_OPTIONS_SHOW_OPTIONS_RAW: String
+      APP_MENU_EXIT: String
+    end
+
+    # 
+    # Menu contents strings
+    # 
+    # This module contains the contents for each menu
+    module StrMenuContents
+      APP_MENU_MAIN_MENU_TEXT_INFO: String
+      APP_MENU_ACTIONS_TEXT_INFO: String
+      APP_MENU_OPTIONS_TEXT_INFO: String
+    end
+
+    # 
+    # Submenu strings
+    # 
+    # This module contains strings used in submenus
+    module StrSubMenu
+      EXIT_TEXT: String
+      EXPORT_TEXT: String
+      EXPORT_LOAD_FILES_TEXT: String
+      EXPORT_LOAD_ERROR_TEXT: String
+      EXPORT_NO_FILES_ERROR_TEXT: String
+      EXPORT_CUSTOM_TEXT: String
+      EXPORT_CUSTOM_SELECT_OBJ_ID_TEXT: String
+      EXPORT_ACTION_TEXT: String
+      EXPORT_CUSTOM_ACTION_TEXT: String
+      IMPORT_TEXT: String
+      IMPORT_LOAD_FILES_TEXT: String
+      IMPORT_LOAD_ERROR_TEXT: String
+      IMPORT_NO_FILES_ERROR_TEXT: String
+      IMPORT_CUSTOM_TEXT: String
+      IMPORT_CUSTOM_LOAD_FILES_TEXT: String
+      IMPORT_ACTION_TEXT: String
+      IMPORT_CUSTOM_ACTION_TEXT: String
+      SET_FORMAT_TYPE_TEXT: String
+      SET_FORMAT_TYPE_UPDATE_TEXT: String
+      SET_WORKING_DIR_TEXT: String
+      SET_WORKING_DIR_ASK_TEXT: String
+      SET_WORKING_DIR_ASK_FAIL_TEXT: untyped
+      SET_WORKING_DIR_UPDATE_TEXT: String
+      SET_ENTRIES_TEXT: String
+      SET_ENTRIES_ASK_TEXT: String
+      SET_ENTRIES_UPDATE_TEXT: String
+      SET_IDS_TEXT: String
+      SET_IDS_NO_FILES_ERROR_TEXT: String
+      SET_IDS_NO_FILES_SELECTED_ERROR_TEXT: String
+      SET_IDS_ASK_IDS_TEXT: String
+      SET_IDS_UPDATE_TEXT: String
+      SHOW_OPTIONS_RAW_TEXT: String
+      SHOW_OPTIONS_PRETTY_TEXT: String
+      SHOW_OPTIONS_COLUMN_1: String
+      SHOW_OPTIONS_COLUMN_2: String
+    end
+
+    # 
+    # Other strings module
+    module StrOthers
+      INFO_FRAME_LABEL: String
+      WARN_FRAME_LABEL: String
+      ERRO_FRAME_LABEL: String
+    end
+  end
+
+  # 
+  # RPG Maker base data file
+  # 
+  # This class saves the object as is, without any treatment
+  class DataFile
+    include Comparable
+
+    # Constructor
+    # 
+    # _@param_ `type` — Data file type
+    # 
+    # _@param_ `file_path` — Data file path
+    # 
+    # _@param_ `object` — Data file object
+    def initialize: (String _type, String file_path, Object object) -> void
+
+    # Checks if the given file matches this data file path
+    # 
+    # The check is case insensitive
+    # 
+    # _@param_ `file` — File path
+    def file_path?: (String file) -> bool
+
+    # Checks if the given file base name matches this data file base name
+    # 
+    # The check is case insensitive
+    # 
+    # _@param_ `file` — File path
+    def file?: (String file) -> bool
+
+    # Checks if the given data type matches this data file type
+    # 
+    # The check is case insensitive
+    # 
+    # _@param_ `data_type`
+    def type?: (String data_type) -> bool
+
+    # Checks whether this data file instance supports object selection or not
+    def customizable?: () -> bool
+
+    # Checks whether this data file instance is mergeable or not
+    def mergeable?: () -> bool
+
+    # Checks whether all objects are included in the serialization process
+    def all_objects?: () -> bool
+
+    # sord omit - no YARD return type given, using untyped
+    # Updates the list of object IDs for this data file
+    # 
+    # Any duped ID is auto. removed from the list
+    # 
+    # _@param_ `object_ids`
+    def object_ids_update: (*::Array[Integer] object_ids) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Clears the current list of object IDs
+    def object_ids_clear: () -> untyped
+
+    # Gets the data file name
+    def file: () -> String
+
+    # Process the data file's file name for serialization
+    # 
+    # The extension is automatically removed
+    def serialize_file_name: () -> String
+
+    # sord omit - no YARD return type given, using untyped
+    # Merges the given data file contents with this data file
+    # 
+    # _@param_ `data_file`
+    def merge: (DataFile data_file) -> untyped
+
+    # Serializes the data file's object
+    # 
+    # This method performs the necessary logic to the object for serialization
+    # 
+    # By default, it returns the object as is
+    def serialize: () -> Object
+
+    # Converts the given object list to object IDs for this data file
+    # 
+    # The given list must be instances of this data file's contents
+    # 
+    # By default it returns an empty array
+    # 
+    # _@param_ `list` — List of objects
+    def convert_list_to_ids: (::Array[untyped] list) -> ::Array[Integer]
+
+    # Gets a list of objects prepared to be merged
+    # 
+    # Returns ``nil`` by default
+    def to_merge: () -> ::Array[Object]
+
+    # Gets a list of objects to perform a selection
+    # 
+    # If the data file does not allow this behavior it returns ``nil``
+    # 
+    # Returns ``nil`` by default
+    def to_list: () -> ::Array[Object]
+
+    # Converts this instance to a string
+    def to_s: () -> String
+
+    # Comparable operator (case insensitive)
+    # 
+    # _@param_ `other` — Other
+    def <=>: (Object other) -> Integer
+
+    # Data file type
+    attr_reader type: String
+
+    # Data file path
+    attr_reader file_path: String
+
+    # Data file object IDs list
+    attr_reader object_ids: ::Array[Integer]
+
+    # Data file object (not processed)
+    attr_reader object: Object
+  end
+
+  # 
+  # RPG Maker array data file
+  # 
+  # This class expects the object to be an array
+  class DataFileArray < RgssDb::DataFile
+    # Checks whether all objects are included in the serialization process
+    def all_objects?: () -> bool
+
+    # sord omit - no YARD return type given, using untyped
+    # Merges the given data file contents with this data file
+    # 
+    # _@param_ `data_file`
+    def merge: (DataFile data_file) -> untyped
+
+    # Serializes the data file's object
+    # 
+    # This method prepares the object as an array
+    # 
+    # The first element is always ``nil`` (required for RPG Maker)
+    # 
+    # Object IDs list is used to filter the selected items on the data file
+    def serialize: () -> ::Array[Object]
+
+    # Converts the given object list to object IDs for this data file
+    # 
+    # The given list must be instances of this data file's array
+    # 
+    # _@param_ `list` — List of objects
+    def convert_list_to_ids: (::Array[untyped] list) -> ::Array[Integer]
+
+    # Gets a list of objects prepared to be merged
+    def to_merge: () -> ::Array[Object]
+
+    # Gets a list of objects to perform a selection
+    def to_list: () -> ::Array[Object]
+
+    # Data file object (not processed)
+    attr_reader object: ::Array[untyped]
+  end
+
+  # 
+  # RPG Maker hash data file
+  # 
+  # This class expects the object to be a hash
+  class DataFileHash < RgssDb::DataFile
+    # Checks whether all objects are included in the serialization process
+    def all_objects?: () -> bool
+
+    # sord omit - no YARD return type given, using untyped
+    # Merges the given data file contents with this data file
+    # 
+    # _@param_ `data_file`
+    def merge: (DataFile data_file) -> untyped
+
+    # Serializes the data file's object
+    # 
+    # This method prepares the object as a hash
+    # 
+    # Object IDs list is used to filter the correct
+    def serialize: () -> ::Hash[untyped, untyped]
+
+    # Converts the given list to object IDs for this data file
+    # 
+    # The list must be an array of this data file hash values or keys
+    # 
+    # _@param_ `list` — List of objects
+    def convert_list_to_ids: (::Array[untyped] list) -> ::Array[Object]
+
+    # Gets a list of objects prepared to be merged
+    def to_merge: () -> ::Hash[untyped, untyped]
+
+    # Gets a list of objects to perform a selection
+    def to_list: () -> ::Array[Object]
+
+    # Data file object (not processed)
+    attr_reader object: ::Hash[untyped, untyped]
+  end
+
+  # 
+  # RPG Maker numbered hash data file
+  # 
+  # This class expects the object to be a hash
+  # 
+  # This class forces hash keys to be a number for the data files:
+  # - Areas
+  # - MapInfos
+  # 
+  # **Reason: Creating a DataFileHash instance from a MapInfos/Areas JSON file provokes undesired behavior.**
+  # 
+  # JSON only allows key names to be strings, so all keys of the hash will be converted to string.
+  # 
+  # This is undesired behavior because RPG Maker editor requires the MapInfos and Areas hash keys to be numbers.
+  # 
+  # So we need to convert all keys read from the JSON file to integers when importing the JSON file into the
+  # RPG Maker database, hence the inclusion of this class specification from DataFileHash.
+  # 
+  # Otherwise the RPG Maker editor will fail to show the maps and areas even though data still exists.
+  class DataFileHashNumber < RgssDb::DataFileHash
+    # Serializes the data file's object
+    # 
+    # This method prepares the object as a hash
+    # 
+    # Object IDs list is used to filter the correct
+    def serialize: () -> ::Hash[untyped, untyped]
+  end
+
+  # 
+  # Utilities module
+  module Utilities
+    INVALID_CHARACTERS: Regexp
+
+    # Gets the list of the default (pre-selected) indexes for a TTY selection menu
+    # 
+    # If a block is given, it will be used to evaluate the index selection
+    # 
+    # The block receives the following parameters ``[Object, Integer, Object]``:
+    #   - The first one is the current menu option being evaluated
+    #   - The second one is the index of the menu option being evaluated
+    #   - The third argument iterates through each user option
+    # 
+    # If the block ever returns ``true`` for the current menu option, its index will be saved
+    # 
+    # If no block is given, it will use ``Array#include?`` to check if either the menu option or the menu index exists
+    # in the options user list
+    # 
+    # The following flags can be used to alter the behavior:
+    #   - all_if_empty: Select all options if the user's options list is empty
+    # 
+    # _@param_ `options_menu` — Menu options list
+    # 
+    # _@param_ `options_user` — List of user selected options
+    # 
+    # _@param_ `all_if_empty` — Whether to select all options if the user array is empty
+    # 
+    # _@param_ `block` — Evaluation callback
+    def self.menu_default_indexes: (::Array[untyped] options_menu, ::Array[untyped] options_user, ?all_if_empty: bool) ?{ (Object arg0, Integer arg1, Object arg2) -> void } -> ::Array[Integer]
+
+    # Validates the path
+    # 
+    # Returns a ``MatchData`` if the path is invalid, otherwise ``nil``
+    # 
+    # The ``MatchData`` object contains the invalid characters
+    # 
+    # _@param_ `path` — Path
+    def self.validate_path: (String path) -> MatchData
+
+    # Checks whether the path is valid or not
+    # 
+    # Returns ``true`` if the path is valid, otherwise ``false``
+    # 
+    # _@param_ `path` — Path
+    def self.valid_path?: (String path) -> bool
+  end
+
+  # 
+  # Jsonable mixin
+  module Jsonable
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+  end
+
+  # 
+  # Data manager class
+  class DataManager
+    # Creates a data manager instance
+    # 
+    # _@param_ `data_folder` — RPG Maker database folder
+    def initialize: (String data_folder) -> void
+
+    # Checks if a valid RPG Maker version was detected or not
+    def version?: () -> bool
+
+    # Checks if the current RPG Maker version detected matches the given one
+    # 
+    # The argument is automatically casted into a Symbol instance
+    # 
+    # _@param_ `version` — RPG Maker version
+    def version_is?: (Symbol version) -> bool
+
+    # Returns ``true`` if ``file_path`` is a RPG Maker binary data file
+    # 
+    # Returns ``false`` if ``file_path`` is not a binary data file
+    # 
+    # Returns ``false`` if the RGSS version could not be determined
+    # 
+    # _@param_ `file_path` — File path
+    def database_file?: (String file_path) -> bool
+
+    # Returns ``true`` if the file path is a JSON file
+    # 
+    # _@param_ `file_path` — File path
+    def json_file?: (String file_path) -> bool
+
+    # Returns ``true`` if the file path is a YAML file
+    # 
+    # _@param_ `file_path` — File path
+    def yaml_file?: (String file_path) -> bool
+
+    # Loads a single database data file based on the given type
+    # 
+    # _@param_ `database_file_type`
+    def load_database_file: (String database_file_type) -> DataFile
+
+    # Gets a list of ``DataFile`` instances based on the current path and detected version
+    # 
+    # This method should be used to read all RPG Maker binary data files
+    # 
+    # Returns an empty array if the operation is not possible
+    def load_database_files: () -> ::Array[DataFile]
+
+    # Gets a list of ``DataFile`` instances based on the given directory
+    # 
+    # All extracted files should be inside the given directory
+    # 
+    # This method reads extracted files and returns it as data files (RPG maker data)
+    # 
+    # Returns an empty array if the operation is not possible
+    # 
+    # _@param_ `app_directory` — Application working directory
+    def load_extracted_files: (String app_directory) -> ::Array[DataFile]
+
+    # Gets a list of ``DataFile`` instances based on the given directory
+    # 
+    # All custom extracted files should be inside the given directory
+    # 
+    # This method reads extracted files and returns it as data files (RPG maker data)
+    # 
+    # Returns an empty array if the operation is not possible
+    # 
+    # _@param_ `app_directory` — Application working directory
+    def load_extracted_files_custom: (String app_directory) -> ::Array[DataFile]
+
+    # sord omit - no YARD return type given, using untyped
+    # Saves the given data file instance
+    # 
+    # _@param_ `data_file` — Data file instance
+    # 
+    # _@param_ `app_directory` — Application working directory
+    # 
+    # _@param_ `output_format_type` — Output file format type
+    def save_data_file: (DataFile data_file, String app_directory, String output_format_type) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Saves a back up of the given file
+    # 
+    # If ``file_path`` is a path, the file's base name is auto. extracted
+    # 
+    # If the database file does not exist back up creation is skipped
+    # 
+    # _@param_ `file_path` — File path
+    # 
+    # _@param_ `app_directory` — Application working directory
+    def save_database_back_up: (String file_path, String app_directory) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Detects the RGSS engine version on the current opened data folder
+    def database_detect_version: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Loads the appropriate RPG Maker database classes based on the detected RPG Maker version
+    # 
+    # Only one RPG Maker version should be loaded at a time to avoid data corruption
+    def database_load_model: () -> untyped
+
+    # Gets the appropiate file extension based on the detected RGSS version
+    # 
+    # Returns ``nil`` if the RGSS version is invalid
+    def database_file_extension: () -> String
+
+    # Gets a list of all supported database file names based on the detected RGSS version
+    # 
+    # The list of file names has glob patterns
+    # 
+    # Returns ``nil`` if the RGSS version is invalid
+    def database_file_names: () -> ::Array[String]
+
+    # Determines the file extension based on the file format type
+    # 
+    # Returns ``nil`` if the format type is unknown
+    # 
+    # _@param_ `format_type`
+    def determine_file_extension: (Symbol format_type) -> String
+
+    # Loads the given file contents
+    # 
+    # Returns ``nil`` if the operation is not possible
+    # 
+    # _@param_ `file_path` — File entry
+    def load_file: (String file_path) -> Object
+
+    # sord omit - no YARD return type given, using untyped
+    # Saves the data file instance
+    # 
+    # The file path will be created if it does not exists
+    # 
+    # _@param_ `file_path` — File path
+    # 
+    # _@param_ `object` — object
+    def save_file: (String file_path, Object object) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    # Saves a back up of the given file
+    # 
+    # _@param_ `file_path` — File path
+    # 
+    # _@param_ `app_directory` — Application working directory
+    def save_back_up: (String file_path, String app_directory) -> untyped
+
+    # Gets the current date and time as a string
+    def current_date: () -> String
+
+    # Data folder path
+    attr_reader path: String
+
+    # RGSS Version
+    # 
+    # Returns ``nil`` if no version was detected
+    attr_reader rgss_version: Symbol
+  end
+
+  # 
+  # Data file factory module
+  module DataFileFactory
+    FACTORY_ALL_TYPES: ::Array[String]
+    FACTORY_ARRAY: ::Array[String]
+    FACTORY_HASH: ::Array[String]
+    FACTORY_HASH_NUMBER: ::Array[String]
+
+    # Creates a data file instance based on the given file entry
+    # 
+    # The database file type is auto. determined using the ``data_file`` path
+    # 
+    # _@param_ `data_file` — Data file entry
+    # 
+    # _@param_ `object` — Deserialized data file object
+    def self.create_data_file: (String data_file, Object object) -> DataFile
+
+    # Determines the type of the data file
+    # 
+    # Returns ``nil`` if a valid type cannot be found
+    # 
+    # _@param_ `data_file` — Data file entry
+    def self.determine_data_file_type: (String data_file) -> String
+  end
+
+  # 
+  # Jsonable constructor module
+  module JsonableConstructor
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+  end
+end
+
+# 
+# RPG classes module
+module RPG
+  # 
+  # The data class for ME. This class has functionality for playing itself using an Audio module.
+  class ME < RPG::AudioFile
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD return type given, using untyped
+    def play: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def self.stop: () -> untyped
+
+    # sord omit - no YARD type given for "time", using untyped
+    # sord omit - no YARD return type given, using untyped
+    def self.fade: (untyped time) -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+  end
+
+  # 
+  # The data class for SE. This class has functionality for playing itself using an Audio module.
+  class SE < RPG::AudioFile
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD return type given, using untyped
+    def play: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def self.stop: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+  end
+
+  # 
+  # The data class for BGM. This class has functionality for playing itself using an Audio module.
+  class BGM < RPG::AudioFile
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "pos", using untyped
+    # sord omit - no YARD return type given, using untyped
+    def play: (?untyped pos) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def self.stop: () -> untyped
+
+    # sord omit - no YARD type given for "time", using untyped
+    # sord omit - no YARD return type given, using untyped
+    def self.fade: (untyped time) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def self.last: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def replay: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute pos.
+    attr_accessor pos: untyped
+  end
+
+  # 
+  # The data class for BGS. This class has functionality for playing itself using an Audio module.
+  class BGS < RPG::AudioFile
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "pos", using untyped
+    # sord omit - no YARD return type given, using untyped
+    def play: (?untyped pos) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def self.stop: () -> untyped
+
+    # sord omit - no YARD type given for "time", using untyped
+    # sord omit - no YARD return type given, using untyped
+    def self.fade: (untyped time) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def self.last: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def replay: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute pos.
+    attr_accessor pos: untyped
+  end
+
+  # 
+  # The data class for maps.
+  class Map
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "width", using untyped
+    # sord omit - no YARD type given for "height", using untyped
+    def initialize: (untyped width, untyped height) -> void
+
+    # JSON constructor
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute width.
+    attr_accessor width: untyped
+
+    # Returns the value of attribute height.
+    attr_accessor height: untyped
+
+    # Returns the value of attribute scroll_type.
+    attr_accessor scroll_type: untyped
+
+    # Returns the value of attribute autoplay_bgm.
+    attr_accessor autoplay_bgm: untyped
+
+    # Returns the value of attribute bgm.
+    attr_accessor bgm: untyped
+
+    # Returns the value of attribute autoplay_bgs.
+    attr_accessor autoplay_bgs: untyped
+
+    # Returns the value of attribute bgs.
+    attr_accessor bgs: untyped
+
+    # Returns the value of attribute disable_dashing.
+    attr_accessor disable_dashing: untyped
+
+    # Returns the value of attribute encounter_list.
+    attr_accessor encounter_list: untyped
+
+    # Returns the value of attribute encounter_step.
+    attr_accessor encounter_step: untyped
+
+    # Returns the value of attribute parallax_name.
+    attr_accessor parallax_name: untyped
+
+    # Returns the value of attribute parallax_loop_x.
+    attr_accessor parallax_loop_x: untyped
+
+    # Returns the value of attribute parallax_loop_y.
+    attr_accessor parallax_loop_y: untyped
+
+    # Returns the value of attribute parallax_sx.
+    attr_accessor parallax_sx: untyped
+
+    # Returns the value of attribute parallax_sy.
+    attr_accessor parallax_sy: untyped
+
+    # Returns the value of attribute parallax_show.
+    attr_accessor parallax_show: untyped
+
+    # Returns the value of attribute data.
+    attr_accessor data: untyped
+
+    # Returns the value of attribute events.
+    attr_accessor events: untyped
+
+    # Returns the value of attribute tileset_id.
+    attr_accessor tileset_id: untyped
+
+    # Returns the value of attribute display_name.
+    attr_accessor display_name: untyped
+
+    # Returns the value of attribute specify_battleback.
+    attr_accessor specify_battleback: untyped
+
+    # Returns the value of attribute battleback1_name.
+    attr_accessor battleback1_name: untyped
+
+    # Returns the value of attribute battleback2_name.
+    attr_accessor battleback2_name: untyped
+
+    # Returns the value of attribute note.
+    attr_accessor note: untyped
+
+    # 
+    # The data class for the encounter settings.
+    class Encounter
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute troop_id.
+      attr_accessor troop_id: untyped
+
+      # Returns the value of attribute weight.
+      attr_accessor weight: untyped
+
+      # Returns the value of attribute region_set.
+      attr_accessor region_set: untyped
+    end
+  end
+
+  # 
+  # Data class for areas.
+  class Area
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute map_id.
+    attr_accessor map_id: untyped
+
+    # Returns the value of attribute rect.
+    attr_accessor rect: untyped
+
+    # Returns the value of attribute encounter_list.
+    attr_accessor encounter_list: untyped
+
+    # Returns the value of attribute order.
+    attr_accessor order: untyped
+  end
+
+  # 
+  # The data class for items.
+  class Item < RPG::UsableItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    def key_item?: () -> bool
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute price.
+    attr_accessor price: untyped
+
+    # Returns the value of attribute consumable.
+    attr_accessor consumable: untyped
+
+    # Returns the value of attribute hp_recovery_rate.
+    attr_accessor hp_recovery_rate: untyped
+
+    # Returns the value of attribute hp_recovery.
+    attr_accessor hp_recovery: untyped
+
+    # Returns the value of attribute mp_recovery_rate.
+    attr_accessor mp_recovery_rate: untyped
+
+    # Returns the value of attribute mp_recovery.
+    attr_accessor mp_recovery: untyped
+
+    # Returns the value of attribute parameter_type.
+    attr_accessor parameter_type: untyped
+
+    # Returns the value of attribute parameter_points.
+    attr_accessor parameter_points: untyped
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute icon_name.
+    attr_accessor icon_name: untyped
+
+    # Returns the value of attribute description.
+    attr_accessor description: untyped
+
+    # Returns the value of attribute scope.
+    attr_accessor scope: untyped
+
+    # Returns the value of attribute occasion.
+    attr_accessor occasion: untyped
+
+    # Returns the value of attribute animation1_id.
+    attr_accessor animation1_id: untyped
+
+    # Returns the value of attribute animation2_id.
+    attr_accessor animation2_id: untyped
+
+    # Returns the value of attribute menu_se.
+    attr_accessor menu_se: untyped
+
+    # Returns the value of attribute common_event_id.
+    attr_accessor common_event_id: untyped
+
+    # Returns the value of attribute recover_hp_rate.
+    attr_accessor recover_hp_rate: untyped
+
+    # Returns the value of attribute recover_hp.
+    attr_accessor recover_hp: untyped
+
+    # Returns the value of attribute recover_sp_rate.
+    attr_accessor recover_sp_rate: untyped
+
+    # Returns the value of attribute recover_sp.
+    attr_accessor recover_sp: untyped
+
+    # Returns the value of attribute hit.
+    attr_accessor hit: untyped
+
+    # Returns the value of attribute pdef_f.
+    attr_accessor pdef_f: untyped
+
+    # Returns the value of attribute mdef_f.
+    attr_accessor mdef_f: untyped
+
+    # Returns the value of attribute variance.
+    attr_accessor variance: untyped
+
+    # Returns the value of attribute element_set.
+    attr_accessor element_set: untyped
+
+    # Returns the value of attribute plus_state_set.
+    attr_accessor plus_state_set: untyped
+
+    # Returns the value of attribute minus_state_set.
+    attr_accessor minus_state_set: untyped
+
+    # Returns the value of attribute itype_id.
+    attr_accessor itype_id: untyped
+  end
+
+  # 
+  # The data class for actors.
+  class Actor < RPG::BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute class_id.
+    attr_accessor class_id: untyped
+
+    # Returns the value of attribute initial_level.
+    attr_accessor initial_level: untyped
+
+    # Returns the value of attribute exp_basis.
+    attr_accessor exp_basis: untyped
+
+    # Returns the value of attribute exp_inflation.
+    attr_accessor exp_inflation: untyped
+
+    # Returns the value of attribute character_name.
+    attr_accessor character_name: untyped
+
+    # Returns the value of attribute character_index.
+    attr_accessor character_index: untyped
+
+    # Returns the value of attribute face_name.
+    attr_accessor face_name: untyped
+
+    # Returns the value of attribute face_index.
+    attr_accessor face_index: untyped
+
+    # Returns the value of attribute parameters.
+    attr_accessor parameters: untyped
+
+    # Returns the value of attribute weapon_id.
+    attr_accessor weapon_id: untyped
+
+    # Returns the value of attribute armor1_id.
+    attr_accessor armor1_id: untyped
+
+    # Returns the value of attribute armor2_id.
+    attr_accessor armor2_id: untyped
+
+    # Returns the value of attribute armor3_id.
+    attr_accessor armor3_id: untyped
+
+    # Returns the value of attribute armor4_id.
+    attr_accessor armor4_id: untyped
+
+    # Returns the value of attribute two_swords_style.
+    attr_accessor two_swords_style: untyped
+
+    # Returns the value of attribute fix_equipment.
+    attr_accessor fix_equipment: untyped
+
+    # Returns the value of attribute auto_battle.
+    attr_accessor auto_battle: untyped
+
+    # Returns the value of attribute super_guard.
+    attr_accessor super_guard: untyped
+
+    # Returns the value of attribute pharmacology.
+    attr_accessor pharmacology: untyped
+
+    # Returns the value of attribute critical_bonus.
+    attr_accessor critical_bonus: untyped
+
+    # Returns the value of attribute final_level.
+    attr_accessor final_level: untyped
+
+    # Returns the value of attribute character_hue.
+    attr_accessor character_hue: untyped
+
+    # Returns the value of attribute battler_name.
+    attr_accessor battler_name: untyped
+
+    # Returns the value of attribute battler_hue.
+    attr_accessor battler_hue: untyped
+
+    # Returns the value of attribute weapon_fix.
+    attr_accessor weapon_fix: untyped
+
+    # Returns the value of attribute armor1_fix.
+    attr_accessor armor1_fix: untyped
+
+    # Returns the value of attribute armor2_fix.
+    attr_accessor armor2_fix: untyped
+
+    # Returns the value of attribute armor3_fix.
+    attr_accessor armor3_fix: untyped
+
+    # Returns the value of attribute armor4_fix.
+    attr_accessor armor4_fix: untyped
+
+    # Returns the value of attribute nickname.
+    attr_accessor nickname: untyped
+
+    # Returns the value of attribute max_level.
+    attr_accessor max_level: untyped
+
+    # Returns the value of attribute equips.
+    attr_accessor equips: untyped
+  end
+
+  # 
+  # The data class for armor.
+  class Armor < RPG::EquipItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute kind.
+    attr_accessor kind: untyped
+
+    # Returns the value of attribute price.
+    attr_accessor price: untyped
+
+    # Returns the value of attribute eva.
+    attr_accessor eva: untyped
+
+    # Returns the value of attribute atk.
+    attr_accessor atk: untyped
+
+    # Returns the value of attribute def.
+    attr_accessor def: untyped
+
+    # Returns the value of attribute spi.
+    attr_accessor spi: untyped
+
+    # Returns the value of attribute agi.
+    attr_accessor agi: untyped
+
+    # Returns the value of attribute prevent_critical.
+    attr_accessor prevent_critical: untyped
+
+    # Returns the value of attribute half_mp_cost.
+    attr_accessor half_mp_cost: untyped
+
+    # Returns the value of attribute double_exp_gain.
+    attr_accessor double_exp_gain: untyped
+
+    # Returns the value of attribute auto_hp_recover.
+    attr_accessor auto_hp_recover: untyped
+
+    # Returns the value of attribute element_set.
+    attr_accessor element_set: untyped
+
+    # Returns the value of attribute state_set.
+    attr_accessor state_set: untyped
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute icon_name.
+    attr_accessor icon_name: untyped
+
+    # Returns the value of attribute description.
+    attr_accessor description: untyped
+
+    # Returns the value of attribute auto_state_id.
+    attr_accessor auto_state_id: untyped
+
+    # Returns the value of attribute pdef.
+    attr_accessor pdef: untyped
+
+    # Returns the value of attribute mdef.
+    attr_accessor mdef: untyped
+
+    # Returns the value of attribute str_plus.
+    attr_accessor str_plus: untyped
+
+    # Returns the value of attribute dex_plus.
+    attr_accessor dex_plus: untyped
+
+    # Returns the value of attribute agi_plus.
+    attr_accessor agi_plus: untyped
+
+    # Returns the value of attribute int_plus.
+    attr_accessor int_plus: untyped
+
+    # Returns the value of attribute guard_element_set.
+    attr_accessor guard_element_set: untyped
+
+    # Returns the value of attribute guard_state_set.
+    attr_accessor guard_state_set: untyped
+
+    # Returns the value of attribute atype_id.
+    attr_accessor atype_id: untyped
+  end
+
+  # 
+  # The data class for class.
+  class Class < RPG::BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # sord omit - no YARD type given for "level", using untyped
+    # sord omit - no YARD return type given, using untyped
+    def exp_for_level: (untyped level) -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute position.
+    attr_accessor position: untyped
+
+    # Returns the value of attribute weapon_set.
+    attr_accessor weapon_set: untyped
+
+    # Returns the value of attribute armor_set.
+    attr_accessor armor_set: untyped
+
+    # Returns the value of attribute element_ranks.
+    attr_accessor element_ranks: untyped
+
+    # Returns the value of attribute state_ranks.
+    attr_accessor state_ranks: untyped
+
+    # Returns the value of attribute learnings.
+    attr_accessor learnings: untyped
+
+    # Returns the value of attribute skill_name_valid.
+    attr_accessor skill_name_valid: untyped
+
+    # Returns the value of attribute skill_name.
+    attr_accessor skill_name: untyped
+
+    # Returns the value of attribute exp_params.
+    attr_accessor exp_params: untyped
+
+    # Returns the value of attribute params.
+    attr_accessor params: untyped
+
+    # 
+    # The data class for a class's [Skills to Learn].
+    class Learning
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute level.
+      attr_accessor level: untyped
+
+      # Returns the value of attribute skill_id.
+      attr_accessor skill_id: untyped
+
+      # Returns the value of attribute note.
+      attr_accessor note: untyped
+    end
+  end
+
+  # 
+  # The data class for enemies.
+  class Enemy < RPG::BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute battler_name.
+    attr_accessor battler_name: untyped
+
+    # Returns the value of attribute battler_hue.
+    attr_accessor battler_hue: untyped
+
+    # Returns the value of attribute maxhp.
+    attr_accessor maxhp: untyped
+
+    # Returns the value of attribute maxmp.
+    attr_accessor maxmp: untyped
+
+    # Returns the value of attribute atk.
+    attr_accessor atk: untyped
+
+    # Returns the value of attribute def.
+    attr_accessor def: untyped
+
+    # Returns the value of attribute spi.
+    attr_accessor spi: untyped
+
+    # Returns the value of attribute agi.
+    attr_accessor agi: untyped
+
+    # Returns the value of attribute hit.
+    attr_accessor hit: untyped
+
+    # Returns the value of attribute eva.
+    attr_accessor eva: untyped
+
+    # Returns the value of attribute exp.
+    attr_accessor exp: untyped
+
+    # Returns the value of attribute gold.
+    attr_accessor gold: untyped
+
+    # Returns the value of attribute drop_item1.
+    attr_accessor drop_item1: untyped
+
+    # Returns the value of attribute drop_item2.
+    attr_accessor drop_item2: untyped
+
+    # Returns the value of attribute levitate.
+    attr_accessor levitate: untyped
+
+    # Returns the value of attribute has_critical.
+    attr_accessor has_critical: untyped
+
+    # Returns the value of attribute element_ranks.
+    attr_accessor element_ranks: untyped
+
+    # Returns the value of attribute state_ranks.
+    attr_accessor state_ranks: untyped
+
+    # Returns the value of attribute actions.
+    attr_accessor actions: untyped
+
+    # Returns the value of attribute note.
+    attr_accessor note: untyped
+
+    # Returns the value of attribute maxsp.
+    attr_accessor maxsp: untyped
+
+    # Returns the value of attribute str.
+    attr_accessor str: untyped
+
+    # Returns the value of attribute dex.
+    attr_accessor dex: untyped
+
+    # Returns the value of attribute int.
+    attr_accessor int: untyped
+
+    # Returns the value of attribute pdef.
+    attr_accessor pdef: untyped
+
+    # Returns the value of attribute mdef.
+    attr_accessor mdef: untyped
+
+    # Returns the value of attribute animation1_id.
+    attr_accessor animation1_id: untyped
+
+    # Returns the value of attribute animation2_id.
+    attr_accessor animation2_id: untyped
+
+    # Returns the value of attribute item_id.
+    attr_accessor item_id: untyped
+
+    # Returns the value of attribute weapon_id.
+    attr_accessor weapon_id: untyped
+
+    # Returns the value of attribute armor_id.
+    attr_accessor armor_id: untyped
+
+    # Returns the value of attribute treasure_prob.
+    attr_accessor treasure_prob: untyped
+
+    # Returns the value of attribute params.
+    attr_accessor params: untyped
+
+    # Returns the value of attribute drop_items.
+    attr_accessor drop_items: untyped
+
+    # 
+    # The data class for enemy [Actions].
+    class Action
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      def skill?: () -> bool
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute kind.
+      attr_accessor kind: untyped
+
+      # Returns the value of attribute basic.
+      attr_accessor basic: untyped
+
+      # Returns the value of attribute skill_id.
+      attr_accessor skill_id: untyped
+
+      # Returns the value of attribute condition_type.
+      attr_accessor condition_type: untyped
+
+      # Returns the value of attribute condition_param1.
+      attr_accessor condition_param1: untyped
+
+      # Returns the value of attribute condition_param2.
+      attr_accessor condition_param2: untyped
+
+      # Returns the value of attribute rating.
+      attr_accessor rating: untyped
+
+      # Returns the value of attribute condition_turn_a.
+      attr_accessor condition_turn_a: untyped
+
+      # Returns the value of attribute condition_turn_b.
+      attr_accessor condition_turn_b: untyped
+
+      # Returns the value of attribute condition_hp.
+      attr_accessor condition_hp: untyped
+
+      # Returns the value of attribute condition_level.
+      attr_accessor condition_level: untyped
+
+      # Returns the value of attribute condition_switch_id.
+      attr_accessor condition_switch_id: untyped
+    end
+
+    # 
+    # The data class for enemy [Drop Items].
+    class DropItem
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute kind.
+      attr_accessor kind: untyped
+
+      # Returns the value of attribute item_id.
+      attr_accessor item_id: untyped
+
+      # Returns the value of attribute weapon_id.
+      attr_accessor weapon_id: untyped
+
+      # Returns the value of attribute armor_id.
+      attr_accessor armor_id: untyped
+
+      # Returns the value of attribute denominator.
+      attr_accessor denominator: untyped
+
+      # Returns the value of attribute data_id.
+      attr_accessor data_id: untyped
+    end
+  end
+
+  # 
+  # The data class for map events.
+  class Event
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "x", using untyped
+    # sord omit - no YARD type given for "y", using untyped
+    def initialize: (untyped x, untyped y) -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute x.
+    attr_accessor x: untyped
+
+    # Returns the value of attribute y.
+    attr_accessor y: untyped
+
+    # Returns the value of attribute pages.
+    attr_accessor pages: untyped
+
+    # 
+    # The data class for the event page.
+    class Page
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute condition.
+      attr_accessor condition: untyped
+
+      # Returns the value of attribute graphic.
+      attr_accessor graphic: untyped
+
+      # Returns the value of attribute move_type.
+      attr_accessor move_type: untyped
+
+      # Returns the value of attribute move_speed.
+      attr_accessor move_speed: untyped
+
+      # Returns the value of attribute move_frequency.
+      attr_accessor move_frequency: untyped
+
+      # Returns the value of attribute move_route.
+      attr_accessor move_route: untyped
+
+      # Returns the value of attribute walk_anime.
+      attr_accessor walk_anime: untyped
+
+      # Returns the value of attribute step_anime.
+      attr_accessor step_anime: untyped
+
+      # Returns the value of attribute direction_fix.
+      attr_accessor direction_fix: untyped
+
+      # Returns the value of attribute through.
+      attr_accessor through: untyped
+
+      # Returns the value of attribute priority_type.
+      attr_accessor priority_type: untyped
+
+      # Returns the value of attribute trigger.
+      attr_accessor trigger: untyped
+
+      # Returns the value of attribute list.
+      attr_accessor list: untyped
+
+      # Returns the value of attribute always_on_top.
+      attr_accessor always_on_top: untyped
+
+      # 
+      # The data class for the Event page [Graphics].
+      class Graphic
+        include RgssDb::Jsonable
+        extend RgssDb::JsonableConstructor
+
+        def initialize: () -> void
+
+        # JSON constructor
+        # 
+        # This constructor is used to create a default instance
+        # 
+        # Note: Needs to be overriden in case class constructor needs arguments
+        # 
+        # _@param_ `args`
+        # 
+        # _@return_ — Class instance
+        def self.json_new: (*::Array[untyped] args) -> untyped
+
+        # JSON deserializer
+        # 
+        # _@param_ `hash`
+        # 
+        # _@param_ `args`
+        # 
+        # _@return_ — Class instance
+        def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+        # Returns this instance as a json-ready hash
+        def as_json: () -> ::Hash[untyped, untyped]
+
+        # Converts this instance to a JSON string
+        # 
+        # _@param_ `args` — Arguments
+        def to_json: (*::Array[untyped] args) -> String
+
+        # Returns the value of attribute tile_id.
+        attr_accessor tile_id: untyped
+
+        # Returns the value of attribute character_name.
+        attr_accessor character_name: untyped
+
+        # Returns the value of attribute character_index.
+        attr_accessor character_index: untyped
+
+        # Returns the value of attribute direction.
+        attr_accessor direction: untyped
+
+        # Returns the value of attribute pattern.
+        attr_accessor pattern: untyped
+
+        # Returns the value of attribute character_hue.
+        attr_accessor character_hue: untyped
+
+        # Returns the value of attribute opacity.
+        attr_accessor opacity: untyped
+
+        # Returns the value of attribute blend_type.
+        attr_accessor blend_type: untyped
+      end
+
+      # 
+      # The data class for the event page conditions.
+      class Condition
+        include RgssDb::Jsonable
+        extend RgssDb::JsonableConstructor
+
+        def initialize: () -> void
+
+        # JSON constructor
+        # 
+        # This constructor is used to create a default instance
+        # 
+        # Note: Needs to be overriden in case class constructor needs arguments
+        # 
+        # _@param_ `args`
+        # 
+        # _@return_ — Class instance
+        def self.json_new: (*::Array[untyped] args) -> untyped
+
+        # JSON deserializer
+        # 
+        # _@param_ `hash`
+        # 
+        # _@param_ `args`
+        # 
+        # _@return_ — Class instance
+        def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+        # Returns this instance as a json-ready hash
+        def as_json: () -> ::Hash[untyped, untyped]
+
+        # Converts this instance to a JSON string
+        # 
+        # _@param_ `args` — Arguments
+        def to_json: (*::Array[untyped] args) -> String
+
+        # Returns the value of attribute switch1_valid.
+        attr_accessor switch1_valid: untyped
+
+        # Returns the value of attribute switch2_valid.
+        attr_accessor switch2_valid: untyped
+
+        # Returns the value of attribute variable_valid.
+        attr_accessor variable_valid: untyped
+
+        # Returns the value of attribute self_switch_valid.
+        attr_accessor self_switch_valid: untyped
+
+        # Returns the value of attribute item_valid.
+        attr_accessor item_valid: untyped
+
+        # Returns the value of attribute actor_valid.
+        attr_accessor actor_valid: untyped
+
+        # Returns the value of attribute switch1_id.
+        attr_accessor switch1_id: untyped
+
+        # Returns the value of attribute switch2_id.
+        attr_accessor switch2_id: untyped
+
+        # Returns the value of attribute variable_id.
+        attr_accessor variable_id: untyped
+
+        # Returns the value of attribute variable_value.
+        attr_accessor variable_value: untyped
+
+        # Returns the value of attribute self_switch_ch.
+        attr_accessor self_switch_ch: untyped
+
+        # Returns the value of attribute item_id.
+        attr_accessor item_id: untyped
+
+        # Returns the value of attribute actor_id.
+        attr_accessor actor_id: untyped
+      end
+    end
+  end
+
+  # 
+  # The data class for skills.
+  class Skill < RPG::UsableItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute mp_cost.
+    attr_accessor mp_cost: untyped
+
+    # Returns the value of attribute hit.
+    attr_accessor hit: untyped
+
+    # Returns the value of attribute message1.
+    attr_accessor message1: untyped
+
+    # Returns the value of attribute message2.
+    attr_accessor message2: untyped
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute icon_name.
+    attr_accessor icon_name: untyped
+
+    # Returns the value of attribute description.
+    attr_accessor description: untyped
+
+    # Returns the value of attribute scope.
+    attr_accessor scope: untyped
+
+    # Returns the value of attribute occasion.
+    attr_accessor occasion: untyped
+
+    # Returns the value of attribute animation1_id.
+    attr_accessor animation1_id: untyped
+
+    # Returns the value of attribute animation2_id.
+    attr_accessor animation2_id: untyped
+
+    # Returns the value of attribute menu_se.
+    attr_accessor menu_se: untyped
+
+    # Returns the value of attribute common_event_id.
+    attr_accessor common_event_id: untyped
+
+    # Returns the value of attribute sp_cost.
+    attr_accessor sp_cost: untyped
+
+    # Returns the value of attribute power.
+    attr_accessor power: untyped
+
+    # Returns the value of attribute atk_f.
+    attr_accessor atk_f: untyped
+
+    # Returns the value of attribute eva_f.
+    attr_accessor eva_f: untyped
+
+    # Returns the value of attribute str_f.
+    attr_accessor str_f: untyped
+
+    # Returns the value of attribute dex_f.
+    attr_accessor dex_f: untyped
+
+    # Returns the value of attribute agi_f.
+    attr_accessor agi_f: untyped
+
+    # Returns the value of attribute int_f.
+    attr_accessor int_f: untyped
+
+    # Returns the value of attribute pdef_f.
+    attr_accessor pdef_f: untyped
+
+    # Returns the value of attribute mdef_f.
+    attr_accessor mdef_f: untyped
+
+    # Returns the value of attribute variance.
+    attr_accessor variance: untyped
+
+    # Returns the value of attribute element_set.
+    attr_accessor element_set: untyped
+
+    # Returns the value of attribute plus_state_set.
+    attr_accessor plus_state_set: untyped
+
+    # Returns the value of attribute minus_state_set.
+    attr_accessor minus_state_set: untyped
+
+    # Returns the value of attribute stype_id.
+    attr_accessor stype_id: untyped
+
+    # Returns the value of attribute tp_cost.
+    attr_accessor tp_cost: untyped
+
+    # Returns the value of attribute required_wtype_id1.
+    attr_accessor required_wtype_id1: untyped
+
+    # Returns the value of attribute required_wtype_id2.
+    attr_accessor required_wtype_id2: untyped
+  end
+
+  # 
+  # The data class for state.
+  class State < RPG::BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute icon_index.
+    attr_accessor icon_index: untyped
+
+    # Returns the value of attribute restriction.
+    attr_accessor restriction: untyped
+
+    # Returns the value of attribute priority.
+    attr_accessor priority: untyped
+
+    # Returns the value of attribute atk_rate.
+    attr_accessor atk_rate: untyped
+
+    # Returns the value of attribute def_rate.
+    attr_accessor def_rate: untyped
+
+    # Returns the value of attribute spi_rate.
+    attr_accessor spi_rate: untyped
+
+    # Returns the value of attribute agi_rate.
+    attr_accessor agi_rate: untyped
+
+    # Returns the value of attribute nonresistance.
+    attr_accessor nonresistance: untyped
+
+    # Returns the value of attribute offset_by_opposite.
+    attr_accessor offset_by_opposite: untyped
+
+    # Returns the value of attribute slip_damage.
+    attr_accessor slip_damage: untyped
+
+    # Returns the value of attribute reduce_hit_ratio.
+    attr_accessor reduce_hit_ratio: untyped
+
+    # Returns the value of attribute battle_only.
+    attr_accessor battle_only: untyped
+
+    # Returns the value of attribute release_by_damage.
+    attr_accessor release_by_damage: untyped
+
+    # Returns the value of attribute hold_turn.
+    attr_accessor hold_turn: untyped
+
+    # Returns the value of attribute auto_release_prob.
+    attr_accessor auto_release_prob: untyped
+
+    # Returns the value of attribute message1.
+    attr_accessor message1: untyped
+
+    # Returns the value of attribute message2.
+    attr_accessor message2: untyped
+
+    # Returns the value of attribute message3.
+    attr_accessor message3: untyped
+
+    # Returns the value of attribute message4.
+    attr_accessor message4: untyped
+
+    # Returns the value of attribute element_set.
+    attr_accessor element_set: untyped
+
+    # Returns the value of attribute state_set.
+    attr_accessor state_set: untyped
+
+    # Returns the value of attribute note.
+    attr_accessor note: untyped
+
+    # Returns the value of attribute animation_id.
+    attr_accessor animation_id: untyped
+
+    # Returns the value of attribute zero_hp.
+    attr_accessor zero_hp: untyped
+
+    # Returns the value of attribute cant_get_exp.
+    attr_accessor cant_get_exp: untyped
+
+    # Returns the value of attribute cant_evade.
+    attr_accessor cant_evade: untyped
+
+    # Returns the value of attribute rating.
+    attr_accessor rating: untyped
+
+    # Returns the value of attribute hit_rate.
+    attr_accessor hit_rate: untyped
+
+    # Returns the value of attribute maxhp_rate.
+    attr_accessor maxhp_rate: untyped
+
+    # Returns the value of attribute maxsp_rate.
+    attr_accessor maxsp_rate: untyped
+
+    # Returns the value of attribute str_rate.
+    attr_accessor str_rate: untyped
+
+    # Returns the value of attribute dex_rate.
+    attr_accessor dex_rate: untyped
+
+    # Returns the value of attribute int_rate.
+    attr_accessor int_rate: untyped
+
+    # Returns the value of attribute pdef_rate.
+    attr_accessor pdef_rate: untyped
+
+    # Returns the value of attribute mdef_rate.
+    attr_accessor mdef_rate: untyped
+
+    # Returns the value of attribute eva.
+    attr_accessor eva: untyped
+
+    # Returns the value of attribute shock_release_prob.
+    attr_accessor shock_release_prob: untyped
+
+    # Returns the value of attribute guard_element_set.
+    attr_accessor guard_element_set: untyped
+
+    # Returns the value of attribute plus_state_set.
+    attr_accessor plus_state_set: untyped
+
+    # Returns the value of attribute minus_state_set.
+    attr_accessor minus_state_set: untyped
+
+    # Returns the value of attribute remove_at_battle_end.
+    attr_accessor remove_at_battle_end: untyped
+
+    # Returns the value of attribute remove_by_restriction.
+    attr_accessor remove_by_restriction: untyped
+
+    # Returns the value of attribute auto_removal_timing.
+    attr_accessor auto_removal_timing: untyped
+
+    # Returns the value of attribute min_turns.
+    attr_accessor min_turns: untyped
+
+    # Returns the value of attribute max_turns.
+    attr_accessor max_turns: untyped
+
+    # Returns the value of attribute remove_by_damage.
+    attr_accessor remove_by_damage: untyped
+
+    # Returns the value of attribute chance_by_damage.
+    attr_accessor chance_by_damage: untyped
+
+    # Returns the value of attribute remove_by_walking.
+    attr_accessor remove_by_walking: untyped
+
+    # Returns the value of attribute steps_to_remove.
+    attr_accessor steps_to_remove: untyped
+  end
+
+  # 
+  # The data class for enemy troops.
+  class Troop
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute members.
+    attr_accessor members: untyped
+
+    # Returns the value of attribute pages.
+    attr_accessor pages: untyped
+
+    # 
+    # The data class for battle events (pages).
+    class Page
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute condition.
+      attr_accessor condition: untyped
+
+      # Returns the value of attribute span.
+      attr_accessor span: untyped
+
+      # Returns the value of attribute list.
+      attr_accessor list: untyped
+
+      # 
+      # The data class of battle event [Conditions].
+      class Condition
+        include RgssDb::Jsonable
+        extend RgssDb::JsonableConstructor
+
+        def initialize: () -> void
+
+        # JSON constructor
+        # 
+        # This constructor is used to create a default instance
+        # 
+        # Note: Needs to be overriden in case class constructor needs arguments
+        # 
+        # _@param_ `args`
+        # 
+        # _@return_ — Class instance
+        def self.json_new: (*::Array[untyped] args) -> untyped
+
+        # JSON deserializer
+        # 
+        # _@param_ `hash`
+        # 
+        # _@param_ `args`
+        # 
+        # _@return_ — Class instance
+        def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+        # Returns this instance as a json-ready hash
+        def as_json: () -> ::Hash[untyped, untyped]
+
+        # Converts this instance to a JSON string
+        # 
+        # _@param_ `args` — Arguments
+        def to_json: (*::Array[untyped] args) -> String
+
+        # Returns the value of attribute turn_ending.
+        attr_accessor turn_ending: untyped
+
+        # Returns the value of attribute turn_valid.
+        attr_accessor turn_valid: untyped
+
+        # Returns the value of attribute enemy_valid.
+        attr_accessor enemy_valid: untyped
+
+        # Returns the value of attribute actor_valid.
+        attr_accessor actor_valid: untyped
+
+        # Returns the value of attribute switch_valid.
+        attr_accessor switch_valid: untyped
+
+        # Returns the value of attribute turn_a.
+        attr_accessor turn_a: untyped
+
+        # Returns the value of attribute turn_b.
+        attr_accessor turn_b: untyped
+
+        # Returns the value of attribute enemy_index.
+        attr_accessor enemy_index: untyped
+
+        # Returns the value of attribute enemy_hp.
+        attr_accessor enemy_hp: untyped
+
+        # Returns the value of attribute actor_id.
+        attr_accessor actor_id: untyped
+
+        # Returns the value of attribute actor_hp.
+        attr_accessor actor_hp: untyped
+
+        # Returns the value of attribute switch_id.
+        attr_accessor switch_id: untyped
+      end
+    end
+
+    # 
+    # The data class for enemy troop members.
+    class Member
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute enemy_id.
+      attr_accessor enemy_id: untyped
+
+      # Returns the value of attribute x.
+      attr_accessor x: untyped
+
+      # Returns the value of attribute y.
+      attr_accessor y: untyped
+
+      # Returns the value of attribute hidden.
+      attr_accessor hidden: untyped
+
+      # Returns the value of attribute immortal.
+      attr_accessor immortal: untyped
+    end
+  end
+
+  # 
+  # The data class for the system.
+  class System
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute game_title.
+    attr_accessor game_title: untyped
+
+    # Returns the value of attribute version_id.
+    attr_accessor version_id: untyped
+
+    # Returns the value of attribute party_members.
+    attr_accessor party_members: untyped
+
+    # Returns the value of attribute elements.
+    attr_accessor elements: untyped
+
+    # Returns the value of attribute switches.
+    attr_accessor switches: untyped
+
+    # Returns the value of attribute variables.
+    attr_accessor variables: untyped
+
+    # Returns the value of attribute passages.
+    attr_accessor passages: untyped
+
+    # Returns the value of attribute boat.
+    attr_accessor boat: untyped
+
+    # Returns the value of attribute ship.
+    attr_accessor ship: untyped
+
+    # Returns the value of attribute airship.
+    attr_accessor airship: untyped
+
+    # Returns the value of attribute title_bgm.
+    attr_accessor title_bgm: untyped
+
+    # Returns the value of attribute battle_bgm.
+    attr_accessor battle_bgm: untyped
+
+    # Returns the value of attribute battle_end_me.
+    attr_accessor battle_end_me: untyped
+
+    # Returns the value of attribute gameover_me.
+    attr_accessor gameover_me: untyped
+
+    # Returns the value of attribute sounds.
+    attr_accessor sounds: untyped
+
+    # Returns the value of attribute test_battlers.
+    attr_accessor test_battlers: untyped
+
+    # Returns the value of attribute test_troop_id.
+    attr_accessor test_troop_id: untyped
+
+    # Returns the value of attribute start_map_id.
+    attr_accessor start_map_id: untyped
+
+    # Returns the value of attribute start_x.
+    attr_accessor start_x: untyped
+
+    # Returns the value of attribute start_y.
+    attr_accessor start_y: untyped
+
+    # Returns the value of attribute terms.
+    attr_accessor terms: untyped
+
+    # Returns the value of attribute battler_name.
+    attr_accessor battler_name: untyped
+
+    # Returns the value of attribute battler_hue.
+    attr_accessor battler_hue: untyped
+
+    # Returns the value of attribute edit_map_id.
+    attr_accessor edit_map_id: untyped
+
+    # Returns the value of attribute magic_number.
+    attr_accessor magic_number: untyped
+
+    # Returns the value of attribute windowskin_name.
+    attr_accessor windowskin_name: untyped
+
+    # Returns the value of attribute title_name.
+    attr_accessor title_name: untyped
+
+    # Returns the value of attribute gameover_name.
+    attr_accessor gameover_name: untyped
+
+    # Returns the value of attribute battle_transition.
+    attr_accessor battle_transition: untyped
+
+    # Returns the value of attribute cursor_se.
+    attr_accessor cursor_se: untyped
+
+    # Returns the value of attribute decision_se.
+    attr_accessor decision_se: untyped
+
+    # Returns the value of attribute cancel_se.
+    attr_accessor cancel_se: untyped
+
+    # Returns the value of attribute buzzer_se.
+    attr_accessor buzzer_se: untyped
+
+    # Returns the value of attribute equip_se.
+    attr_accessor equip_se: untyped
+
+    # Returns the value of attribute shop_se.
+    attr_accessor shop_se: untyped
+
+    # Returns the value of attribute save_se.
+    attr_accessor save_se: untyped
+
+    # Returns the value of attribute load_se.
+    attr_accessor load_se: untyped
+
+    # Returns the value of attribute battle_start_se.
+    attr_accessor battle_start_se: untyped
+
+    # Returns the value of attribute escape_se.
+    attr_accessor escape_se: untyped
+
+    # Returns the value of attribute actor_collapse_se.
+    attr_accessor actor_collapse_se: untyped
+
+    # Returns the value of attribute enemy_collapse_se.
+    attr_accessor enemy_collapse_se: untyped
+
+    # Returns the value of attribute words.
+    attr_accessor words: untyped
+
+    # Returns the value of attribute battleback_name.
+    attr_accessor battleback_name: untyped
+
+    # Returns the value of attribute japanese.
+    attr_accessor japanese: untyped
+
+    # Returns the value of attribute currency_unit.
+    attr_accessor currency_unit: untyped
+
+    # Returns the value of attribute skill_types.
+    attr_accessor skill_types: untyped
+
+    # Returns the value of attribute weapon_types.
+    attr_accessor weapon_types: untyped
+
+    # Returns the value of attribute armor_types.
+    attr_accessor armor_types: untyped
+
+    # Returns the value of attribute title1_name.
+    attr_accessor title1_name: untyped
+
+    # Returns the value of attribute title2_name.
+    attr_accessor title2_name: untyped
+
+    # Returns the value of attribute opt_draw_title.
+    attr_accessor opt_draw_title: untyped
+
+    # Returns the value of attribute opt_use_midi.
+    attr_accessor opt_use_midi: untyped
+
+    # Returns the value of attribute opt_transparent.
+    attr_accessor opt_transparent: untyped
+
+    # Returns the value of attribute opt_followers.
+    attr_accessor opt_followers: untyped
+
+    # Returns the value of attribute opt_slip_death.
+    attr_accessor opt_slip_death: untyped
+
+    # Returns the value of attribute opt_floor_death.
+    attr_accessor opt_floor_death: untyped
+
+    # Returns the value of attribute opt_display_tp.
+    attr_accessor opt_display_tp: untyped
+
+    # Returns the value of attribute opt_extra_exp.
+    attr_accessor opt_extra_exp: untyped
+
+    # Returns the value of attribute window_tone.
+    attr_accessor window_tone: untyped
+
+    # Returns the value of attribute battleback1_name.
+    attr_accessor battleback1_name: untyped
+
+    # Returns the value of attribute battleback2_name.
+    attr_accessor battleback2_name: untyped
+
+    # 
+    # The data class for terminology.
+    class Terms
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute level.
+      attr_accessor level: untyped
+
+      # Returns the value of attribute level_a.
+      attr_accessor level_a: untyped
+
+      # Returns the value of attribute hp.
+      attr_accessor hp: untyped
+
+      # Returns the value of attribute hp_a.
+      attr_accessor hp_a: untyped
+
+      # Returns the value of attribute mp.
+      attr_accessor mp: untyped
+
+      # Returns the value of attribute mp_a.
+      attr_accessor mp_a: untyped
+
+      # Returns the value of attribute atk.
+      attr_accessor atk: untyped
+
+      # Returns the value of attribute def.
+      attr_accessor def: untyped
+
+      # Returns the value of attribute spi.
+      attr_accessor spi: untyped
+
+      # Returns the value of attribute agi.
+      attr_accessor agi: untyped
+
+      # Returns the value of attribute weapon.
+      attr_accessor weapon: untyped
+
+      # Returns the value of attribute armor1.
+      attr_accessor armor1: untyped
+
+      # Returns the value of attribute armor2.
+      attr_accessor armor2: untyped
+
+      # Returns the value of attribute armor3.
+      attr_accessor armor3: untyped
+
+      # Returns the value of attribute armor4.
+      attr_accessor armor4: untyped
+
+      # Returns the value of attribute weapon1.
+      attr_accessor weapon1: untyped
+
+      # Returns the value of attribute weapon2.
+      attr_accessor weapon2: untyped
+
+      # Returns the value of attribute attack.
+      attr_accessor attack: untyped
+
+      # Returns the value of attribute skill.
+      attr_accessor skill: untyped
+
+      # Returns the value of attribute guard.
+      attr_accessor guard: untyped
+
+      # Returns the value of attribute item.
+      attr_accessor item: untyped
+
+      # Returns the value of attribute equip.
+      attr_accessor equip: untyped
+
+      # Returns the value of attribute status.
+      attr_accessor status: untyped
+
+      # Returns the value of attribute save.
+      attr_accessor save: untyped
+
+      # Returns the value of attribute game_end.
+      attr_accessor game_end: untyped
+
+      # Returns the value of attribute fight.
+      attr_accessor fight: untyped
+
+      # Returns the value of attribute escape.
+      attr_accessor escape: untyped
+
+      # Returns the value of attribute new_game.
+      attr_accessor new_game: untyped
+
+      # Returns the value of attribute continue.
+      attr_accessor continue: untyped
+
+      # Returns the value of attribute shutdown.
+      attr_accessor shutdown: untyped
+
+      # Returns the value of attribute to_title.
+      attr_accessor to_title: untyped
+
+      # Returns the value of attribute cancel.
+      attr_accessor cancel: untyped
+
+      # Returns the value of attribute gold.
+      attr_accessor gold: untyped
+
+      # Returns the value of attribute basic.
+      attr_accessor basic: untyped
+
+      # Returns the value of attribute params.
+      attr_accessor params: untyped
+
+      # Returns the value of attribute etypes.
+      attr_accessor etypes: untyped
+
+      # Returns the value of attribute commands.
+      attr_accessor commands: untyped
+    end
+
+    # 
+    # Data class for terminology.
+    class Words
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute gold.
+      attr_accessor gold: untyped
+
+      # Returns the value of attribute hp.
+      attr_accessor hp: untyped
+
+      # Returns the value of attribute sp.
+      attr_accessor sp: untyped
+
+      # Returns the value of attribute str.
+      attr_accessor str: untyped
+
+      # Returns the value of attribute dex.
+      attr_accessor dex: untyped
+
+      # Returns the value of attribute agi.
+      attr_accessor agi: untyped
+
+      # Returns the value of attribute int.
+      attr_accessor int: untyped
+
+      # Returns the value of attribute atk.
+      attr_accessor atk: untyped
+
+      # Returns the value of attribute pdef.
+      attr_accessor pdef: untyped
+
+      # Returns the value of attribute mdef.
+      attr_accessor mdef: untyped
+
+      # Returns the value of attribute weapon.
+      attr_accessor weapon: untyped
+
+      # Returns the value of attribute armor1.
+      attr_accessor armor1: untyped
+
+      # Returns the value of attribute armor2.
+      attr_accessor armor2: untyped
+
+      # Returns the value of attribute armor3.
+      attr_accessor armor3: untyped
+
+      # Returns the value of attribute armor4.
+      attr_accessor armor4: untyped
+
+      # Returns the value of attribute attack.
+      attr_accessor attack: untyped
+
+      # Returns the value of attribute skill.
+      attr_accessor skill: untyped
+
+      # Returns the value of attribute guard.
+      attr_accessor guard: untyped
+
+      # Returns the value of attribute item.
+      attr_accessor item: untyped
+
+      # Returns the value of attribute equip.
+      attr_accessor equip: untyped
+    end
+
+    # 
+    # The data class for vehicles.
+    class Vehicle
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute character_name.
+      attr_accessor character_name: untyped
+
+      # Returns the value of attribute character_index.
+      attr_accessor character_index: untyped
+
+      # Returns the value of attribute bgm.
+      attr_accessor bgm: untyped
+
+      # Returns the value of attribute start_map_id.
+      attr_accessor start_map_id: untyped
+
+      # Returns the value of attribute start_x.
+      attr_accessor start_x: untyped
+
+      # Returns the value of attribute start_y.
+      attr_accessor start_y: untyped
+    end
+
+    # 
+    # The data class for the actors used in battle tests.
+    class TestBattler
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute actor_id.
+      attr_accessor actor_id: untyped
+
+      # Returns the value of attribute level.
+      attr_accessor level: untyped
+
+      # Returns the value of attribute weapon_id.
+      attr_accessor weapon_id: untyped
+
+      # Returns the value of attribute armor1_id.
+      attr_accessor armor1_id: untyped
+
+      # Returns the value of attribute armor2_id.
+      attr_accessor armor2_id: untyped
+
+      # Returns the value of attribute armor3_id.
+      attr_accessor armor3_id: untyped
+
+      # Returns the value of attribute armor4_id.
+      attr_accessor armor4_id: untyped
+
+      # Returns the value of attribute equips.
+      attr_accessor equips: untyped
+    end
+  end
+
+  # 
+  # The data class for weapons.
+  class Weapon < RPG::EquipItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # sord omit - no YARD return type given, using untyped
+    def performance: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute animation_id.
+    attr_accessor animation_id: untyped
+
+    # Returns the value of attribute price.
+    attr_accessor price: untyped
+
+    # Returns the value of attribute hit.
+    attr_accessor hit: untyped
+
+    # Returns the value of attribute atk.
+    attr_accessor atk: untyped
+
+    # Returns the value of attribute def.
+    attr_accessor def: untyped
+
+    # Returns the value of attribute spi.
+    attr_accessor spi: untyped
+
+    # Returns the value of attribute agi.
+    attr_accessor agi: untyped
+
+    # Returns the value of attribute two_handed.
+    attr_accessor two_handed: untyped
+
+    # Returns the value of attribute fast_attack.
+    attr_accessor fast_attack: untyped
+
+    # Returns the value of attribute dual_attack.
+    attr_accessor dual_attack: untyped
+
+    # Returns the value of attribute critical_bonus.
+    attr_accessor critical_bonus: untyped
+
+    # Returns the value of attribute element_set.
+    attr_accessor element_set: untyped
+
+    # Returns the value of attribute state_set.
+    attr_accessor state_set: untyped
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute icon_name.
+    attr_accessor icon_name: untyped
+
+    # Returns the value of attribute description.
+    attr_accessor description: untyped
+
+    # Returns the value of attribute animation1_id.
+    attr_accessor animation1_id: untyped
+
+    # Returns the value of attribute animation2_id.
+    attr_accessor animation2_id: untyped
+
+    # Returns the value of attribute pdef.
+    attr_accessor pdef: untyped
+
+    # Returns the value of attribute mdef.
+    attr_accessor mdef: untyped
+
+    # Returns the value of attribute str_plus.
+    attr_accessor str_plus: untyped
+
+    # Returns the value of attribute dex_plus.
+    attr_accessor dex_plus: untyped
+
+    # Returns the value of attribute agi_plus.
+    attr_accessor agi_plus: untyped
+
+    # Returns the value of attribute int_plus.
+    attr_accessor int_plus: untyped
+
+    # Returns the value of attribute plus_state_set.
+    attr_accessor plus_state_set: untyped
+
+    # Returns the value of attribute minus_state_set.
+    attr_accessor minus_state_set: untyped
+
+    # Returns the value of attribute wtype_id.
+    attr_accessor wtype_id: untyped
+  end
+
+  # 
+  # The data class for tile sets.
+  class Tileset
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute tileset_name.
+    attr_accessor tileset_name: untyped
+
+    # Returns the value of attribute autotile_names.
+    attr_accessor autotile_names: untyped
+
+    # Returns the value of attribute panorama_name.
+    attr_accessor panorama_name: untyped
+
+    # Returns the value of attribute panorama_hue.
+    attr_accessor panorama_hue: untyped
+
+    # Returns the value of attribute fog_name.
+    attr_accessor fog_name: untyped
+
+    # Returns the value of attribute fog_hue.
+    attr_accessor fog_hue: untyped
+
+    # Returns the value of attribute fog_opacity.
+    attr_accessor fog_opacity: untyped
+
+    # Returns the value of attribute fog_blend_type.
+    attr_accessor fog_blend_type: untyped
+
+    # Returns the value of attribute fog_zoom.
+    attr_accessor fog_zoom: untyped
+
+    # Returns the value of attribute fog_sx.
+    attr_accessor fog_sx: untyped
+
+    # Returns the value of attribute fog_sy.
+    attr_accessor fog_sy: untyped
+
+    # Returns the value of attribute battleback_name.
+    attr_accessor battleback_name: untyped
+
+    # Returns the value of attribute passages.
+    attr_accessor passages: untyped
+
+    # Returns the value of attribute priorities.
+    attr_accessor priorities: untyped
+
+    # Returns the value of attribute terrain_tags.
+    attr_accessor terrain_tags: untyped
+
+    # Returns the value of attribute mode.
+    attr_accessor mode: untyped
+
+    # Returns the value of attribute tileset_names.
+    attr_accessor tileset_names: untyped
+
+    # Returns the value of attribute flags.
+    attr_accessor flags: untyped
+
+    # Returns the value of attribute note.
+    attr_accessor note: untyped
+  end
+
+  # 
+  # The data class for map information.
+  class MapInfo
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute parent_id.
+    attr_accessor parent_id: untyped
+
+    # Returns the value of attribute order.
+    attr_accessor order: untyped
+
+    # Returns the value of attribute expanded.
+    attr_accessor expanded: untyped
+
+    # Returns the value of attribute scroll_x.
+    attr_accessor scroll_x: untyped
+
+    # Returns the value of attribute scroll_y.
+    attr_accessor scroll_y: untyped
+  end
+
+  # 
+  # The data class for animation.
+  class Animation
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute animation1_name.
+    attr_accessor animation1_name: untyped
+
+    # Returns the value of attribute animation1_hue.
+    attr_accessor animation1_hue: untyped
+
+    # Returns the value of attribute animation2_name.
+    attr_accessor animation2_name: untyped
+
+    # Returns the value of attribute animation2_hue.
+    attr_accessor animation2_hue: untyped
+
+    # Returns the value of attribute position.
+    attr_accessor position: untyped
+
+    # Returns the value of attribute frame_max.
+    attr_accessor frame_max: untyped
+
+    # Returns the value of attribute frames.
+    attr_accessor frames: untyped
+
+    # Returns the value of attribute timings.
+    attr_accessor timings: untyped
+
+    # Returns the value of attribute animation_name.
+    attr_accessor animation_name: untyped
+
+    # Returns the value of attribute animation_hue.
+    attr_accessor animation_hue: untyped
+
+    # 
+    # The data class for animation frames.
+    class Frame
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute cell_max.
+      attr_accessor cell_max: untyped
+
+      # Returns the value of attribute cell_data.
+      attr_accessor cell_data: untyped
+    end
+
+    # 
+    # The data class for the timing of an animation's SE and flash effects.
+    class Timing
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute frame.
+      attr_accessor frame: untyped
+
+      # Returns the value of attribute se.
+      attr_accessor se: untyped
+
+      # Returns the value of attribute flash_scope.
+      attr_accessor flash_scope: untyped
+
+      # Returns the value of attribute flash_color.
+      attr_accessor flash_color: untyped
+
+      # Returns the value of attribute flash_duration.
+      attr_accessor flash_duration: untyped
+
+      # Returns the value of attribute condition.
+      attr_accessor condition: untyped
+    end
+  end
+
+  # 
+  # A superclass of actor, class, skill, item, weapon, armor, enemy, and state.
+  # 
+  # Some items are unnecessary depending on the type of data, but they are included for convenience sake.
+  class BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute icon_index.
+    attr_accessor icon_index: untyped
+
+    # Returns the value of attribute description.
+    attr_accessor description: untyped
+
+    # Returns the value of attribute note.
+    attr_accessor note: untyped
+
+    # Returns the value of attribute features.
+    attr_accessor features: untyped
+
+    # 
+    # The data inner class for features.
+    class Feature
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      # sord omit - no YARD type given for "code", using untyped
+      # sord omit - no YARD type given for "data_id", using untyped
+      # sord omit - no YARD type given for "value", using untyped
+      def initialize: (?untyped code, ?untyped data_id, ?untyped value) -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute code.
+      attr_accessor code: untyped
+
+      # Returns the value of attribute data_id.
+      attr_accessor data_id: untyped
+
+      # Returns the value of attribute value.
+      attr_accessor value: untyped
+    end
+  end
+
+  # 
+  # A superclass of BGM, BGS, ME, and SE.
+  class AudioFile
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "name", using untyped
+    # sord omit - no YARD type given for "volume", using untyped
+    # sord omit - no YARD type given for "pitch", using untyped
+    def initialize: (?untyped name, ?untyped volume, ?untyped pitch) -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute volume.
+    attr_accessor volume: untyped
+
+    # Returns the value of attribute pitch.
+    attr_accessor pitch: untyped
+  end
+
+  # 
+  # The data class for the Move route.
+  class MoveRoute
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute repeat.
+    attr_accessor repeat: untyped
+
+    # Returns the value of attribute skippable.
+    attr_accessor skippable: untyped
+
+    # Returns the value of attribute wait.
+    attr_accessor wait: untyped
+
+    # Returns the value of attribute list.
+    attr_accessor list: untyped
+  end
+
+  # 
+  # The Superclass of Skill and Item.
+  class UsableItem < RPG::BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    def for_opponent?: () -> bool
+
+    def for_friend?: () -> bool
+
+    def for_dead_friend?: () -> bool
+
+    def for_user?: () -> bool
+
+    def for_one?: () -> bool
+
+    def for_two?: () -> bool
+
+    def for_three?: () -> bool
+
+    def for_random?: () -> bool
+
+    def for_all?: () -> bool
+
+    def dual?: () -> bool
+
+    def need_selection?: () -> bool
+
+    def battle_ok?: () -> bool
+
+    def menu_ok?: () -> bool
+
+    # sord omit - no YARD return type given, using untyped
+    def number_of_targets: () -> untyped
+
+    def certain?: () -> bool
+
+    def physical?: () -> bool
+
+    def magical?: () -> bool
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute scope.
+    attr_accessor scope: untyped
+
+    # Returns the value of attribute occasion.
+    attr_accessor occasion: untyped
+
+    # Returns the value of attribute speed.
+    attr_accessor speed: untyped
+
+    # Returns the value of attribute animation_id.
+    attr_accessor animation_id: untyped
+
+    # Returns the value of attribute common_event_id.
+    attr_accessor common_event_id: untyped
+
+    # Returns the value of attribute base_damage.
+    attr_accessor base_damage: untyped
+
+    # Returns the value of attribute variance.
+    attr_accessor variance: untyped
+
+    # Returns the value of attribute atk_f.
+    attr_accessor atk_f: untyped
+
+    # Returns the value of attribute spi_f.
+    attr_accessor spi_f: untyped
+
+    # Returns the value of attribute physical_attack.
+    attr_accessor physical_attack: untyped
+
+    # Returns the value of attribute damage_to_mp.
+    attr_accessor damage_to_mp: untyped
+
+    # Returns the value of attribute absorb_damage.
+    attr_accessor absorb_damage: untyped
+
+    # Returns the value of attribute ignore_defense.
+    attr_accessor ignore_defense: untyped
+
+    # Returns the value of attribute element_set.
+    attr_accessor element_set: untyped
+
+    # Returns the value of attribute plus_state_set.
+    attr_accessor plus_state_set: untyped
+
+    # Returns the value of attribute minus_state_set.
+    attr_accessor minus_state_set: untyped
+
+    # Returns the value of attribute success_rate.
+    attr_accessor success_rate: untyped
+
+    # Returns the value of attribute repeats.
+    attr_accessor repeats: untyped
+
+    # Returns the value of attribute tp_gain.
+    attr_accessor tp_gain: untyped
+
+    # Returns the value of attribute hit_type.
+    attr_accessor hit_type: untyped
+
+    # Returns the value of attribute damage.
+    attr_accessor damage: untyped
+
+    # Returns the value of attribute effects.
+    attr_accessor effects: untyped
+
+    # 
+    # The data inner class for damage.
+    class Damage
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      def initialize: () -> void
+
+      def none?: () -> bool
+
+      def to_hp?: () -> bool
+
+      def to_mp?: () -> bool
+
+      def recover?: () -> bool
+
+      def drain?: () -> bool
+
+      # sord omit - no YARD return type given, using untyped
+      def sign: () -> untyped
+
+      # sord omit - no YARD type given for "a", using untyped
+      # sord omit - no YARD type given for "b", using untyped
+      # sord omit - no YARD type given for "v", using untyped
+      # sord omit - no YARD return type given, using untyped
+      def eval: (untyped a, untyped b, untyped v) -> untyped
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute type.
+      attr_accessor type: untyped
+
+      # Returns the value of attribute element_id.
+      attr_accessor element_id: untyped
+
+      # Returns the value of attribute formula.
+      attr_accessor formula: untyped
+
+      # Returns the value of attribute variance.
+      attr_accessor variance: untyped
+
+      # Returns the value of attribute critical.
+      attr_accessor critical: untyped
+    end
+
+    # 
+    # The data inner class for use effects.
+    class Effect
+      include RgssDb::Jsonable
+      extend RgssDb::JsonableConstructor
+
+      # sord omit - no YARD type given for "code", using untyped
+      # sord omit - no YARD type given for "data_id", using untyped
+      # sord omit - no YARD type given for "value1", using untyped
+      # sord omit - no YARD type given for "value2", using untyped
+      def initialize: (
+                        ?untyped code,
+                        ?untyped data_id,
+                        ?untyped value1,
+                        ?untyped value2
+                      ) -> void
+
+      # JSON constructor
+      # 
+      # This constructor is used to create a default instance
+      # 
+      # Note: Needs to be overriden in case class constructor needs arguments
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_new: (*::Array[untyped] args) -> untyped
+
+      # JSON deserializer
+      # 
+      # _@param_ `hash`
+      # 
+      # _@param_ `args`
+      # 
+      # _@return_ — Class instance
+      def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+      # Returns this instance as a json-ready hash
+      def as_json: () -> ::Hash[untyped, untyped]
+
+      # Converts this instance to a JSON string
+      # 
+      # _@param_ `args` — Arguments
+      def to_json: (*::Array[untyped] args) -> String
+
+      # Returns the value of attribute code.
+      attr_accessor code: untyped
+
+      # Returns the value of attribute data_id.
+      attr_accessor data_id: untyped
+
+      # Returns the value of attribute value1.
+      attr_accessor value1: untyped
+
+      # Returns the value of attribute value2.
+      attr_accessor value2: untyped
+    end
+  end
+
+  # 
+  # The data class for common events.
+  class CommonEvent
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # sord omit - no YARD return type given, using untyped
+    def to_s: () -> untyped
+
+    def autorun?: () -> bool
+
+    def parallel?: () -> bool
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute id.
+    attr_accessor id: untyped
+
+    # Returns the value of attribute name.
+    attr_accessor name: untyped
+
+    # Returns the value of attribute trigger.
+    attr_accessor trigger: untyped
+
+    # Returns the value of attribute switch_id.
+    attr_accessor switch_id: untyped
+
+    # Returns the value of attribute list.
+    attr_accessor list: untyped
+  end
+
+  # 
+  # The data class for the Move command.
+  class MoveCommand
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "code", using untyped
+    # sord omit - no YARD type given for "parameters", using untyped
+    def initialize: (?untyped code, ?untyped parameters) -> void
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute code.
+    attr_accessor code: untyped
+
+    # Returns the value of attribute parameters.
+    attr_accessor parameters: untyped
+  end
+
+  # 
+  # The data class for the Event command.
+  class EventCommand
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    # sord omit - no YARD type given for "code", using untyped
+    # sord omit - no YARD type given for "indent", using untyped
+    # sord omit - no YARD type given for "parameters", using untyped
+    def initialize: (?untyped code, ?untyped indent, ?untyped parameters) -> void
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute code.
+    attr_accessor code: untyped
+
+    # Returns the value of attribute indent.
+    attr_accessor indent: untyped
+
+    # Returns the value of attribute parameters.
+    attr_accessor parameters: untyped
+  end
+
+  # 
+  # A superclass of weapons and armor.
+  class EquipItem < RPG::BaseItem
+    include RgssDb::Jsonable
+    extend RgssDb::JsonableConstructor
+
+    def initialize: () -> void
+
+    # JSON constructor
+    # 
+    # This constructor is used to create a default instance
+    # 
+    # Note: Needs to be overriden in case class constructor needs arguments
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_new: (*::Array[untyped] args) -> untyped
+
+    # JSON deserializer
+    # 
+    # _@param_ `hash`
+    # 
+    # _@param_ `args`
+    # 
+    # _@return_ — Class instance
+    def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+    # Returns this instance as a json-ready hash
+    def as_json: () -> ::Hash[untyped, untyped]
+
+    # Converts this instance to a JSON string
+    # 
+    # _@param_ `args` — Arguments
+    def to_json: (*::Array[untyped] args) -> String
+
+    # Returns the value of attribute price.
+    attr_accessor price: untyped
+
+    # Returns the value of attribute etype_id.
+    attr_accessor etype_id: untyped
+
+    # Returns the value of attribute params.
+    attr_accessor params: untyped
+  end
+end
+
+# 
+# The rectangle class.
+class Rect
+  include RgssDb::Jsonable
+  extend RgssDb::JsonableConstructor
+
+  # Creates a new Rect object.
+  # 
+  # The default values when no arguments are specified are (0, 0, 0, 0).
+  # 
+  # _@param_ `x`
+  # 
+  # _@param_ `y`
+  # 
+  # _@param_ `width`
+  # 
+  # _@param_ `height`
+  def initialize: (
+                    ?Integer x,
+                    ?Integer y,
+                    ?Integer width,
+                    ?Integer height
+                  ) -> void
+
+  # Dumps this instance into a binary string
+  # 
+  # Note: needed for Marshal module support
+  def _dump: () -> String
+
+  # Creates a new instance using the given binary data
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self._load: (String serialized_string) -> Rect
+
+  # Creates a new instance from a serialized string
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self.new_serialized: (String serialized_string) -> Rect
+
+  # JSON constructor
+  # 
+  # This constructor is used to create a default instance
+  # 
+  # Note: Needs to be overriden in case class constructor needs arguments
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_new: (*::Array[untyped] args) -> untyped
+
+  # JSON deserializer
+  # 
+  # _@param_ `hash`
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+  # Returns this instance as a json-ready hash
+  def as_json: () -> ::Hash[untyped, untyped]
+
+  # Converts this instance to a JSON string
+  # 
+  # _@param_ `args` — Arguments
+  def to_json: (*::Array[untyped] args) -> String
+
+  # Returns the value of attribute x.
+  attr_accessor x: untyped
+
+  # Returns the value of attribute y.
+  attr_accessor y: untyped
+
+  # Returns the value of attribute width.
+  attr_accessor width: untyped
+
+  # Returns the value of attribute height.
+  attr_accessor height: untyped
+end
+
+# 
+# The color tone class.
+# 
+# Each component is handled with a floating-point value (Float).
+class Tone
+  include RgssDb::Jsonable
+  extend RgssDb::JsonableConstructor
+
+  # Creates a Tone object. If gray is omitted, it is assumed to be 0.
+  # 
+  # The default values when no arguments are specified are (0, 0, 0, 0).
+  # 
+  # _@param_ `red`
+  # 
+  # _@param_ `green`
+  # 
+  # _@param_ `blue`
+  # 
+  # _@param_ `gray`
+  def initialize: (
+                    ?Integer red,
+                    ?Integer green,
+                    ?Integer blue,
+                    ?Integer gray
+                  ) -> void
+
+  # Dumps this instance into a binary string
+  # 
+  # Note: needed for Marshal module support
+  def _dump: () -> String
+
+  # Creates a new instance using the given binary data
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self._load: (String serialized_string) -> Tone
+
+  # Creates a new instance from a serialized string
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self.new_serialized: (String serialized_string) -> Tone
+
+  # JSON constructor
+  # 
+  # This constructor is used to create a default instance
+  # 
+  # Note: Needs to be overriden in case class constructor needs arguments
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_new: (*::Array[untyped] args) -> untyped
+
+  # JSON deserializer
+  # 
+  # _@param_ `hash`
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+  # Returns this instance as a json-ready hash
+  def as_json: () -> ::Hash[untyped, untyped]
+
+  # Converts this instance to a JSON string
+  # 
+  # _@param_ `args` — Arguments
+  def to_json: (*::Array[untyped] args) -> String
+
+  # Returns the value of attribute red.
+  attr_accessor red: untyped
+
+  # Returns the value of attribute green.
+  attr_accessor green: untyped
+
+  # Returns the value of attribute blue.
+  attr_accessor blue: untyped
+
+  # Returns the value of attribute gray.
+  attr_accessor gray: untyped
+end
+
+# 
+# The RGBA color class.
+# 
+# Each component is handled with a floating-point value (Float).
+class Color
+  include RgssDb::Jsonable
+  extend RgssDb::JsonableConstructor
+
+  # Creates a Color object. If alpha is omitted, it is assumed to be 255.
+  # 
+  # The default values when no arguments are specified are (0, 0, 0, 0).
+  # 
+  # _@param_ `red`
+  # 
+  # _@param_ `green`
+  # 
+  # _@param_ `blue`
+  # 
+  # _@param_ `alpha`
+  def initialize: (
+                    ?Integer red,
+                    ?Integer green,
+                    ?Integer blue,
+                    ?Integer alpha
+                  ) -> void
+
+  # Dumps this instance into a binary string
+  # 
+  # Note: needed for Marshal module support
+  def _dump: () -> String
+
+  # Creates a new instance using the given binary data
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self._load: (String serialized_string) -> Color
+
+  # Creates a new instance from a serialized string
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self.new_serialized: (String serialized_string) -> Color
+
+  # JSON constructor
+  # 
+  # This constructor is used to create a default instance
+  # 
+  # Note: Needs to be overriden in case class constructor needs arguments
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_new: (*::Array[untyped] args) -> untyped
+
+  # JSON deserializer
+  # 
+  # _@param_ `hash`
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+  # Returns this instance as a json-ready hash
+  def as_json: () -> ::Hash[untyped, untyped]
+
+  # Converts this instance to a JSON string
+  # 
+  # _@param_ `args` — Arguments
+  def to_json: (*::Array[untyped] args) -> String
+
+  # Returns the value of attribute red.
+  attr_accessor red: untyped
+
+  # Returns the value of attribute green.
+  attr_accessor green: untyped
+
+  # Returns the value of attribute blue.
+  attr_accessor blue: untyped
+
+  # Returns the value of attribute alpha.
+  attr_accessor alpha: untyped
+end
+
+# 
+# The multidimensional array class.
+# 
+# Each element is an integer of 2 signed bytes ranging from -32,768 to 32,767.
+class Table
+  include RgssDb::Jsonable
+  extend RgssDb::JsonableConstructor
+
+  # Creates a Table object.
+  # 
+  # Specifies the size of each dimension in the multidimensional array. 1-, 2-, and 3-dimensional arrays are possible.
+  # 
+  # Arrays with no parameters are also permitted.
+  # 
+  # _@param_ `xsize`
+  # 
+  # _@param_ `ysize`
+  # 
+  # _@param_ `zsize`
+  def initialize: (Integer xsize, ?Integer ysize, ?Integer zsize) -> void
+
+  # Dumps this instance into a binary string
+  # 
+  # Note: needed for Marshal module support
+  def _dump: () -> String
+
+  # Creates a new instance using the given binary data
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self._load: (String serialized_string) -> Table
+
+  # Creates a new instance from a serialized string
+  # 
+  # Note: needed for Marshal module support
+  # 
+  # _@param_ `serialized_string`
+  def self.new_serialized: (String serialized_string) -> Table
+
+  # Returns a table instance for JSON deserialization
+  # 
+  # _@param_ `args`
+  def self.json_new: (*::Array[untyped] args) -> Table
+
+  # JSON deserializer
+  # 
+  # _@param_ `hash`
+  # 
+  # _@param_ `args`
+  # 
+  # _@return_ — Class instance
+  def self.json_create: (::Hash[untyped, untyped] hash, *::Array[untyped] args) -> untyped
+
+  # Returns this instance as a json-ready hash
+  def as_json: () -> ::Hash[untyped, untyped]
+
+  # Converts this instance to a JSON string
+  # 
+  # _@param_ `args` — Arguments
+  def to_json: (*::Array[untyped] args) -> String
+
+  # Returns the value of attribute dim.
+  attr_accessor dim: untyped
+
+  # Returns the value of attribute x.
+  attr_accessor x: untyped
+
+  # Returns the value of attribute y.
+  attr_accessor y: untyped
+
+  # Returns the value of attribute z.
+  attr_accessor z: untyped
+
+  # Returns the value of attribute data.
+  attr_accessor data: untyped
 end
