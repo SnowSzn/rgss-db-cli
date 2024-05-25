@@ -139,6 +139,8 @@ a few reasons:
 
 ## Installation
 
+The gem is hosted at [RubyGems](https://rubygems.org/gems/rgss_db)
+
 You can install this gem using the following command:
 
     $ gem install rgss_db
