@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 require "colorize"
-require "tty-screen"
 require "tty-box"
 require "tty-table"
 require "tty-prompt"
-require "tty-progressbar"
 require "tty-spinner"
 require_relative "../model/strings"
 
