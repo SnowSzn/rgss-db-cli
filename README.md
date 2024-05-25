@@ -49,11 +49,11 @@ This gem is compatible with any RPG Maker editor based on RGSS, including:
 
 The purpose of this tool is to provide version control features on the RPG Maker database files if you are working on your game with a team and using any version control software.
 
-Now, with JSON/YAML files you can actually see whats changed between versions on the database, something that was impossible with the RPG Maker binary format.
+Now, with JSON/YAML files you can see what's changed between versions on the database, something that was impossible with the RPG Maker binary format.
 
 The only tool that does this that I know of is [rvpacker](https://github.com/ymaxkrapzv/rvpacker), but I haven't been able to get it to work and it doesn't seem to be maintained by anyone anymore, so I made my own tool for this.
 
-Also, I have included some other cool features you may found useful!
+Also, I have included some other cool features you may find useful!
 
 List of all supported RPG Maker database files:
 
@@ -79,14 +79,14 @@ a few reasons:
 
 - The format of the scripts database file is very different from the rest of the database files
   - The scripts database file is just a collection of ruby script files
-  - These ruby script files depends (heavily) on a load order
-    - If this load order does not persists between import and export operations, you will lose this order and (probably) cause a lot of troubles on your project
+  - These ruby script files depend (heavily) on a load order
+    - If this load order does not persist between import and export operations, you will lose this order and (probably) cause a lot of troubles on your project
   - Script files can have duplicated names
     - This can cause problems if these scripts are extracted individually
   - Script file contents are compressed/decompressed
     - It would not be just "plug-and-play"
 - Support for this database file would be very basic and limited
-- **I have made a [Visual Studio Code extension](https://github.com/SnowSzn/rgss-script-editor) that handles this file much better than this application could do**
+- **I have made a [Visual Studio Code extension](https://github.com/SnowSzn/rgss-script-editor) which handles this file much better than this application could do**
   - You can check out the features this VS Code extension offers on its repo.
 
 ## Features
@@ -100,7 +100,7 @@ a few reasons:
     - JSON
     - YAML
   - Alternatively, you can export specific files and also, specific objects inside some database files
-    - These files with custom objects are labeled like: Actors_custom, Items_custom...
+    - These files with custom objects are labeled like `Actors_custom`, `Items_custom`...
   - You can also export objects into the binary format
     - The binary file format will be determined based on the RPG Maker version
 - **Import Extracted data into RPG Maker**
@@ -111,7 +111,7 @@ a few reasons:
   - **You must close the RPG Maker editor before importing data!**
     - RPG Maker cannot load data files again if it is already running
 - **Backup Creation**
-  - All your database data will be backed up everytime you import data into RPG Maker as a security measure
+  - All your database data will be backed up every time you import data into RPG Maker as a security measure
     - You can disable this behavior with a flag (see [options](#options))
 
 ## Screenshots
