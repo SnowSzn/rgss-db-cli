@@ -10,6 +10,12 @@
 - [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Features](#features)
+- [Screenshots](#screenshots)
+  - [Main Menu](#main-menu)
+  - [Settings Menu](#settings-menu)
+  - [Export Menu](#export-menu)
+  - [Import Menu](#import-menu)
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Command Syntax](#command-syntax)
@@ -25,6 +31,7 @@
     - [-a, --action](#-a---action)
     - [-v, --version](#-v---version)
     - [-h, --help](#-h---help)
+- [Known Issues](#known-issues)
 - [Planned](#planned)
 - [Contributing](#contributing)
 - [License](#license)
@@ -39,6 +46,14 @@ This gem is compatible with any RPG Maker editor based on RGSS, including:
 - RPG Maker XP
 - RPG Maker VX
 - RPG Maker VX Ace
+
+The purpose of this tool is to provide version control features on the RPG Maker database files if you are working on your game with a team and using any version control software.
+
+Now, with JSON/YAML files you can actually see whats changed between versions on the database, something that was impossible with the RPG Maker binary format.
+
+The only tool that does this that I know of is [rvpacker](https://github.com/ymaxkrapzv/rvpacker), but I haven't been able to get it to work and it doesn't seem to be maintained by anyone anymore, so I made my own tool for this.
+
+Also, I have included some other cool features you may found useful!
 
 List of all supported RPG Maker database files:
 
@@ -62,13 +77,14 @@ List of all supported RPG Maker database files:
 The **Scripts database file is not supported** for
 a few reasons:
 
-- The format of this database file is very different from the rest of database files
+- The format of the scripts database file is very different from the rest of the database files
   - The scripts database file is just a collection of ruby script files
   - These ruby script files depends (heavily) on a load order
-    - If this load order does not persists between import and export, you will lose this order and (probably) cause troubles on your project
+    - If this load order does not persists between import and export operations, you will lose this order and (probably) cause a lot of troubles on your project
   - Script files can have duplicated names
-    - This can cause problems if script files are extracted individually
+    - This can cause problems if these scripts are extracted individually
   - Script file contents are compressed/decompressed
+    - It would not be just "plug-and-play"
 - Support for this database file would be very basic and limited
 - **I have made a [Visual Studio Code extension](https://github.com/SnowSzn/rgss-script-editor) that handles this file much better than this application could do**
   - You can check out the features this VS Code extension offers on its repo.
@@ -77,19 +93,49 @@ a few reasons:
 
 - **Automatic detection of RPG Maker version**
   - The RPG Maker version will be automatically detected when opening the data folder
+  - If the version cannot be determined, the application won't allow to perform any action to protect the data from corruption
 - **Export RPG Maker database files**
   - You can export all your RPG Maker database files into human-readable data files
   - Supported file types:
     - JSON
     - YAML
   - Alternatively, you can export specific files and also, specific objects inside some database files
+    - These files with custom objects are labeled like: Actors_custom, Items_custom...
+  - You can also export objects into the binary format
+    - The binary file format will be determined based on the RPG Maker version
 - **Import Extracted data into RPG Maker**
   - You can import all your extracted data files into the RPG Maker editor
+  - You can import custom data files that merge them with the current RPG Maker data
+    - Any external data file created with specific objects
+    - All objects will be appended at the end to avoid problems
   - **You must close the RPG Maker editor before importing data!**
-    - Otherwise you won't see the changes
+    - RPG Maker cannot load data files again if it is already running
 - **Backup Creation**
   - All your database data will be backed up everytime you import data into RPG Maker as a security measure
     - You can disable this behavior with a flag (see [options](#options))
+
+## Screenshots
+
+### Main Menu
+
+![main-menu](./img/img-main-menu.jpg)
+
+### Settings Menu
+
+![settings-menu](./img/img-show-settings.jpg)
+
+### Export Menu
+
+![export-menu](./img/img-export.jpg)
+
+### Import Menu
+
+![import-menu](./img/img-import.jpg)
+
+## Requirements
+
+- [Ruby v3.0+](https://www.ruby-lang.org/en/downloads/)
+- [RPG Maker Editor](https://www.rpgmakerweb.com/)
 
 ## Installation
 
@@ -118,12 +164,7 @@ rgss-db .
 
 The path needs to be the data folder where all binary database files are stored, otherwise the app won't work.
 
-This will open the application's menu where you can manually perform the desired actions:
-
-- **Export**: Exports all RPG Maker binary database files into human-readable data files:
-  - YAML
-  - JSON
-- **Import**: Creates new RPG Maker binary files from previously exported files.
+This will open the application's menu where you can manually perform the desired action.
 
 The application has a number of options that allow you to customize the behavior and output of the application, you can check more about this below.
 
@@ -169,6 +210,12 @@ rgss-db . -d "C:/Absolute/Folder" # Absolute path
 #### -t, --type
 
 Sets the application's file format (used for exporting)
+
+Supported file format types:
+
+- YAML
+- JSON
+- BINARY
 
 ```sh
 rgss-db . -t yaml   # Uses YAML format (default)
@@ -232,6 +279,13 @@ You can skip the application's CLI menu completely if you supply a supported act
 
 The application will start and perform the action, using the given files and object IDs (if any) and close itself when the action finishes
 
+These are the possible actions:
+
+- `export`: Exports RPG Maker database
+- `export_custom`: Exports specific objects from the RPG Maker database
+- `import`: Imports external data into the RPG Maker database
+- `import_custom`: Imports custom external data into the RPG Maker database (merge)
+
 Here's a few examples with the action option **using the default application directory**:
 
 ```sh
@@ -245,10 +299,10 @@ rgss-db . -a import
 rgss-db . -a export -f Items.rvdata2
 
 # Opens the current directory and export only the object with ID: 100 from the Items file
-rgss-db . -a export -f Items.rvdata2 -i 100
+rgss-db . -a export_custom -f Items.rvdata2 -i 100
 
 # Opens the current directory and export only the object with ID: 100 from the Items file to a JSON file
-rgss-db . -a export -f Items.rvdata2 -i 100 -t json
+rgss-db . -a export_custom -f Items.rvdata2 -i 100 -t json
 ```
 
 #### -v, --version
@@ -268,6 +322,10 @@ Prints a help message on the standard output and exit.
 rgss-db . -h
 rgss-db . --help
 ```
+
+## Known Issues
+
+- None
 
 ## Planned
 
