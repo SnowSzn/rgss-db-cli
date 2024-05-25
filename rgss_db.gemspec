@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files = Dir.chdir(__dir__) do
     Dir.glob(
-      ["lib/**/*", "bin/**/*"]
+      ["lib/**/*", "bin/**/*", "sig/**/*"]
     ).push("CHANGELOG.md", "README.md", "COPYING.md")
   end
   spec.require_paths = ["lib"]
