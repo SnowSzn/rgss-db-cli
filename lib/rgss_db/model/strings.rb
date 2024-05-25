@@ -346,7 +346,7 @@ module RgssDb
       # Options menu information contents
       # @return [String]
       APP_MENU_OPTIONS_TEXT_INFO = <<~EOF
-        In this menu you can change any supported option's value
+        In this menu you can change the application's option values
 
         You are also able to show the current value of each option in a table
       EOF
