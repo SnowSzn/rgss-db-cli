@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["SnowSzn"]
   spec.email = ["fergarpaal@gmail.com"]
 
-  spec.summary = "Manipulates the RPG Maker database in the terminal to export and import RPG Maker data"
+  spec.summary = "Manipulates the RPG Maker database to export and import RPG Maker data"
   spec.description = <<~EOF
     rgss_db is a tool designed for developers to export and import the database files of a game created in RPG Maker.
 
@@ -18,7 +18,13 @@ Gem::Specification.new do |spec|
       - RPG Maker VX
       - RPG Maker VX Ace
 
-    Check the README.md at github for more information
+    The gem provides a CLI to easily interact with the RPG Maker database.
+
+    You can avoid this interface by providing an action to perform.
+
+    Please check the repository at github for more information!
+
+    https://github.com/SnowSzn/rgss-db-cli
   EOF
   spec.homepage = "https://github.com/SnowSzn/rgss-db-cli"
   spec.license = "GPL-3.0-only"
