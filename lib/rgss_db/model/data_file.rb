@@ -39,7 +39,7 @@ module RgssDb
 
   # RPG Maker maps data file (glob pattern)
   # @return [String]
-  DATA_FILE_MAPS = "Map[0-9][0-9][1-9]"
+  DATA_FILE_MAPS = "Map[0-9][0-9][0-9]"
 
   # RPG Maker map infos data file (glob pattern)
   # @return [String]
