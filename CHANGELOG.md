@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [1.0.3] - 2024-06-08
+
+### Fixed
+
+- Fixed map data file glob pattern
+  - Map files ending in 0 were not recognized by the tool
+
 ## [1.0.2] - 2024-05-25
 
 ### Changed
