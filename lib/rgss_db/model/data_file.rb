@@ -513,4 +513,39 @@ module RgssDb
       end
     end
   end
+
+  #
+  # RPG Maker map data file
+  #
+  # This class expects the object to be a RPG::Map instance
+  #
+  # This class forces map events hash keys to be a number.
+  #
+  # **Reason: Creating a DataFile instance from a RPG Maker Map JSON file provokes undesired behavior.**
+  #
+  # JSON only allows key names to be strings, so all keys of the hash will be converted to string.
+  #
+  # This is undesired behavior because RPG Maker editor requires the map events hash keys to be numbers.
+  #
+  # So we need to convert all keys read from the JSON file to integers when importing the JSON file into the
+  # RPG Maker database, hence the inclusion of this class specification from DataFileHash.
+  #
+  # Otherwise the RPG Maker editor will fail to show the map events even though data still exists.
+  #
+  class DataFileMap < DataFile
+    # Data file object (not processed)
+    # @return [RPG::Map]
+    attr_reader :object
+
+    #
+    # Serializes the data file's object
+    #
+    # This method prepares the object as a RPG::Map object
+    #
+    # @return [Object]
+    #
+    def serialize
+      object.events.transform_keys { |key| key.to_s.to_i }
+    end
+  end
 end
