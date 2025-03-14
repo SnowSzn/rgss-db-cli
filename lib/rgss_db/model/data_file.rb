@@ -545,7 +545,14 @@ module RgssDb
     # @return [Object]
     #
     def serialize
-      object.events.transform_keys { |key| key.to_s.to_i }
+      # Dups the original object
+      processed_object = object.dup
+
+      # Applies the selected object IDs (if any)
+      processed_object.events.transform_keys! { |key| key.to_s.to_i }
+
+      # Returns the formatted object
+      processed_object
     end
   end
 end

@@ -68,16 +68,16 @@ module RgssDb
       raise "could not find a valid data file type for the file: '#{data_file}'" if type.nil?
 
       # Checks for a specific data file usage (bulk-check)
-      if FACTORY_ARRAY.any? { |f| File.fnmatch(f, type, File::FNM_CASEFOLD) }
+      if FACTORY_ARRAY.any? { |f| f.casecmp?(type) }
         # Object should be treated using a data file for arrays
         return DataFileArray.new(type, data_file, object)
-      elsif FACTORY_HASH.any? { |f| File.fnmatch(f, type, File::FNM_CASEFOLD) }
+      elsif FACTORY_HASH.any? { |f| f.casecmp?(type) }
         # Object should be treated using a data file for hashes
         return DataFileHash.new(type, data_file, object)
-      elsif FACTORY_HASH_NUMBER.any? { |f| File.fnmatch(f, type, File::FNM_CASEFOLD) }
+      elsif FACTORY_HASH_NUMBER.any? { |f| f.casecmp?(type) }
         # Object should be treated using a data file for hashes (forcing keys to numbers)
         return DataFileHashNumber.new(type, data_file, object)
-      elsif File.fnmatch(DATA_FILE_MAPS, type, File::FNM_CASEFOLD)
+      elsif type.casecmp?(DATA_FILE_MAPS)
         # Object is a RPG Maker RPG::Map instance and should be treated in a special way
         return DataFileMap.new(type, data_file, object)
       end
