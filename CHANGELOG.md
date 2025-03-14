@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [1.0.4] - 2025-03-14
+
+### Fixed
+
+- Fixed map data files for JSON files
+  - RPG Maker maps were not imported properly into RPG Maker
+  - Map events disappeared from the RPG Maker editor
+
 ## [1.0.3] - 2024-06-08
 
 ### Fixed
