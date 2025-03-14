@@ -48,7 +48,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "colorize", "~> 1.1"
   spec.add_dependency "fileutils", "~> 1.7"
   spec.add_dependency "json", "~> 2.7"
-  spec.add_dependency "optimist", "~> 3.1.0"
+  spec.add_dependency "optimist", "~> 3.2"
   spec.add_dependency "psych", "~> 5.1"
   spec.add_dependency "tty-box", "~> 0.7.0"
   spec.add_dependency "tty-prompt", "~> 0.23.1"
@@ -59,12 +59,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rubocop", "~> 1.21"
-  spec.add_development_dependency "rubocop-performance", "~> 1.20"
-  spec.add_development_dependency "rubocop-rake", "~> 0.6.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.27"
-  spec.add_development_dependency "sord", "~> 6.0"
-  spec.add_development_dependency "yard", "~> 0.9.36"
+  spec.add_development_dependency "rubocop", "~> 1.74"
+  spec.add_development_dependency "rubocop-performance", "~> 1.24"
+  spec.add_development_dependency "rubocop-rake", "~> 0.7"
+  spec.add_development_dependency "rubocop-rspec", "~> 3.5"
+  spec.add_development_dependency "sord", "~> 7.0"
+  spec.add_development_dependency "yard", "~> 0.9"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
