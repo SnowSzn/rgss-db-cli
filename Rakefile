@@ -4,6 +4,8 @@ require "bundler/gem_tasks"
 require "rubocop/rake_task"
 require "rake"
 require "rake/clean"
+require "rubygems"
+require "rubygems/package_task"
 
 RuboCop::RakeTask.new do |task|
   task.requires << "rubocop-performance"
@@ -48,4 +50,11 @@ task :sord do
   sh "sord '#{rbs_path}' --rbs"
 end
 
-task default: :rubocop
+desc "Build the gem"
+task :build do
+  spec = Gem::Specification.load("rgss_db.gemspec")
+  Gem::PackageTask.new(spec) do |pkg|
+  end
+end
+
+task default: :build
